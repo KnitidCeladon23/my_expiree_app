@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "162135209737",
+    "firebase_url": "https://expiree-login.firebaseio.com",
+    "project_id": "expiree-login",
+    "storage_bucket": "expiree-login.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:162135209737:android:0f06efc70551df475645d8",
+        "android_client_info": {
+          "package_name": "com.catorbz.expireeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "162135209737-4efrvomk3prmgnjtea262bh0qqmb6rbn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZgTdqMLiPG8_qRGkOD94c4J-jKJEXGeU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "162135209737-4efrvomk3prmgnjtea262bh0qqmb6rbn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
