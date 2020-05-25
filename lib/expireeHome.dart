@@ -71,4 +71,9 @@ class _ExpireeHomeState extends State<ExpireeHome> {
         ),
       );
   }
+
+  void moveToInventory() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => InventoryList()));
+  }
 }
