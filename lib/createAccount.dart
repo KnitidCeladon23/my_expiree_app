@@ -18,12 +18,12 @@ class _CreateAccountState extends State<CreateAccount> {
       obscureText: false,
       style: style,
       decoration: InputDecoration(
-        fillColor: Colors.white,
-        filled: true,
-        contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-        hintText: 'Type in your email',
-        border:
-            OutlineInputBorder(borderRadius: BorderRadius.circular(15.0))),
+          fillColor: Colors.white,
+          filled: true,
+          contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+          hintText: 'Type in your email',
+          border:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(15.0))),
       validator: (input) {
         if (input.isEmpty) {
           return 'No email detected';
@@ -38,12 +38,12 @@ class _CreateAccountState extends State<CreateAccount> {
       obscureText: true,
       style: style,
       decoration: InputDecoration(
-        fillColor: Colors.white,
-        filled: true,
-        contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-        hintText: 'Type in a new password',
-        border:
-            OutlineInputBorder(borderRadius: BorderRadius.circular(15.0))),
+          fillColor: Colors.white,
+          filled: true,
+          contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+          hintText: 'Type in a new password',
+          border:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(15.0))),
       validator: (input) {
         if (input.length < 6) {
           return 'Password should be at least 6 characters long';
@@ -56,12 +56,12 @@ class _CreateAccountState extends State<CreateAccount> {
       obscureText: true,
       style: style,
       decoration: InputDecoration(
-        fillColor: Colors.white,
-        filled: true,
-        contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-        hintText: 'Type in password again',
-        border:
-            OutlineInputBorder(borderRadius: BorderRadius.circular(15.0))),
+          fillColor: Colors.white,
+          filled: true,
+          contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+          hintText: 'Type in password again',
+          border:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(15.0))),
       validator: (input) {
         if (input != _newPassword) {
           return 'Password does not match';
@@ -107,55 +107,62 @@ class _CreateAccountState extends State<CreateAccount> {
       appBar: AppBar(
         title: Text('Create a new account'),
       ),
-      body: Form(
-        key: _formKey,
-        child: Container(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: Column(
-              //infinite height
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Email',
-                  style: TextStyle(fontSize: 20, color: Colors.black),
-                  textAlign: TextAlign.start,
-                ),
-                newEmailField,
-                SizedBox(height: 20.0),
-                Text(
-                  'Password',
-                  style: TextStyle(fontSize: 20, color: Colors.black),
-                  textAlign: TextAlign.start,
-                ),
-                newPasswordField,
-                SizedBox(height: 20.0),
-                Text(
-                  'Confirm your new password',
-                  style: TextStyle(fontSize: 20, color: Colors.black),
-                  textAlign: TextAlign.start,
-                ),
-                confirmPasswordField,
-                SizedBox(height: 20.0),
-                createAccountButton,
-                SizedBox(height: 20.0),
-                cancelButton,
-              ],
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: Column(
+                //infinite height
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Email',
+                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    textAlign: TextAlign.start,
+                  ),
+                  newEmailField,
+                  SizedBox(height: 20.0),
+                  Text(
+                    'Password',
+                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    textAlign: TextAlign.start,
+                  ),
+                  newPasswordField,
+                  SizedBox(height: 20.0),
+                  Text(
+                    'Confirm your new password',
+                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    textAlign: TextAlign.start,
+                  ),
+                  confirmPasswordField,
+                  SizedBox(height: 20.0),
+                  createAccountButton,
+                  SizedBox(height: 20.0),
+                  cancelButton,
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
   }
+
   Future<void> signUp() async {
-    if(_formKey.currentState.validate()) {
+    if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      try{
-        FirebaseUser user = (await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _confirmPassword)).user;
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ExpireeWelcome()));
-      }catch(e){
+      try {
+        FirebaseUser user = (await FirebaseAuth.instance
+                .createUserWithEmailAndPassword(
+                    email: _email, password: _confirmPassword))
+            .user;
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ExpireeWelcome()));
+      } catch (e) {
         print(e.message);
       }
     }

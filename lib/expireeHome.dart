@@ -40,33 +40,33 @@ class _ExpireeHomeState extends State<ExpireeHome> {
 
     final buttons = Center(
       child: Container(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
             calendarButton,
             SizedBox(width: 20.0),
             inventoryButton,
-          ]
-        )
-      ),
+          ])),
     );
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Welcome Back"),
       ),
-      body: Center(
-        child: Container(
-          color: Colors.brown,
-          child: Padding(
-            padding: const EdgeInsets.all(50.4),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                buttons,
-              ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            color: Colors.brown,
+            child: Padding(
+              padding: const EdgeInsets.all(50.4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  buttons,
+                ],
+              ),
             ),
           ),
         ),
