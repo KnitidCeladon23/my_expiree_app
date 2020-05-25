@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'expireeHome.dart';
 import 'createAccount.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ExpireeWelcome extends StatefulWidget {
   ExpireeWelcome({Key key, this.title}) : super(key: key);
@@ -15,7 +16,8 @@ class ExpireeWelcome extends StatefulWidget {
 class _ExpireeWelcomeState extends State<ExpireeWelcome> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _email, _password;
-  TextStyle style = TextStyle(fontFamily: 'Comic Sans', fontSize: 20.0);
+  TextStyle style = GoogleFonts.chelseaMarket(
+    fontSize: 20,);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,10 @@ class _ExpireeWelcomeState extends State<ExpireeWelcome> {
 
     final emailField = TextFormField(
       obscureText: false,
-      style: style,
+      style: GoogleFonts.roboto(
+        fontSize: 17,
+        color: Colors.black,
+      ),
       validator: (input) {
         if (input.isEmpty) {
           return 'Provide an email';
@@ -48,7 +53,10 @@ class _ExpireeWelcomeState extends State<ExpireeWelcome> {
 
     final passwordField = TextFormField(
       obscureText: true,
-      style: style,
+      style: GoogleFonts.roboto(
+        fontSize: 17,
+        color: Colors.black,
+      ),
       validator: (input) {
         if (input.length < 6) {
           return 'Longer password please';
@@ -75,8 +83,11 @@ class _ExpireeWelcomeState extends State<ExpireeWelcome> {
         onPressed: logIn,
         child: Text("Login",
             textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
+            style: GoogleFonts.permanentMarker(
+              fontSize: 20,
+              color: Colors.white),
+                //color: Colors.white, fontWeight: FontWeight.bold)
+                ),
       ),
     );
 
@@ -97,8 +108,10 @@ class _ExpireeWelcomeState extends State<ExpireeWelcome> {
         },
         child: Text("Create a New Account",
             textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
+            style: GoogleFonts.permanentMarker(
+              fontSize: 20,
+              color: Colors.white),
+              ),
       ),
     );
 

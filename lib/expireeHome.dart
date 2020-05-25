@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:expiree_app/inventoryList.dart';
-import 'inventoryList.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ExpireeHome extends StatefulWidget {
   @override
@@ -22,8 +22,10 @@ class _ExpireeHomeState extends State<ExpireeHome> {
         },
         child: Text("Calendar",
             textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.black, fontWeight: FontWeight.bold)),
+            style: GoogleFonts.kalam(
+                color: Colors.black, 
+                fontWeight: FontWeight.bold,
+                fontSize: 20,)),
       ),
     );
 
@@ -35,8 +37,10 @@ class _ExpireeHomeState extends State<ExpireeHome> {
         onPressed: moveToInventory,
         child: Text("Inventory",
             textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.black, fontWeight: FontWeight.bold)),
+            style: GoogleFonts.kalam(
+                color: Colors.black, 
+                fontWeight: FontWeight.bold,
+                fontSize: 20,)),
       ),
     );
 

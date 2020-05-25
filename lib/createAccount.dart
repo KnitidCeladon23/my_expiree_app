@@ -20,7 +20,10 @@ class _CreateAccountState extends State<CreateAccount> {
   Widget build(BuildContext context) {
     final newEmailField = TextFormField(
       obscureText: false,
-      style: style,
+      style: GoogleFonts.roboto(
+        fontSize: 17,
+        color: Colors.black,
+      ),
       decoration: InputDecoration(
           fillColor: Colors.white,
           filled: true,
@@ -43,7 +46,10 @@ class _CreateAccountState extends State<CreateAccount> {
       key: _passKey,
       obscureText: true,
       controller: TextEditingController(),
-      style: style,
+      style: GoogleFonts.roboto(
+        fontSize: 17,
+        color: Colors.black,
+      ),
       decoration: InputDecoration(
           fillColor: Colors.white,
           filled: true,
@@ -62,7 +68,10 @@ class _CreateAccountState extends State<CreateAccount> {
 
     final confirmPasswordField = TextFormField(
       obscureText: true,
-      style: style,
+      style: GoogleFonts.roboto(
+        fontSize: 17,
+        color: Colors.black,
+      ),
       decoration: InputDecoration(
           fillColor: Colors.white,
           filled: true,
@@ -88,9 +97,11 @@ class _CreateAccountState extends State<CreateAccount> {
         onPressed: signUp,
         child: Text('Create Account',
             textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
-      ),
+            style: GoogleFonts.permanentMarker(
+              fontSize: 22,
+              color: Colors.white),
+              ),
+        ),
     );
 
     final cancelButton = Material(
@@ -106,8 +117,10 @@ class _CreateAccountState extends State<CreateAccount> {
         },
         child: Text('Cancel and Go Back',
             textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
+            style: GoogleFonts.permanentMarker(
+              fontSize: 22,
+              color: Colors.white)
+            ),
       ),
     );
 
@@ -129,21 +142,21 @@ class _CreateAccountState extends State<CreateAccount> {
                 children: <Widget>[
                   Text(
                     'Email',
-                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    style: GoogleFonts.kalam(fontSize: 20, color: Colors.black),
                     textAlign: TextAlign.start,
                   ),
                   newEmailField,
                   SizedBox(height: 20.0),
                   Text(
                     'Password',
-                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    style: GoogleFonts.kalam(fontSize: 20, color: Colors.black),
                     textAlign: TextAlign.start,
                   ),
                   newPasswordField,
                   SizedBox(height: 20.0),
                   Text(
                     'Confirm your new password',
-                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    style: GoogleFonts.kalam(fontSize: 20, color: Colors.black),
                     textAlign: TextAlign.start,
                   ),
                   confirmPasswordField,
