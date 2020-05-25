@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'expireeWelcome.dart';
 
 class CreateAccount extends StatefulWidget {
@@ -9,8 +10,11 @@ class CreateAccount extends StatefulWidget {
 
 class _CreateAccountState extends State<CreateAccount> {
   final _formKey = GlobalKey<FormState>();
-  String _email, _newPassword, _confirmPassword;
-  TextStyle style = TextStyle(fontFamily: 'Comic Sans', fontSize: 20.0);
+  String _email, _password;
+  final _passKey = GlobalKey<FormFieldState>();
+  TextStyle style = GoogleFonts.chelseaMarket(
+    fontSize: 20,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -18,56 +22,60 @@ class _CreateAccountState extends State<CreateAccount> {
       obscureText: false,
       style: style,
       decoration: InputDecoration(
-        fillColor: Colors.white,
-        filled: true,
-        contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-        hintText: 'Type in your email',
-        border:
-            OutlineInputBorder(borderRadius: BorderRadius.circular(15.0))),
+          fillColor: Colors.white,
+          filled: true,
+          contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+          hintText: 'Type in your email',
+          border:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(15.0))),
       validator: (input) {
         if (input.isEmpty) {
           return 'No email detected';
         } else if (!input.contains('@')) {
           return 'Input is not an email';
         }
+        return null;
       },
       onSaved: (input) => _email = input,
     );
 
     final newPasswordField = TextFormField(
+      key: _passKey,
       obscureText: true,
+      controller: TextEditingController(),
       style: style,
       decoration: InputDecoration(
-        fillColor: Colors.white,
-        filled: true,
-        contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-        hintText: 'Type in a new password',
-        border:
-            OutlineInputBorder(borderRadius: BorderRadius.circular(15.0))),
+          fillColor: Colors.white,
+          filled: true,
+          contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+          hintText: 'Type in a new password',
+          border:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(15.0))),
       validator: (input) {
         if (input.length < 6) {
           return 'Password should be at least 6 characters long';
         }
+        return null;
       },
-      onSaved: (input) => _newPassword = input,
+      onSaved: (input) => _password = input,
     );
 
     final confirmPasswordField = TextFormField(
       obscureText: true,
       style: style,
       decoration: InputDecoration(
-        fillColor: Colors.white,
-        filled: true,
-        contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-        hintText: 'Type in password again',
-        border:
-            OutlineInputBorder(borderRadius: BorderRadius.circular(15.0))),
+          fillColor: Colors.white,
+          filled: true,
+          contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+          hintText: 'Type in password again',
+          border:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(15.0))),
       validator: (input) {
-        if (input != _newPassword) {
+        if (input != _passKey.currentState.value) {
           return 'Password does not match';
         }
+        return null;
       },
-      onSaved: (input) => _confirmPassword = input,
     );
 
     final createAccountButton = Material(
@@ -149,13 +157,18 @@ class _CreateAccountState extends State<CreateAccount> {
       ),
     );
   }
+
   Future<void> signUp() async {
-    if(_formKey.currentState.validate()) {
+    if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      try{
-        FirebaseUser user = (await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _confirmPassword)).user;
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ExpireeWelcome()));
-      }catch(e){
+      try {
+        FirebaseUser user = (await FirebaseAuth.instance
+                .createUserWithEmailAndPassword(
+                    email: _email, password: _password))
+            .user;
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ExpireeWelcome()));
+      } catch (e) {
         print(e.message);
       }
     }
