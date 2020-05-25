@@ -115,42 +115,44 @@ class _CreateAccountState extends State<CreateAccount> {
       appBar: AppBar(
         title: Text('Create a new account'),
       ),
-      body: Form(
-        key: _formKey,
-        child: Container(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: Column(
-              //infinite height
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Email',
-                  style: TextStyle(fontSize: 20, color: Colors.black),
-                  textAlign: TextAlign.start,
-                ),
-                newEmailField,
-                SizedBox(height: 20.0),
-                Text(
-                  'Password',
-                  style: TextStyle(fontSize: 20, color: Colors.black),
-                  textAlign: TextAlign.start,
-                ),
-                newPasswordField,
-                SizedBox(height: 20.0),
-                Text(
-                  'Confirm your new password',
-                  style: TextStyle(fontSize: 20, color: Colors.black),
-                  textAlign: TextAlign.start,
-                ),
-                confirmPasswordField,
-                SizedBox(height: 20.0),
-                createAccountButton,
-                SizedBox(height: 20.0),
-                cancelButton,
-              ],
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: Column(
+                //infinite height
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Email',
+                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    textAlign: TextAlign.start,
+                  ),
+                  newEmailField,
+                  SizedBox(height: 20.0),
+                  Text(
+                    'Password',
+                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    textAlign: TextAlign.start,
+                  ),
+                  newPasswordField,
+                  SizedBox(height: 20.0),
+                  Text(
+                    'Confirm your new password',
+                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    textAlign: TextAlign.start,
+                  ),
+                  confirmPasswordField,
+                  SizedBox(height: 20.0),
+                  createAccountButton,
+                  SizedBox(height: 20.0),
+                  cancelButton,
+                ],
+              ),
             ),
           ),
         ),

@@ -10,7 +10,9 @@ class ExpireeApp extends StatelessWidget {
         primarySwatch: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: ExpireeWelcome(title: 'Expiree'),
+      home: Scaffold(
+        body: ExpireeWelcome(title: 'Expiree'),
+      ),
     );
   }
 }
