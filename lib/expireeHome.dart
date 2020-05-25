@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:expiree_app/inventoryList.dart';
+import 'inventoryList.dart';
 
 class ExpireeHome extends StatefulWidget {
   @override
