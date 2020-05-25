@@ -52,10 +52,9 @@ class _ExpireeHomeState extends State<ExpireeHome> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Welcome Back"),
+        title: Text("Welcome back"),
       ),
-      body: SingleChildScrollView(
-        child: Center(
+      body: Center(
           child: Container(
             color: Colors.brown,
             child: Padding(
@@ -70,7 +69,6 @@ class _ExpireeHomeState extends State<ExpireeHome> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }
