@@ -9,7 +9,8 @@ class CreateAccount extends StatefulWidget {
 
 class _CreateAccountState extends State<CreateAccount> {
   final _formKey = GlobalKey<FormState>();
-  String _email, _newPassword, _confirmPassword;
+  String _email, _password;
+  final _passKey = GlobalKey<FormFieldState>();
   TextStyle style = TextStyle(fontFamily: 'Comic Sans', fontSize: 20.0);
 
   @override
@@ -35,6 +36,7 @@ class _CreateAccountState extends State<CreateAccount> {
     );
 
     final newPasswordField = TextFormField(
+      key: _formKey,
       obscureText: true,
       style: style,
       decoration: InputDecoration(
@@ -49,7 +51,7 @@ class _CreateAccountState extends State<CreateAccount> {
           return 'Password should be at least 6 characters long';
         }
       },
-      onSaved: (input) => _newPassword = input,
+      onSaved: (input) => _password = input,
     );
 
     final confirmPasswordField = TextFormField(
@@ -63,11 +65,10 @@ class _CreateAccountState extends State<CreateAccount> {
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(15.0))),
       validator: (input) {
-        if (input != _newPassword) {
+        if (input != _passKey.currentState.value) {
           return 'Password does not match';
         }
       },
-      onSaved: (input) => _confirmPassword = input,
     );
 
     final createAccountButton = Material(
@@ -158,7 +159,7 @@ class _CreateAccountState extends State<CreateAccount> {
       try {
         FirebaseUser user = (await FirebaseAuth.instance
                 .createUserWithEmailAndPassword(
-                    email: _email, password: _confirmPassword))
+                    email: _email, password: _password))
             .user;
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => ExpireeWelcome()));
