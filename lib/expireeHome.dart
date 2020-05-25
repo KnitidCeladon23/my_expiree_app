@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:expiree_app/inventoryList.dart';
 
 class ExpireeHome extends StatefulWidget {
   @override
@@ -30,7 +31,7 @@ class _ExpireeHomeState extends State<ExpireeHome> {
       child: RaisedButton(
         color: Colors.red[200],
         padding: EdgeInsets.fromLTRB(20, 20.0, 20, 20.0),
-        onPressed: () {},
+        onPressed: moveToInventory,
         child: Text("Inventory",
             textAlign: TextAlign.center,
             style: style.copyWith(
