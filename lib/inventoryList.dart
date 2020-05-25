@@ -15,13 +15,35 @@ class _InventoryListState extends State<InventoryList> {
   @override
   void initState() {
     super.initState();
-    items.add('Hello');
-    items.add('World');
   }
 
   TextStyle style = GoogleFonts.chelseaMarket(
     fontSize: 20,
   );
+
+  DateTime _dateTime;
+
+  Future<Null> _selectExpiryDate(BuildContext context) async {
+    final DateTime pickedDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (pickedDate != null && pickedDate != _dateTime)
+      setState(() {
+        _dateTime = pickedDate;
+      });
+    print(_dateTime.toString());
+  }
+
+  void _addItemToList(String newItem) {
+    setState(() {
+      items.add(newItem);
+    });
+    print(newItem);
+    print(items);
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +59,14 @@ class _InventoryListState extends State<InventoryList> {
                   newItem = input;
                 }),
                 actions: <Widget>[
+                  FlatButton(
+                      onPressed: () {
+                        _selectExpiryDate(context);
+                      },
+                      child: Text("Enter expiry date")),
                   RaisedButton(
                       onPressed: () {
-                        setState(() {
-                          items.add(newItem);
-                        });
-                        print(newItem);
-                        print(items);
-                        Navigator.of(context).pop();
+                        _addItemToList(newItem);
                       },
                       child: Text("Add"))
                 ],
