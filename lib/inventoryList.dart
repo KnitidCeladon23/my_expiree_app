@@ -9,7 +9,10 @@ class InventoryList extends StatefulWidget {
 }
 
 class _InventoryListState extends State<InventoryList> {
-  List<String> items = List();
+  //List<String> items = List();
+  List<InventoryList> items = List(); //new
+  //list will store InventoryItem objects instead,
+  //which encapsulates name of item and their expiry dates in string
   String newItem;
 
   @override
@@ -27,7 +30,10 @@ class _InventoryListState extends State<InventoryList> {
     final DateTime pickedDate = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(2015, 8),
+        //firstDate: DateTime(2015, 8),
+        firstDate: DateTime.now(), //new
+        //would make sense to set the lower limit to the current date
+        //because users won't add expired food to their inventory
         lastDate: DateTime(2101));
     if (pickedDate != null && pickedDate != _dateTime)
       setState(() {
@@ -38,10 +44,12 @@ class _InventoryListState extends State<InventoryList> {
 
   void _addItemToList(String newItem) {
     setState(() {
-      items.add(newItem);
+      //items.add(newItem);
+      items.add(InventoryItem(newItem, dateTimeString)); //new
+      //adding InventoryItem objects into the list
     });
-    print(newItem);
-    print(items);
+    //print(newItem);
+    //print(items);
     Navigator.of(context).pop();
   }
 
@@ -50,6 +58,12 @@ class _InventoryListState extends State<InventoryList> {
     final addItemButton = FloatingActionButton(
       backgroundColor: Colors.green,
       onPressed: () {
+        newItem = null; //new
+        _dateTime = null; //new
+        //initialising values to zero, otherwise
+        //the app will still have values from the
+        //previous entry, this means that if a new blank entry
+        //was made, it would end up copying the previous item on the list
         showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -66,9 +80,17 @@ class _InventoryListState extends State<InventoryList> {
                       child: Text("Enter expiry date")),
                   RaisedButton(
                       onPressed: () {
-                        _addItemToList(newItem);
+                        //new
+                        if (newItem != null && _dateTime != null) {
+                          //_addItemToList(newItem);
+                          _addItemToList(newItem, _dateTime.toString()); //new
+                        } else {
+                          Navigator.of(context).pop(); //new
+                        }
+                        //if there are no inputs, the app will simply return to the
+                        //inventory list
                       },
-                      child: Text("Add"))
+                      child: Text("Confirm new item"))
                 ],
               );
             });
@@ -86,7 +108,9 @@ class _InventoryListState extends State<InventoryList> {
       body: Container(
           child: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
-          return InventoryItem(this.items[index], this._dateTime.toString());
+          //return InventoryItem(this.items[index], this._dateTime.toString());
+          return this.items[index]; //new
+          //will return the inventory item
         },
         itemCount: this.items.length,
       )),
