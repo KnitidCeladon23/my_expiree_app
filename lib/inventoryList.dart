@@ -10,7 +10,7 @@ class InventoryList extends StatefulWidget {
 
 class _InventoryListState extends State<InventoryList> {
   //List<String> items = List();
-  List<InventoryList> items = List(); //new
+  List<InventoryItem> items = List(); //new
   //list will store InventoryItem objects instead,
   //which encapsulates name of item and their expiry dates in string
   String newItem;
@@ -42,7 +42,8 @@ class _InventoryListState extends State<InventoryList> {
     print(_dateTime.toString());
   }
 
-  void _addItemToList(String newItem) {
+  //void _addItemToList(String newItem) {
+  void _addItemToList(String newItem, String dateTimeString) {
     setState(() {
       //items.add(newItem);
       items.add(InventoryItem(newItem, dateTimeString)); //new

@@ -23,9 +23,10 @@ class _ExpireeHomeState extends State<ExpireeHome> {
         child: Text("Calendar",
             textAlign: TextAlign.center,
             style: GoogleFonts.kalam(
-                color: Colors.black, 
-                fontWeight: FontWeight.bold,
-                fontSize: 20,)),
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            )),
       ),
     );
 
@@ -38,9 +39,10 @@ class _ExpireeHomeState extends State<ExpireeHome> {
         child: Text("Inventory",
             textAlign: TextAlign.center,
             style: GoogleFonts.kalam(
-                color: Colors.black, 
-                fontWeight: FontWeight.bold,
-                fontSize: 20,)),
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            )),
       ),
     );
 
@@ -61,21 +63,21 @@ class _ExpireeHomeState extends State<ExpireeHome> {
         title: Text("Welcome back"),
       ),
       body: Center(
-          child: Container(
-            color: Colors.brown,
-            child: Padding(
-              padding: const EdgeInsets.all(50.4),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  buttons,
-                ],
-              ),
+        child: Container(
+          color: Colors.brown,
+          child: Padding(
+            padding: const EdgeInsets.all(50.4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                buttons,
+              ],
             ),
           ),
         ),
-      );
+      ),
+    );
   }
 
   void moveToInventory() {
