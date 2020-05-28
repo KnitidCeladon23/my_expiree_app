@@ -37,7 +37,7 @@ class _ExpireeWelcomeState extends State<ExpireeWelcome> {
       ),
       validator: (input) {
         if (input.isEmpty) {
-          return 'Provide an email';
+          return 'Please key in your email';
         }
         return null;
       },
@@ -58,6 +58,9 @@ class _ExpireeWelcomeState extends State<ExpireeWelcome> {
         color: Colors.black,
       ),
       validator: (input) {
+        if (input.isEmpty) {
+          return "Please key in your password";
+        }
         if (input.length < 6) {
           return 'Longer password please';
         }
@@ -96,6 +99,7 @@ class _ExpireeWelcomeState extends State<ExpireeWelcome> {
       borderRadius: BorderRadius.circular(30.0),
       color: Colors.brown,
       child: MaterialButton(
+        elevation: 1000,
         minWidth: 20,
         padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
         onPressed: () {

@@ -33,7 +33,7 @@ class _CreateAccountState extends State<CreateAccount> {
               OutlineInputBorder(borderRadius: BorderRadius.circular(15.0))),
       validator: (input) {
         if (input.isEmpty) {
-          return 'No email detected';
+          return 'Please provide your email';
         } else if (!input.contains('@')) {
           return 'Input is not an email';
         }
@@ -58,7 +58,10 @@ class _CreateAccountState extends State<CreateAccount> {
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(15.0))),
       validator: (input) {
-        if (input.length < 6) {
+        if (input.isEmpty) {
+          return "Please provide a password";
+        }
+        else if (input.length < 6) {
           return 'Password should be at least 6 characters long';
         }
         return null;
@@ -80,6 +83,9 @@ class _CreateAccountState extends State<CreateAccount> {
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(15.0))),
       validator: (input) {
+        if (input.isEmpty) {
+          return "Please confirm your password";
+        }
         if (input != _passKey.currentState.value) {
           return 'Password does not match';
         }

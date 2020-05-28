@@ -9,6 +9,7 @@ class InventoryList extends StatefulWidget {
 }
 
 class _InventoryListState extends State<InventoryList> {
+  final GlobalKey<FormState> _inventoryKey = GlobalKey<FormState>();
   List<String> items = List();
   String newItem;
 
@@ -23,6 +24,81 @@ class _InventoryListState extends State<InventoryList> {
 
   DateTime _dateTime;
 
+  @override
+  Widget build(BuildContext context) {
+
+    final addItemButton = FloatingActionButton(
+      backgroundColor: Colors.green,
+      onPressed: () {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Add Item"),
+                content: TextFormField(
+                  validator: (input) {
+                          if (input == null || input.isEmpty) {
+                            return "Please fill in the item";
+                          }
+                          // (to be implemented) if item is already existing, prompt the users to check
+                          else return null;
+                        },
+                  onChanged: (String input) {
+                  newItem = input;
+                }),
+                actions: <Widget>[
+                  RaisedButton(
+                      onPressed: () {
+                        _selectExpiryDate(context);
+                      },
+                      child: Text(
+                        "Enter expiry date",)),
+                  RaisedButton(
+                      onPressed: () async {
+                        if (_inventoryKey.currentState.validate()) {
+                        _addItemToList(newItem);
+                        }
+                      },
+                      child: Text("Add"))
+                ],
+              );
+            });
+            },
+            child: Icon(Icons.add, color: Colors.white),
+            );
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Inventory',
+          style: style,
+        ),
+      ),
+      body: Container(
+        child: Form(
+          key : _inventoryKey,
+          child: ListView.builder(
+        itemBuilder: (BuildContext context, int index) {
+          return InventoryItem(this.items[index], this._dateTime.toString());
+        },
+        itemCount: this.items.length,
+      ),)),
+      floatingActionButton: addItemButton,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      );
+  }
+
+  void _addItemToList(String newItem) {
+    if (_inventoryKey.currentState.validate()) {
+    setState(() {
+      items.add(newItem);
+    });
+    //print(newItem);
+    print(items);
+    Navigator.of(context).pop();
+    }
+  }
+
   Future<Null> _selectExpiryDate(BuildContext context) async {
     final DateTime pickedDate = await showDatePicker(
         context: context,
@@ -34,64 +110,5 @@ class _InventoryListState extends State<InventoryList> {
         _dateTime = pickedDate;
       });
     print(_dateTime.toString());
-  }
-
-  void _addItemToList(String newItem) {
-    setState(() {
-      items.add(newItem);
-    });
-    print(newItem);
-    print(items);
-    Navigator.of(context).pop();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final addItemButton = FloatingActionButton(
-      backgroundColor: Colors.green,
-      onPressed: () {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text("Add Item"),
-                content: TextField(onChanged: (String input) {
-                  newItem = input;
-                }),
-                actions: <Widget>[
-                  FlatButton(
-                      onPressed: () {
-                        _selectExpiryDate(context);
-                      },
-                      child: Text("Enter expiry date")),
-                  RaisedButton(
-                      onPressed: () {
-                        _addItemToList(newItem);
-                      },
-                      child: Text("Add"))
-                ],
-              );
-            });
-      },
-      child: Icon(Icons.add, color: Colors.white),
-    );
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Inventory',
-          style: style,
-        ),
-      ),
-      body: Container(
-          child: ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          return InventoryItem(this.items[index], this._dateTime.toString());
-        },
-        itemCount: this.items.length,
-      )),
-      floatingActionButton: addItemButton,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
   }
 }
