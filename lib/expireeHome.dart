@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:expiree_app/inventoryList.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'calendarPage.dart';
 
 class ExpireeHome extends StatefulWidget {
   @override
@@ -17,9 +18,7 @@ class _ExpireeHomeState extends State<ExpireeHome> {
       child: RaisedButton(
         color: Colors.lightBlue[300],
         padding: EdgeInsets.fromLTRB(20, 20.0, 20, 20.0),
-        onPressed: () {
-          //to be implemented
-        },
+        onPressed: moveToCalendar,
         child: Text("Calendar",
             textAlign: TextAlign.center,
             style: GoogleFonts.kalam(
@@ -83,5 +82,10 @@ class _ExpireeHomeState extends State<ExpireeHome> {
   void moveToInventory() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => InventoryList()));
+  }
+
+  void moveToCalendar(){
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => CalendarPage()));
   }
 }
