@@ -9,15 +9,10 @@ class InventoryList extends StatefulWidget {
 }
 
 class _InventoryListState extends State<InventoryList> {
-<<<<<<< HEAD
-  final GlobalKey<FormState> _inventoryKey = GlobalKey<FormState>();
-  List<String> items = List();
-=======
   //List<String> items = List();
   List<InventoryList> items = List(); //new
   //list will store InventoryItem objects instead,
   //which encapsulates name of item and their expiry dates in string
->>>>>>> b4568bfb793236da0ac72677da8abdd54870fa30
   String newItem;
 
   @override
@@ -31,8 +26,6 @@ class _InventoryListState extends State<InventoryList> {
 
   DateTime _dateTime;
 
-<<<<<<< HEAD
-=======
   Future<Null> _selectExpiryDate(BuildContext context) async {
     final DateTime pickedDate = await showDatePicker(
         context: context,
@@ -60,7 +53,6 @@ class _InventoryListState extends State<InventoryList> {
     Navigator.of(context).pop();
   }
 
->>>>>>> b4568bfb793236da0ac72677da8abdd54870fa30
   @override
   Widget build(BuildContext context) {
 
@@ -97,12 +89,6 @@ class _InventoryListState extends State<InventoryList> {
                       child: Text(
                         "Enter expiry date",)),
                   RaisedButton(
-<<<<<<< HEAD
-                      onPressed: () async {
-                        if (_inventoryKey.currentState.validate()) {
-                        _addItemToList(newItem);
-                        }
-=======
                       onPressed: () {
                         //new
                         if (newItem != null && _dateTime != null) {
@@ -113,7 +99,6 @@ class _InventoryListState extends State<InventoryList> {
                         }
                         //if there are no inputs, the app will simply return to the
                         //inventory list
->>>>>>> b4568bfb793236da0ac72677da8abdd54870fa30
                       },
                       child: Text("Confirm new item"))
                 ],
@@ -132,7 +117,6 @@ class _InventoryListState extends State<InventoryList> {
       ),
       body: Container(
         child: Form(
-          key : _inventoryKey,
           child: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
           //return InventoryItem(this.items[index], this._dateTime.toString());
@@ -144,29 +128,5 @@ class _InventoryListState extends State<InventoryList> {
       floatingActionButton: addItemButton,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       );
-  }
-
-  void _addItemToList(String newItem) {
-    if (_inventoryKey.currentState.validate()) {
-    setState(() {
-      items.add(newItem);
-    });
-    //print(newItem);
-    print(items);
-    Navigator.of(context).pop();
-    }
-  }
-
-  Future<Null> _selectExpiryDate(BuildContext context) async {
-    final DateTime pickedDate = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (pickedDate != null && pickedDate != _dateTime)
-      setState(() {
-        _dateTime = pickedDate;
-      });
-    print(_dateTime.toString());
   }
 }
