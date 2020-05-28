@@ -34,4 +34,9 @@ class InventoryItem extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  String toString({DiagnosticLevel minLevel: DiagnosticLevel.info}) {
+    return "[" + item + ", " + dateTime + "]";
+  }
 }
