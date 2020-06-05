@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'expireeWelcome.dart';
+//import 'expireeWelcome.dart';
+import 'package:provider/provider.dart';
+import "package:expiree_app/states/currentUser.dart";
 
 class CreateAccount extends StatefulWidget {
   @override
@@ -9,16 +11,42 @@ class CreateAccount extends StatefulWidget {
 }
 
 class _CreateAccountState extends State<CreateAccount> {
-  final _formKey = GlobalKey<FormState>();
-  String _email, _password;
+  //final _formKey = GlobalKey<FormState>();
+  //String _email, _password;
   final _passKey = GlobalKey<FormFieldState>();
   TextStyle style = GoogleFonts.chelseaMarket(
     fontSize: 20,
   );
 
+  //TextEditingController _fullNameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
+
+  void _signUpUser(String email, String password, BuildContext context) async {
+    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
+
+    try {
+      String _returnString = await _currentUser.signUpUser(email, password);
+      if (_returnString == "success") {
+        Navigator.pop(context);
+      } else {
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text(_returnString),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final newEmailField = TextFormField(
+      controller: _emailController,
       obscureText: false,
       style: GoogleFonts.roboto(
         fontSize: 17,
@@ -39,13 +67,14 @@ class _CreateAccountState extends State<CreateAccount> {
         }
         return null;
       },
-      onSaved: (input) => _email = input,
+      //onSaved: (input) => _email = input,
     );
 
     final newPasswordField = TextFormField(
+      controller: _passwordController,
       key: _passKey,
       obscureText: true,
-      controller: TextEditingController(),
+      //controller: TextEditingController(),
       style: GoogleFonts.roboto(
         fontSize: 17,
         color: Colors.black,
@@ -66,10 +95,11 @@ class _CreateAccountState extends State<CreateAccount> {
         }
         return null;
       },
-      onSaved: (input) => _password = input,
+      //onSaved: (input) => _password = input,
     );
 
     final confirmPasswordField = TextFormField(
+      controller: _confirmPasswordController,
       obscureText: true,
       style: GoogleFonts.roboto(
         fontSize: 17,
@@ -100,7 +130,18 @@ class _CreateAccountState extends State<CreateAccount> {
       child: MaterialButton(
         minWidth: 90,
         padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-        onPressed: signUp,
+        onPressed: () {
+              if (_passwordController.text == _confirmPasswordController.text) {
+                _signUpUser(_emailController.text, _passwordController.text, context);
+              } else {
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Passwords do not match"),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              }
+            },
         child: Text('Create Account',
             textAlign: TextAlign.center,
             style: GoogleFonts.permanentMarker(
@@ -136,7 +177,7 @@ class _CreateAccountState extends State<CreateAccount> {
       ),
       body: SingleChildScrollView(
         child: Form(
-          key: _formKey,
+          //key: _formKey,
           child: Container(
             color: Colors.white,
             child: Padding(
@@ -179,7 +220,7 @@ class _CreateAccountState extends State<CreateAccount> {
     );
   }
 
-  Future<void> signUp() async {
+  /*Future<void> signUp() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       try {
@@ -193,5 +234,5 @@ class _CreateAccountState extends State<CreateAccount> {
         print(e.message);
       }
     }
-  }
+  }*/
 }

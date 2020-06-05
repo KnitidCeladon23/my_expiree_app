@@ -1,7 +1,10 @@
+import 'package:expiree_app/rootPage.dart';
 import 'package:flutter/material.dart';
-import 'package:expiree_app/inventoryList.dart';
+import 'package:expiree_app/inventory/inventoryList.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'calendarPage.dart';
+import 'package:expiree_app/calendarPage.dart';
+import "package:expiree_app/states/currentUser.dart";
+import 'package:provider/provider.dart';
 
 class ExpireeHome extends StatefulWidget {
   @override
@@ -57,6 +60,34 @@ class _ExpireeHomeState extends State<ExpireeHome> {
           ])),
     );
 
+    final signOutButton = Material(
+      elevation: 5.0,
+      child: RaisedButton(
+        color: Colors.red,
+        padding: EdgeInsets.fromLTRB(20, 20.0, 20, 20.0),
+        onPressed: () async {
+            CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
+            String _returnString = await _currentUser.signOut();
+            if (_returnString == "success") {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RootPage(),
+                ),
+                (route) => false,
+              );
+            }
+          },
+        child: Text("Sign Out",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.kalam(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            )),
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Welcome back"),
@@ -71,6 +102,7 @@ class _ExpireeHomeState extends State<ExpireeHome> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 buttons,
+                signOutButton,
               ],
             ),
           ),

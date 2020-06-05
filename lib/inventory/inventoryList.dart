@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'inventoryItem.dart';
+import 'package:expiree_app/inventory/inventoryItem.dart';
 
 class InventoryList extends StatefulWidget {
   @override

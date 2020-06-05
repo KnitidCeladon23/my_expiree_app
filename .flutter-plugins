@@ -3,5 +3,7 @@ firebase_auth=/Users/jiaxuan/flutter/.pub-cache/hosted/pub.dartlang.org/firebase
 firebase_auth_web=/Users/jiaxuan/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_web-0.1.2/
 firebase_core=/Users/jiaxuan/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.4.4+3/
 firebase_core_web=/Users/jiaxuan/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-0.1.1+2/
+google_sign_in=/Users/jiaxuan/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in-4.5.1/
+google_sign_in_web=/Users/jiaxuan/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_web-0.9.1+1/
 path_provider=/Users/jiaxuan/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-1.6.9/
 path_provider_macos=/Users/jiaxuan/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-0.0.4+3/
