@@ -102,6 +102,7 @@ class _ExpireeHomeState extends State<ExpireeHome> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 buttons,
+                SizedBox(height: 10,),
                 signOutButton,
               ],
             ),

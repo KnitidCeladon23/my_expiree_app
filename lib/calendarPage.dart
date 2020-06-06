@@ -41,7 +41,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   color: Colors.orange,
                   borderRadius: BorderRadius.circular(20.0),
                 ),
-                formatButtonTextStyle: TextStyle(color: Colors.white),
+                formatButtonTextStyle: TextStyle(color: Colors.black), //initally was white
                 formatButtonShowsNext: false,
               ),
               startingDayOfWeek: StartingDayOfWeek.monday,
