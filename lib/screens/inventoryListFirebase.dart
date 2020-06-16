@@ -146,6 +146,8 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
         .add({
       'item': item,
       'expiryDateTime': expiryDateTime,
+      'description': null,
+      'id': null,
     });
   }
 
