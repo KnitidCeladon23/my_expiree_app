@@ -107,20 +107,20 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
     );
   }
 
-  void deleteEntry(String documentID) {
-    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
-    String _uid = _currentUser.getUid;
-    try {
-      databaseReference
-          .collection('inventorylists')
-          .document(_uid)
-          .collection("indivInventory")
-          .document(documentID)
-          .delete();
-    } catch (e) {
-      print(e.toString());
-    }
-  }
+  // void deleteEntry(String documentID) {
+  //   CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
+  //   String _uid = _currentUser.getUid;
+  //   try {
+  //     databaseReference
+  //         .collection('inventorylists')
+  //         .document(_uid)
+  //         .collection("indivInventory")
+  //         .document(documentID)
+  //         .delete();
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
 
   Future<Null> _selectExpiryDate(BuildContext context) async {
     final DateTime pickedDate = await showDatePicker(

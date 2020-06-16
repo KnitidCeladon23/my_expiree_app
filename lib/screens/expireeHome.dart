@@ -1,7 +1,7 @@
 import 'package:expiree_app/screens/rootPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:expiree_app/screens/calendarPage.dart';
+import 'package:expiree_app/calendar/calendar.dart';
 import "package:expiree_app/states/currentUser.dart";
 import 'package:provider/provider.dart';
 import 'package:expiree_app/screens/inventoryListFirebase.dart';
@@ -163,6 +163,6 @@ class _ExpireeHomeState extends State<ExpireeHome> {
 
   void moveToCalendar() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => CalendarPage()));
+        context, MaterialPageRoute(builder: (context) => Calendar()));
   }
 }
