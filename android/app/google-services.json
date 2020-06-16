@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "593669194426",
+    "firebase_url": "https://expiree-login-51433.firebaseio.com",
+    "project_id": "expiree-login-51433",
+    "storage_bucket": "expiree-login-51433.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593669194426:android:86b5b0d109639bc52df883",
+        "android_client_info": {
+          "package_name": "com.catorbz.expireeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "593669194426-d9opo9is89p6sj2kmevms1iitvc4n9vl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.catorbz.expireeapp",
+            "certificate_hash": "8934040da56b453856538762f2d187bca89ee649"
+          }
+        },
+        {
+          "client_id": "593669194426-5jv0ctmrhcdl2b4kea0b1uit484iifpu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2FQZffSRHxlpjqJSPnj4YrEgKs_Y3G8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "593669194426-5jv0ctmrhcdl2b4kea0b1uit484iifpu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "593669194426-edt80ngeon8a0opu0qf9e415hfhhbq4b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.catorbz.expireeapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
