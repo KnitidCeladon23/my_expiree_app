@@ -1,13 +1,12 @@
 # This is a generated file; do not edit or check into version control.
 cloud_firestore=/Users/KC-Staraptor/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.13.6/
 cloud_firestore_web=/Users/KC-Staraptor/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_web-0.1.1+2/
-firebase_auth=/Users/KC-Staraptor/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.16.1/
-firebase_auth_web=/Users/KC-Staraptor/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_web-0.1.3+1/
-firebase_core=/Users/KC-Staraptor/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.4.5/
+firebase_auth=/Users/KC-Staraptor/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.16.0/
+firebase_auth_web=/Users/KC-Staraptor/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_web-0.1.2/
+firebase_core=/Users/KC-Staraptor/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.4.4+3/
 firebase_core_web=/Users/KC-Staraptor/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-0.1.1+2/
 flutter_local_notifications=/Users/KC-Staraptor/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-1.4.4+1/
 google_sign_in=/Users/KC-Staraptor/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in-4.5.1/
 google_sign_in_web=/Users/KC-Staraptor/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_web-0.9.1+1/
-path_provider=/Users/KC-Staraptor/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-1.6.10/
-path_provider_linux=/Users/KC-Staraptor/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-0.0.1+1/
+path_provider=/Users/KC-Staraptor/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-1.6.9/
 path_provider_macos=/Users/KC-Staraptor/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-0.0.4+3/
