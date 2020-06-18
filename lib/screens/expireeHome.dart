@@ -129,8 +129,10 @@ class _ExpireeHomeState extends State<ExpireeHome> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Welcome back"),
-      ),
+        title: Text("Welcome back",
+        style: GoogleFonts.permanentMarker(
+          fontSize: 30,),
+      ),),
       body: Center(
         child: Container(
           color: Colors.brown,

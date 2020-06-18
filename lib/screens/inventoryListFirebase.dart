@@ -4,15 +4,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:expiree_app/notification/createNotifPage.dart';
 import 'package:provider/provider.dart';
+//import 'package:google_fonts/google_fonts.dart';
+import 'package:expiree_app/calendar/model/event.dart';
+import 'package:expiree_app/calendar/res/event_firestore_service.dart';
 
 class InventoryListFirebase extends StatefulWidget {
+  final EventModel note;
+  const InventoryListFirebase({Key key, this.note}) : super(key: key);
   @override
   _InventoryListFirebaseState createState() => _InventoryListFirebaseState();
 }
 
 class _InventoryListFirebaseState extends State<InventoryListFirebase> {
   TextStyle style = GoogleFonts.permanentMarker(
-    fontSize: 20,
+    fontSize: 30,
   );
   DateTime _entryDateTime;
   DateTime _expiryDateTime;
@@ -20,7 +25,14 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
   final databaseReference = Firestore.instance;
   String deleteExpiryDateTime;
   String deleteItem;
-  
+  TextEditingController _description;
+
+  @override
+  void initState() {
+    super.initState();
+    _description = TextEditingController(
+        text: widget.note != null ? widget.note.description : "");
+  }
 
   List<Widget> makeListWidget(AsyncSnapshot snapshot) {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
@@ -107,21 +119,6 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
     );
   }
 
-  // void deleteEntry(String documentID) {
-  //   CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
-  //   String _uid = _currentUser.getUid;
-  //   try {
-  //     databaseReference
-  //         .collection('inventorylists')
-  //         .document(_uid)
-  //         .collection("indivInventory")
-  //         .document(documentID)
-  //         .delete();
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
-
   Future<Null> _selectExpiryDate(BuildContext context) async {
     final DateTime pickedDate = await showDatePicker(
         context: context,
@@ -133,10 +130,9 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
         _entryDateTime = DateTime.now();
         _expiryDateTime = pickedDate;
       });
-    //print(_expiryDateTime.toString());
   }
 
-  void addToList(String item, String expiryDateTime) async {
+  void addToList(String item, String expiryDateTime, String description) async {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String _uid = _currentUser.getUid;
     await databaseReference
@@ -146,7 +142,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
         .add({
       'item': item,
       'expiryDateTime': expiryDateTime,
-      'description': null,
+      'description': description,
       'id': null,
     });
   }
@@ -165,9 +161,28 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text("Add Item"),
-                content: TextField(onChanged: (String input) {
-                  newItem = input;
-                }),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      TextField(onChanged: (String input) {
+                        newItem = input;
+                      }),
+                      SizedBox(height: 15),
+                      TextFormField(
+                        controller: _description,
+                        minLines: 3,
+                        maxLines: 5,
+                        validator: (value) =>
+                            (value.isEmpty) ? "Please enter description" : null,
+                        style: style,
+                        decoration: InputDecoration(
+                            labelText: "Description",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                      ),
+                    ],
+                  ),
+                ),
                 actions: <Widget>[
                   FlatButton(
                       onPressed: () {
@@ -175,9 +190,24 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                       },
                       child: Text("Enter expiry date")),
                   RaisedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (newItem != null && _expiryDateTime != null) {
-                          addToList(newItem, _expiryDateTime.toString());
+                          addToList(newItem, _expiryDateTime.toString(),
+                              _description.text);
+                        }
+                        if (widget.note != null) {
+                           await eventDBS.updateData(widget.note.id, _uid, {
+                            "item": newItem,
+                            "description": _description.text,
+                            "expiryDateTime": _expiryDateTime
+                          });
+                        } else  {
+                           await eventDBS.createItem(
+                              _uid,
+                              EventModel(
+                                  item: newItem,
+                                  description: _description.text,
+                                  expiryDateTime: _expiryDateTime));
                         }
                         Navigator.of(context).pop();
                       },

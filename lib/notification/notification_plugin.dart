@@ -1,5 +1,3 @@
-import 'package:expiree_app/screens/inventoryListFirebase.dart';
-import 'package:expiree_app/screens/rootPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:expiree_app/notification/notification_data.dart';
@@ -89,7 +87,7 @@ class NotificationPlugin {
     int id, String title, String description, String dateTimeStr) async {
     DateTime dateTime = DateTime.parse(dateTimeStr);
     DateTime scheduledNotificationDateTime =
-        dateTime.add(new Duration(hours:3,minutes:15));
+        dateTime.add(new Duration(hours:18,minutes:51));
     print(scheduledNotificationDateTime.toString() + " time of notification");
     final androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'show weekly channel id',

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'res/event_firestore_service.dart';
-// import 'ui/pages/add_event.dart';
-import 'ui/pages/add_event.dart';
 import 'ui/pages/view_event.dart';
 import 'package:expiree_app/calendar/res/event_firestore_service.dart';
 import 'package:expiree_app/calendar/ui/pages/view_event.dart';
 import 'package:table_calendar/table_calendar.dart';
-
+import 'package:provider/provider.dart';
 import 'model/event.dart';
+import 'package:expiree_app/states/currentUser.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Calendar extends StatefulWidget {
   @override
@@ -40,12 +40,19 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
+    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
+    String _uid = _currentUser.getUid;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter Calendar'),
+        title: Text(
+          'Track your food!',
+          style: GoogleFonts.permanentMarker(
+            fontSize: 30,
+          ),
+        ),
       ),
       body: StreamBuilder<List<EventModel>>(
-          stream: eventDBS.streamList(),
+          stream: eventDBS.streamList(_uid),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<EventModel> allEvents = snapshot.data;
@@ -62,7 +69,7 @@ class _CalendarState extends State<Calendar> {
                 children: <Widget>[
                   TableCalendar(
                     events: _events,
-                    initialCalendarFormat: CalendarFormat.week,
+                    initialCalendarFormat: CalendarFormat.month,
                     calendarStyle: CalendarStyle(
                         canEventMarkersOverflow: true,
                         todayColor: Colors.orange,
@@ -111,7 +118,13 @@ class _CalendarState extends State<Calendar> {
                     calendarController: _controller,
                   ),
                   ..._selectedEvents.map((event) => ListTile(
-                        title: Text(event.item),
+                        title: Text(
+                          event.item,
+                          style: GoogleFonts.oswald(
+                            fontSize: 35,
+                            color: Colors.green[900],
+                          ),
+                        ),
                         onTap: () {
                           Navigator.push(
                               context,
@@ -125,11 +138,6 @@ class _CalendarState extends State<Calendar> {
               ),
             );
           }),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => AddEventPage())),
-      ),
     );
   }
 }
