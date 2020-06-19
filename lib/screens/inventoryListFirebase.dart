@@ -132,6 +132,8 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
       });
   }
 
+
+
   void addToList(String item, String expiryDateTime, String description) async {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String _uid = _currentUser.getUid;
