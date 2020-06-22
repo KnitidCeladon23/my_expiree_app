@@ -6,7 +6,7 @@ import "package:expiree_app/states/currentUser.dart";
 import 'package:provider/provider.dart';
 import 'package:expiree_app/screens/inventoryListFirebase.dart';
 import 'package:expiree_app/screens/reminderPage.dart';
-import 'package:expiree_app/notification/app_bloc.dart';
+//import 'package:expiree_app/notification/app_bloc.dart';
 
 class ExpireeHome extends StatefulWidget {
   @override
@@ -14,16 +14,16 @@ class ExpireeHome extends StatefulWidget {
 }
 
 class _ExpireeHomeState extends State<ExpireeHome> {
-  TextStyle style = TextStyle(fontFamily: 'Comic Sans', fontSize: 20.0);
-  @override
-  void initState() {
-    super.initState();
+  // TextStyle style = TextStyle(fontFamily: 'Comic Sans', fontSize: 20.0);
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    Future.delayed(Duration.zero, () async {
-      final appBloc = Provider.of<AppBloc>(context, listen: false); 
-      await appBloc.init();
-    });
-  }
+  //   Future.delayed(Duration.zero, () async {
+  //     final appBloc = Provider.of<AppBloc>(context, listen: false); 
+  //     await appBloc.init();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

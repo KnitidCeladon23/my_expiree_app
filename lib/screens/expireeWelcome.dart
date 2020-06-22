@@ -8,7 +8,7 @@ import "package:expiree_app/states/currentUser.dart";
 
 enum LoginType {
   email,
-  google,
+  // google,
 }
 
 class ExpireeWelcome extends StatefulWidget {
@@ -46,10 +46,11 @@ class _ExpireeWelcomeState extends State<ExpireeWelcome> {
         case LoginType.email:
           _returnString = await _currentUser.loginUserWithEmail(email, password);
           break;
-        case LoginType.google:
-          _returnString = await _currentUser.loginUserWithGoogle();
-          break;
-        default:
+        // case LoginType.google:
+        //   print(' Current user : ${_currentUser}');
+        //   _returnString = await _currentUser.loginUserWithGoogle();
+        //   break;
+        // default:
       }
 
       if (_returnString == "success") {
@@ -180,42 +181,42 @@ class _ExpireeWelcomeState extends State<ExpireeWelcome> {
     );
 
   //not implemented properly yet, can be used as an extension
-    Widget googleButton() {
-    return OutlineButton(
-      splashColor: Colors.grey,
-      onPressed: () {
-        _loginUser(type: LoginType.google, context: context);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => CreateAccount(), fullscreenDialog: true),
-          );
-      },
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-      highlightElevation: 0,
-      borderSide: BorderSide(color: Colors.grey),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image(image: AssetImage("assets/images/google_logo.png"), height: 25.0),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                'Sign in with Google',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.grey,
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
+  //   Widget googleButton() {
+  //   return OutlineButton(
+  //     splashColor: Colors.grey,
+  //     onPressed: () {
+  //       _loginUser(type: LoginType.google, context: context);
+  //       Navigator.push(
+  //           context,
+  //           MaterialPageRoute(
+  //               builder: (context) => CreateAccount(), fullscreenDialog: true),
+  //         );
+  //     },
+  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+  //     highlightElevation: 0,
+  //     borderSide: BorderSide(color: Colors.grey),
+  //     child: Padding(
+  //       padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+  //       child: Row(
+  //         mainAxisSize: MainAxisSize.min,
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         children: <Widget>[
+  //           Image(image: AssetImage("assets/images/google_logo.png"), height: 25.0),
+  //           Padding(
+  //             padding: const EdgeInsets.only(left: 10),
+  //             child: Text(
+  //               'Sign in with Google',
+  //               style: TextStyle(
+  //                 fontSize: 20,
+  //                 color: Colors.grey,
+  //               ),
+  //             ),
+  //           )
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
     return Scaffold(
       appBar: AppBar(
@@ -246,7 +247,7 @@ class _ExpireeWelcomeState extends State<ExpireeWelcome> {
                   SizedBox(height: 20.0),
                   createAccountButton,
                   SizedBox(height: 20.0),
-                  googleButton(),
+                  //googleButton(),
                 ],
               ),
             ),

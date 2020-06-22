@@ -9,7 +9,7 @@ class NotificationData {
   int notificationId;
   String title;
   String description;
-  String dateTimeStr; //TODO: check whether DateTime or Timestamp or String
+  String dateTimeStr;
 
   NotificationData(this.title, this.description, this.dateTimeStr);
 
