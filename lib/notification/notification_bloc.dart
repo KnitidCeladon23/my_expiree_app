@@ -50,6 +50,8 @@ class NotificationBloc implements BlocBase {
     await FirestoreNotificationService.removeNotification(notification);
   }
 
+
+
   bool _checkIfIdExists(List<NotificationData> notifications, int id) {
     for (final notification in notifications) {
       if (notification.notificationId == id) {

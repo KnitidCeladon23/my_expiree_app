@@ -1,4 +1,5 @@
 import 'package:expiree_app/states/currentUser.dart';
+import 'package:expiree_app/urlLauncher.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,6 +35,26 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
         text: widget.note != null ? widget.note.description : "");
   }
 
+  void moveToURL(String foodItem) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                URLLauncher(title: "Recipe for " + foodItem, foodItem: foodItem)));
+  }
+
+  Widget findRecipeButton(String foodItem) {
+    return SizedBox(
+      width: 50,
+      child: RaisedButton(
+        onPressed: () {
+          moveToURL(foodItem);
+        },
+        child: Text('R'),
+      ),
+    );
+  }
+
   List<Widget> makeListWidget(AsyncSnapshot snapshot) {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String _uid = _currentUser.getUid;
@@ -62,6 +83,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                         ],
                       ),
                     ),
+                    findRecipeButton(document['item']),
                     ButtonTheme(
                         buttonColor: Colors.brown[400],
                         materialTapTargetSize: MaterialTapTargetSize
@@ -132,8 +154,6 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
       });
   }
 
-
-
   void addToList(String item, String expiryDateTime, String description) async {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String _uid = _currentUser.getUid;
@@ -198,13 +218,13 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                               _description.text);
                         }
                         if (widget.note != null) {
-                           await eventDBS.updateData(widget.note.id, _uid, {
+                          await eventDBS.updateData(widget.note.id, _uid, {
                             "item": newItem,
                             "description": _description.text,
                             "expiryDateTime": _expiryDateTime
                           });
-                        } else  {
-                           await eventDBS.createItem(
+                        } else {
+                          await eventDBS.createItem(
                               _uid,
                               EventModel(
                                   item: newItem,

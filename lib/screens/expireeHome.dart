@@ -1,4 +1,5 @@
 import 'package:expiree_app/screens/rootPage.dart';
+import 'package:expiree_app/urlLauncher.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:expiree_app/calendar/calendar.dart';
@@ -59,6 +60,11 @@ class _ExpireeHomeState extends State<ExpireeHome> {
       ),
     );
 
+    final urlButton = RaisedButton(
+      onPressed: moveToURL,
+      child: Text("GOOGLE"),
+    );
+
     final buttons = Center(
       child: Container(
           child: Row(
@@ -115,6 +121,8 @@ class _ExpireeHomeState extends State<ExpireeHome> {
       ),
     );
 
+    
+
     final buttons1 = Center(
       child: Container(
           child: Row(
@@ -145,6 +153,7 @@ class _ExpireeHomeState extends State<ExpireeHome> {
                 buttons,
                 SizedBox(height: 10,),
                 buttons1,
+                urlButton,
               ],
             ),
           ),
@@ -166,5 +175,10 @@ class _ExpireeHomeState extends State<ExpireeHome> {
   void moveToCalendar() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => Calendar()));
+  }
+
+  void moveToURL() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => URLLauncher(title: "GOOGLE", foodItem: "pineapples")));
   }
 }
