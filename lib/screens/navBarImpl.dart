@@ -36,6 +36,10 @@ class _NavBarImplState extends State<NavBarImpl> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+            primarySwatch: Colors.green,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
       color: Colors.green,
       debugShowCheckedModeBanner: false,
       home: Scaffold(

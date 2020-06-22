@@ -18,6 +18,7 @@ class ExpireeApp extends StatelessWidget {
       child: MaterialApp(
           title: 'Expiree',
           theme: ThemeData(
+            primaryColor: Colors.green,
             primarySwatch: Colors.green,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
@@ -25,17 +26,5 @@ class ExpireeApp extends StatelessWidget {
             body: RootPage(),
           )),
           );
-    /*return ChangeNotifierProvider(
-      create: (context) => CurrentUser(),
-      child: MaterialApp(
-          title: 'Expiree',
-          theme: ThemeData(
-            primarySwatch: Colors.green,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-          ),
-          home: Scaffold(
-            body: RootPage(),
-          )),
-    );*/
   }
 }
