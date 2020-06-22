@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 //import 'package:google_fonts/google_fonts.dart';
 import 'package:expiree_app/calendar/model/event.dart';
 import 'package:expiree_app/calendar/res/event_firestore_service.dart';
+import 'package:expiree_app/screens/urlLauncher.dart';
 
 class InventoryListFirebase extends StatefulWidget {
   final EventModel note;
@@ -32,6 +33,26 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
     super.initState();
     _description = TextEditingController(
         text: widget.note != null ? widget.note.description : "");
+  }
+
+  void moveToURL(String foodItem) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                URLLauncher(title: "Recipe for " + foodItem, foodItem: foodItem)));
+  }
+
+  Widget findRecipeButton(String foodItem) {
+    return SizedBox(
+      width: 50,
+      child: RaisedButton(
+        onPressed: () {
+          moveToURL(foodItem);
+        },
+        child: Text('R'),
+      ),
+    );
   }
 
   List<Widget> makeListWidget(AsyncSnapshot snapshot) {
@@ -62,6 +83,8 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                         ],
                       ),
                     ),
+                    findRecipeButton(document['item']),
+                    SizedBox(width: 10,),
                     ButtonTheme(
                         buttonColor: Colors.brown[400],
                         materialTapTargetSize: MaterialTapTargetSize

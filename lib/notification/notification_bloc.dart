@@ -26,8 +26,6 @@ class NotificationBloc implements BlocBase {
   }
 
   Future<void> startNotifications(List<NotificationData> notifications) async {
-    print('notifications are: ');
-    print(notifications);
     await _notificationPlugin.scheduleAllNotifications(notifications);
   }
 

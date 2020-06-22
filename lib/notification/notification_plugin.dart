@@ -67,30 +67,11 @@ class NotificationPlugin {
     );
   }
 
-  /*Future<void> show(
-    int id,
-    String title,
-    String body,
-  ) async {
-    AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'your channel id', 'your channel name', 'your channel description',
-        importance: Importance.Max, priority: Priority.High, ticker: 'ticker');
-    IOSNotificationDetails iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    NotificationDetails platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await _flutterLocalNotificationsPlugin.show(
-        id, 
-        title, 
-        body, 
-        platformChannelSpecifics,);
-  }*/
-
   Future<void> schedule(
     int id, String title, String description, String dateTimeStr) async {
     DateTime dateTime = DateTime.parse(dateTimeStr);
     DateTime scheduledNotificationDateTime =
         dateTime.add(new Duration(hours:22,minutes:45));
-    print(scheduledNotificationDateTime.toString() + " time of notification");
     final androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'show weekly channel id',
       'show weekly channel name',
@@ -130,11 +111,6 @@ class NotificationPlugin {
   Future<void> scheduleAllNotifications(
       List<NotificationData> notifications) async {
     for (final notification in notifications) {
-      print(notification.title + 'hahaah');
-      print(notification.notificationId);
-      print(notification.title);
-      print(notification.description);
-      print(notification.dateTimeStr);
       await schedule(
         notification.notificationId,
         notification.title,

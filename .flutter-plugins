@@ -11,3 +11,6 @@ google_sign_in=/Users/jiaxuan/flutter/.pub-cache/hosted/pub.dartlang.org/google_
 google_sign_in_web=/Users/jiaxuan/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_web-0.9.1+1/
 path_provider=/Users/jiaxuan/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-1.6.9/
 path_provider_macos=/Users/jiaxuan/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-0.0.4+3/
+url_launcher=/Users/jiaxuan/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-5.4.11/
+url_launcher_macos=/Users/jiaxuan/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher_macos-0.0.1+7/
+url_launcher_web=/Users/jiaxuan/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher_web-0.1.1+6/
