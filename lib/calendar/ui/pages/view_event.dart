@@ -21,8 +21,8 @@ class EventDetailsPage extends StatelessWidget {
               event.item,
               style: Theme.of(context).textTheme.headline4,
             ),
-            SizedBox(height: 20.0),
-            Text(event.description)
+             SizedBox(height: 20.0),
+             Text(event.description)
           ],
         ),
       ),

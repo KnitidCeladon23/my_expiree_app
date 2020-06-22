@@ -18,60 +18,58 @@ class _ReminderPageState extends State<ReminderPage> {
   final databaseReference = Firestore.instance;
   //String deleteExpiryDateTime;
   //String deleteItem;
-  
 
   List<Widget> makeListWidget(AsyncSnapshot snapshot) {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String _uid = _currentUser.getUid;
-    
+
     return snapshot.data.documents.map<Widget>((document) {
       return Card(
         child: Container(
           padding: EdgeInsets.all(8.0),
           child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Expanded(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(document['title'],
-                          style: TextStyle(fontSize: 20.0)),
-                          Padding(padding: EdgeInsets.only(right: 10.0)),
-                          Text(
-                            document['description'],
-                            style: TextStyle(fontSize: 15.0),
-                          ),
-                          Padding(padding: EdgeInsets.only(right: 10.0)),
-                        ],
-                      ),
+                    Text(document['title'], style: TextStyle(fontSize: 20.0)),
+                    Padding(padding: EdgeInsets.only(right: 10.0)),
+                    Text(
+                      document['description'],
+                      style: TextStyle(fontSize: 15.0),
                     ),
-                    ButtonTheme(
-                        buttonColor: Colors.grey[300],
-                        materialTapTargetSize: MaterialTapTargetSize
-                            .shrinkWrap, //limits the touch area to the button area
-                        minWidth: 0, //wraps child's width
-                        height: 0, //wraps child's height
-                        child: RaisedButton(
-                          padding: EdgeInsets.all(8.0),
-                          onPressed: () {
-                            try {
-                              databaseReference
-                                  .collection('users')
-                                  .document(_uid)
-                                  .collection("notifications")
-                                  .document(document.documentID)
-                                  .delete();
-                            } catch (e) {
-                              print(e.toString());
-                            }
-                          },
-                          child: Icon(
-                            IconData(59506, fontFamily: 'MaterialIcons'),
-                            size: 30,
-                          ),
-                        ))
+                    Padding(padding: EdgeInsets.only(right: 10.0)),
                   ],
                 ),
+              ),
+              ButtonTheme(
+                  buttonColor: Colors.grey[300],
+                  materialTapTargetSize: MaterialTapTargetSize
+                      .shrinkWrap, //limits the touch area to the button area
+                  minWidth: 0, //wraps child's width
+                  height: 0, //wraps child's height
+                  child: RaisedButton(
+                    padding: EdgeInsets.all(8.0),
+                    onPressed: () {
+                      try {
+                        databaseReference
+                            .collection('users')
+                            .document(_uid)
+                            .collection("notifications")
+                            .document(document.documentID)
+                            .delete();
+                      } catch (e) {
+                        print(e.toString());
+                      }
+                    },
+                    child: Icon(
+                      IconData(59506, fontFamily: 'MaterialIcons'),
+                      size: 30,
+                    ),
+                  ))
+            ],
+          ),
         ),
       );
     }).toList();
@@ -100,7 +98,9 @@ class _ReminderPageState extends State<ReminderPage> {
       appBar: AppBar(
         title: Text(
           'Reminders',
-          style: style,
+          style: GoogleFonts.permanentMarker(
+            fontSize: 30,
+          ),
         ),
       ),
       body: Container(

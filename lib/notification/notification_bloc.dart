@@ -13,7 +13,6 @@ class NotificationBloc implements BlocBase {
   Stream<List<NotificationData>> get outNotifications => _notificationsController.stream;
 
   Future<void> init() async {
-    print("init method in notification bloc was carried out"); //TODO: remove this
     final notificationStream = await FirestoreNotificationService.getAllNotifications();
     notificationStream.listen((querySnapshot) {
       _notifications = querySnapshot.documents.map((doc) => NotificationData.fromDb(doc.data, doc.documentID)).toList();

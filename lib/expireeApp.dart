@@ -10,7 +10,7 @@ class ExpireeApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<AppBloc>(
-          create: (_) => AppBloc(),
+          create: (_) => AppBloc(), //TODO: suspect this is the issue because they used builder
           dispose: (_, appBloc) => appBloc.dispose(),
         ),
         ChangeNotifierProvider(create: (context) => CurrentUser()),
@@ -18,6 +18,7 @@ class ExpireeApp extends StatelessWidget {
       child: MaterialApp(
           title: 'Expiree',
           theme: ThemeData(
+            primaryColor: Colors.green,
             primarySwatch: Colors.green,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
@@ -25,17 +26,5 @@ class ExpireeApp extends StatelessWidget {
             body: RootPage(),
           )),
           );
-    /*return ChangeNotifierProvider(
-      create: (context) => CurrentUser(),
-      child: MaterialApp(
-          title: 'Expiree',
-          theme: ThemeData(
-            primarySwatch: Colors.green,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-          ),
-          home: Scaffold(
-            body: RootPage(),
-          )),
-    );*/
   }
 }

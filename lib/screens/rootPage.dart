@@ -1,8 +1,10 @@
-import "package:expiree_app/screens/expireeHome.dart";
+//import "package:expiree_app/screens/expireeHome.dart";
 import 'package:expiree_app/screens/expireeWelcome.dart';
 import 'package:flutter/material.dart';
 import 'package:expiree_app/states/currentUser.dart';
 import 'package:provider/provider.dart';
+import 'package:expiree_app/notification/app_bloc.dart';
+import 'package:expiree_app/screens/navBarImpl.dart';
 
 enum AuthStatus {
   notLoggedIn, 
@@ -33,13 +35,15 @@ class _RootPageState extends State<RootPage> {
   @override
   Widget build(BuildContext context) {
     Widget retVal;
+    final notificationBloc = Provider.of<AppBloc>(context).notificationBloc;
 
     switch (_authStatus) {
       case AuthStatus.notLoggedIn:
+        notificationBloc.cancelNotifications();
         retVal = ExpireeWelcome();
         break;
       case AuthStatus.loggedIn:
-        retVal = ExpireeHome();
+        retVal = NavBarImpl();
         break;
       default:
     }
