@@ -33,7 +33,8 @@ class _ReminderPageState extends State<ReminderPage> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(document['title'], style: TextStyle(fontSize: 20.0)),
+                    Text(document['title'], style: GoogleFonts.anton(
+    fontSize: 25)),
                     Padding(padding: EdgeInsets.only(right: 10.0)),
                     Text(
                       document['description'],
