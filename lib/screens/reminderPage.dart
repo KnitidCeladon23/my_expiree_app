@@ -30,14 +30,19 @@ class _ReminderPageState extends State<ReminderPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(document['title'],
+                    Text(document['title'][0].toUpperCase() +
+                            (document['title'] + ':').substring(1,),
                         style: GoogleFonts.anton(fontSize: 25)),
                     Padding(padding: EdgeInsets.only(right: 10.0)),
                     Text(
                       document['description'],
-                      style: TextStyle(fontSize: 15.0),
+                      style: TextStyle(fontSize: 19.0),
                     ),
                     Padding(padding: EdgeInsets.only(right: 10.0)),
+                    Text(
+                      document['dateTimeStr'].substring(0,16),
+                      style: TextStyle(fontSize: 15.0),
+                    ),
                   ],
                 ),
               ),

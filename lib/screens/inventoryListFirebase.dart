@@ -27,6 +27,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
   String deleteExpiryDateTime;
   String deleteItem;
   TextEditingController _description;
+  //TextEditingController _itemController = TextEditingController();
 
   @override
   void initState() {
@@ -55,34 +56,6 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
       ),
     );
   }
-  //   return ButtonTheme(
-  //     buttonColor: Colors.brown[400],
-  //     materialTapTargetSize: MaterialTapTargetSize
-  //         .shrinkWrap, //limits the touch area to the button area
-  //     minWidth: 0, //wraps child's width
-  //     height: 0, //wraps child's height
-  //     child: Material(
-  //       elevation: 5.0,
-  //       borderRadius: BorderRadius.circular(12.0),
-  //       color: Colors.brown,
-  //       child: MaterialButton(
-  //         minWidth: 100,
-  //         padding: EdgeInsets.fromLTRB(3.0, 3.0, 3.0, 3.0),
-  //         onPressed: () {
-  //           moveToURL(foodItem);
-  //         },
-  //         child: Text("Recipes",
-  //             textAlign: TextAlign.center,
-  //             style: TextStyle(
-  //                 fontSize: 15.0,
-  //                 fontWeight: FontWeight.bold,
-  //                 color: Colors.white)
-  //             //color: Colors.white, fontWeight: FontWeight.bold)
-  //             ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   List<Widget> makeListWidget(AsyncSnapshot snapshot) {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
@@ -101,17 +74,23 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                   children: <Widget>[
                     Expanded(
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           CircleAvatar(
                             child: Text(document['item'][0].toUpperCase()),
                           ),
                           Padding(padding: EdgeInsets.only(right: 10.0)),
                           Text(
-                            document['item'],
+                            document['item'][0].toUpperCase() +
+                            (document['item'] + ':').substring(1,),
                             style: GoogleFonts.anton(fontSize: 23),
                           ),
                           Padding(padding: EdgeInsets.only(right: 10.0)),
+                          Text(
+                            document['description'],
+                            style: GoogleFonts.roboto(fontSize: 20),
+                          ),
                         ],
                       ),
                     ),
@@ -232,9 +211,22 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                 content: SingleChildScrollView(
                   child: ListBody(
                     children: <Widget>[
-                      TextField(onChanged: (String input) {
+                      TextField(
+                        onChanged: (String input) {
                         newItem = input;
                       }),
+                      // TextFormField(
+                      //   controller: _description,
+                      //   minLines: 3,
+                      //   maxLines: 5,
+                      //   validator: (value) =>
+                      //       (value.isEmpty) ? "Please enter description" : null,
+                      //   style: style,
+                      //   decoration: InputDecoration(
+                      //       labelText: "Description",
+                      //       border: OutlineInputBorder(
+                      //           borderRadius: BorderRadius.circular(10))),
+                      // ),
                       SizedBox(height: 15),
                       TextFormField(
                         controller: _description,
