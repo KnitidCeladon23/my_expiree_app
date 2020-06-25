@@ -17,6 +17,7 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
   DateTime _reminderDate;
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
+  bool dateSelected = false;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -31,7 +32,19 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
       child: MaterialButton(
         minWidth: 170,
         padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-        onPressed: () => createNotification(notificationBloc),
+        onPressed: () {
+          if (dateSelected == false) {
+            setState(() {
+              _reminderDate = new DateTime.now().add(new Duration(
+                days: 3,
+              ));
+            });
+          }
+          createNotification(notificationBloc);
+          setState(() {
+            dateSelected = false;
+          });
+        },
         child: Text(
           "Create Reminder",
           textAlign: TextAlign.center,
@@ -46,10 +59,7 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
         elevation: 0,
         title: Text(
           'Create Reminder',
-          style: GoogleFonts.permanentMarker(
-            fontSize: 30,
-            color: Colors.black
-          ),
+          style: GoogleFonts.permanentMarker(fontSize: 30, color: Colors.black),
         ),
         centerTitle: true,
       ),
@@ -84,6 +94,13 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
                       },
                       child: Text('Select Date'),
                     ),
+                    SizedBox(height: 30),
+                    Text(
+                        '(If no date is selected, you will be reminded 3 days later!)',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.roboto(
+                            fontSize: 20, color: Colors.brown),
+                      ),
                   ],
                 ),
               ),
@@ -101,15 +118,36 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
         initialDate: DateTime.now(),
         firstDate: DateTime.now(),
         lastDate: DateTime(2101));
-    if (pickedDate != null)
+    final initTime = new TimeOfDay(
+      hour: 0,
+      minute: 0,
+    );
+    final TimeOfDay pickedTime =
+        await showTimePicker(context: context, initialTime: initTime);
+
+    if (pickedDate != null && pickedTime != null)
       setState(() {
-        _reminderDate = pickedDate;
+        _reminderDate = DateTime(pickedDate.year, pickedDate.month,
+            pickedDate.day, pickedTime.hour, pickedTime.minute);
+      });
+    else if (pickedDate != null && pickedTime == null)
+      setState(() {
+        _reminderDate = DateTime(pickedDate.year, pickedDate.month,
+            pickedDate.day, initTime.hour, initTime.minute);
+      });
+    else
+      setState(() {
+        _reminderDate = new DateTime.now().add(new Duration(
+          days: 3,
+        ));
       });
     print(_reminderDate);
+    setState(() {
+      dateSelected = true;
+    });
   }
 
   void createNotification(NotificationBloc notificationBloc) {
-    print('notification created');
     if (_formKey.currentState.validate()) {
       final title = _titleController.text;
       final description = _descriptionController.text;

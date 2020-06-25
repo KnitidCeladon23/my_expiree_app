@@ -71,7 +71,9 @@ class NotificationPlugin {
     int id, String title, String description, String dateTimeStr) async {
     DateTime dateTime = DateTime.parse(dateTimeStr);
     DateTime scheduledNotificationDateTime =
-        dateTime.add(new Duration(hours:22,minutes:45));
+        dateTime.add(new Duration(hours:0,minutes:0));
+        print('Scheduled notification time is:'); 
+        print(scheduledNotificationDateTime);
     final androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'show weekly channel id',
       'show weekly channel name',
