@@ -32,13 +32,12 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
         minWidth: 170,
         padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
         onPressed: () => createNotification(notificationBloc),
-        child: Text("Create Reminder",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.permanentMarker(
-              fontSize: 20,
-              color: Colors.white),
-                //color: Colors.white, fontWeight: FontWeight.bold)
-                ),
+        child: Text(
+          "Create Reminder",
+          textAlign: TextAlign.center,
+          style: GoogleFonts.permanentMarker(fontSize: 20, color: Colors.white),
+          //color: Colors.white, fontWeight: FontWeight.bold)
+        ),
       ),
     );
     return Scaffold(
@@ -46,8 +45,11 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          'Create Notification',
-          //style: Theme.of(context).textTheme,
+          'Create Reminder',
+          style: GoogleFonts.permanentMarker(
+            fontSize: 30,
+            color: Colors.black
+          ),
         ),
         centerTitle: true,
       ),
@@ -75,7 +77,8 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
                     ),
                     SizedBox(height: 12),
                     OutlineButton(
-                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 12),
                       onPressed: () {
                         selectDate(context);
                       },
@@ -86,7 +89,7 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
               ),
             ),
           ),
-        createReminder,
+          createReminder,
         ],
       ),
     );
@@ -105,7 +108,6 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
     print(_reminderDate);
   }
 
-
   void createNotification(NotificationBloc notificationBloc) {
     print('notification created');
     if (_formKey.currentState.validate()) {
@@ -113,7 +115,8 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
       final description = _descriptionController.text;
       String _reminderString = _reminderDate.toString();
       print(_reminderString);
-      final notificationData = NotificationData(title, description, _reminderString);
+      final notificationData =
+          NotificationData(title, description, _reminderString);
       notificationBloc.addNotification(notificationData);
       Navigator.of(context).pop();
     }

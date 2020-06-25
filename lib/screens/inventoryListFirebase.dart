@@ -39,27 +39,59 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                URLLauncher(title: "Recipe for " + foodItem, foodItem: foodItem)));
+            builder: (context) => URLLauncher(
+                title: "Recipe for " + foodItem, foodItem: foodItem)));
   }
 
   Widget findRecipeButton(String foodItem) {
-    return SizedBox(
-      width: 50,
-      child: RaisedButton(
-        onPressed: () {
-          moveToURL(foodItem);
-        },
-        child: Text('R'),
+    return RaisedButton(
+      color: Colors.brown[400],
+      padding: EdgeInsets.all(8.0),
+      onPressed: navigateToNotificationCreation,
+      child: Text(
+        'Recipes',
+        style: TextStyle(
+            fontSize: 15.0, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
   }
+  //   return ButtonTheme(
+  //     buttonColor: Colors.brown[400],
+  //     materialTapTargetSize: MaterialTapTargetSize
+  //         .shrinkWrap, //limits the touch area to the button area
+  //     minWidth: 0, //wraps child's width
+  //     height: 0, //wraps child's height
+  //     child: Material(
+  //       elevation: 5.0,
+  //       borderRadius: BorderRadius.circular(12.0),
+  //       color: Colors.brown,
+  //       child: MaterialButton(
+  //         minWidth: 100,
+  //         padding: EdgeInsets.fromLTRB(3.0, 3.0, 3.0, 3.0),
+  //         onPressed: () {
+  //           moveToURL(foodItem);
+  //         },
+  //         child: Text("Recipes",
+  //             textAlign: TextAlign.center,
+  //             style: TextStyle(
+  //                 fontSize: 15.0,
+  //                 fontWeight: FontWeight.bold,
+  //                 color: Colors.white)
+  //             //color: Colors.white, fontWeight: FontWeight.bold)
+  //             ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   List<Widget> makeListWidget(AsyncSnapshot snapshot) {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String _uid = _currentUser.getUid;
     return snapshot.data.documents.map<Widget>((document) {
       return Card(
+        color: Colors.grey[200],
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(27.0)),
         child: Container(
           padding: EdgeInsets.all(8.0),
           child: Column(
@@ -72,29 +104,18 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           CircleAvatar(
-                            child: Text(document['item'][0]),
+                            child: Text(document['item'][0].toUpperCase()),
                           ),
                           Padding(padding: EdgeInsets.only(right: 10.0)),
                           Text(
                             document['item'],
-                            style: TextStyle(fontSize: 20.0),
+                            style: GoogleFonts.anton(fontSize: 23),
                           ),
                           Padding(padding: EdgeInsets.only(right: 10.0)),
                         ],
                       ),
                     ),
-                    findRecipeButton(document['item']),
-                    SizedBox(width: 10,),
-                    ButtonTheme(
-                        buttonColor: Colors.brown[400],
-                        materialTapTargetSize: MaterialTapTargetSize
-                            .shrinkWrap, //limits the touch area to the button area
-                        minWidth: 0, //wraps child's width
-                        height: 0, //wraps child's height
-                        child: RaisedButton(
-                            padding: EdgeInsets.all(8.0),
-                            onPressed: navigateToNotificationCreation,
-                            child: Text('Remind me!'))),
+                    // findRecipeButton(document['item']),
                     SizedBox(width: 15),
                     ButtonTheme(
                         buttonColor: Colors.grey[300],
@@ -124,9 +145,33 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                   ],
                 ),
                 SizedBox(height: 10),
-                Text(
-                  document['expiryDateTime'].substring(0, 10),
-                  style: TextStyle(fontSize: 10.0),
+                Container(
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          document['expiryDateTime'].substring(0, 10),
+                          style: TextStyle(fontSize: 15.0),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        RaisedButton(
+                          color: Colors.grey[700],
+                          padding: EdgeInsets.all(8.0),
+                          onPressed: navigateToNotificationCreation,
+                          child: Text(
+                            'Remind me!',
+                            style: TextStyle(
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        ),
+                        SizedBox(width: 10,),
+                        findRecipeButton(document['item']),
+                      ]),
                 ),
               ]),
         ),
@@ -154,8 +199,6 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
         _expiryDateTime = pickedDate;
       });
   }
-
-
 
   void addToList(String item, String expiryDateTime, String description) async {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
@@ -221,13 +264,13 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                               _description.text);
                         }
                         if (widget.note != null) {
-                           await eventDBS.updateData(widget.note.id, _uid, {
+                          await eventDBS.updateData(widget.note.id, _uid, {
                             "item": newItem,
                             "description": _description.text,
                             "expiryDateTime": _expiryDateTime
                           });
-                        } else  {
-                           await eventDBS.createItem(
+                        } else {
+                          await eventDBS.createItem(
                               _uid,
                               EventModel(
                                   item: newItem,

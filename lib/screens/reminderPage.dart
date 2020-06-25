@@ -8,16 +8,10 @@ class ReminderPage extends StatefulWidget {
   @override
   _ReminderPageState createState() => _ReminderPageState();
 }
-//hi
 
 class _ReminderPageState extends State<ReminderPage> {
-  TextStyle style = GoogleFonts.permanentMarker(
-    fontSize: 20,
-  );
-  //String newItem;
   final databaseReference = Firestore.instance;
-  //String deleteExpiryDateTime;
-  //String deleteItem;
+
 
   List<Widget> makeListWidget(AsyncSnapshot snapshot) {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
@@ -25,15 +19,19 @@ class _ReminderPageState extends State<ReminderPage> {
 
     return snapshot.data.documents.map<Widget>((document) {
       return Card(
+        color: Colors.brown[400],
+        shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(27.0)),
         child: Container(
           padding: EdgeInsets.all(8.0),
           child: Row(
             children: <Widget>[
+              SizedBox(width: 10,),
               Expanded(
-                child: Row(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(document['title'], style: TextStyle(fontSize: 20.0)),
+                    Text(document['title'],
+                        style: GoogleFonts.anton(fontSize: 25)),
                     Padding(padding: EdgeInsets.only(right: 10.0)),
                     Text(
                       document['description'],
@@ -43,6 +41,7 @@ class _ReminderPageState extends State<ReminderPage> {
                   ],
                 ),
               ),
+              SizedBox(width: 20,),
               ButtonTheme(
                   buttonColor: Colors.grey[300],
                   materialTapTargetSize: MaterialTapTargetSize

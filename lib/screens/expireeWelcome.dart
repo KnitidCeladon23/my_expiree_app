@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
-import 'package:expiree_app/screens/expireeHome.dart';
+import 'package:expiree_app/screens/rootPage.dart';
 import 'package:expiree_app/screens/createAccount.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +57,7 @@ class _ExpireeWelcomeState extends State<ExpireeWelcome> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => ExpireeHome(),
+            builder: (context) => RootPage(),
           ),
           (route) => false,
         );
@@ -65,7 +65,7 @@ class _ExpireeWelcomeState extends State<ExpireeWelcome> {
         Scaffold.of(context).showSnackBar(
           SnackBar(
             content: Text(_returnString),
-            duration: Duration(seconds: 2),
+            duration: Duration(seconds: 5),
           ),
         );
       }

@@ -23,6 +23,7 @@ class ExpireeApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
           home: Scaffold(
+            backgroundColor: Colors.brown,
             body: RootPage(),
           )),
           );
