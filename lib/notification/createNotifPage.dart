@@ -32,13 +32,12 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
         minWidth: 170,
         padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
         onPressed: () => createNotification(notificationBloc),
-        child: Text("Create Reminder",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.permanentMarker(
-              fontSize: 20,
-              color: Colors.white),
-                //color: Colors.white, fontWeight: FontWeight.bold)
-                ),
+        child: Text(
+          "Create Reminder",
+          textAlign: TextAlign.center,
+          style: GoogleFonts.permanentMarker(fontSize: 20, color: Colors.white),
+          //color: Colors.white, fontWeight: FontWeight.bold)
+        ),
       ),
     );
     return Scaffold(
@@ -75,7 +74,8 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
                     ),
                     SizedBox(height: 12),
                     OutlineButton(
-                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 12),
                       onPressed: () {
                         selectDate(context);
                       },
@@ -86,7 +86,7 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
               ),
             ),
           ),
-        createReminder,
+          createReminder,
         ],
       ),
     );
@@ -98,13 +98,20 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
         initialDate: DateTime.now(),
         firstDate: DateTime.now(),
         lastDate: DateTime(2101));
+    final TimeOfDay pickedTime = await showTimePicker(
+        context: context,
+        initialTime: new TimeOfDay(
+          hour: 0,
+          minute: 0,
+        ));
     if (pickedDate != null)
       setState(() {
-        _reminderDate = pickedDate;
+        _reminderDate = DateTime(pickedDate.year, pickedDate.month,
+            pickedDate.day, pickedTime.hour, pickedTime.minute);
       });
+
     print(_reminderDate);
   }
-
 
   void createNotification(NotificationBloc notificationBloc) {
     print('notification created');
@@ -113,7 +120,8 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
       final description = _descriptionController.text;
       String _reminderString = _reminderDate.toString();
       print(_reminderString);
-      final notificationData = NotificationData(title, description, _reminderString);
+      final notificationData =
+          NotificationData(title, description, _reminderString);
       notificationBloc.addNotification(notificationData);
       Navigator.of(context).pop();
     }
