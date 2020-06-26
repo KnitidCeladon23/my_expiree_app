@@ -137,7 +137,7 @@ class _ExpireeHomeState extends State<ExpireeHome> {
         child: Container(
           color: Colors.brown,
           child: Padding(
-            padding: const EdgeInsets.all(50.4),
+            padding: const EdgeInsets.all(60),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
