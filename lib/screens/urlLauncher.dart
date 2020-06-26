@@ -118,7 +118,7 @@ class _URLLauncherState extends State<URLLauncher> {
       ),
       body: Center(
         child: Container(
-          color: Colors.brown,
+          decoration: BoxDecoration(color: Colors.brown),
           child: Padding(
             padding: const EdgeInsets.all(50.4),
             child: Column(
