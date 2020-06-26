@@ -119,48 +119,44 @@ class _URLLauncherState extends State<URLLauncher> {
       body: Center(
         child: Container(
           color: Colors.brown,
-          child: ListView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Material(
-                    elevation: 5.0,
-                    child: RaisedButton(
-                      color: Colors.red[200],
-                      padding: EdgeInsets.fromLTRB(20, 20.0, 20, 20.0),
-                      onPressed: () => setState(() {
-                        _launched = _launchInBrowser(toLaunch);
-                      }),
-                      child: Text("Launch in Browser",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.kalam(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          )),
-                    ),
-                  ),
-                  const Padding(padding: EdgeInsets.all(16.0)),
-                  Material(
-                    elevation: 5.0,
-                    child: RaisedButton(
-                      color: Colors.red[200],
-                      padding: EdgeInsets.fromLTRB(20, 20.0, 20, 20.0),
-                      onPressed: () => setState(() {
-                        _launched = _launchInWebViewOrVC(toLaunch);
-                      }),
-                      child: Text("Launch in App",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.kalam(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          )),
-                    ),
-                  ),
-                ],
+              Material(
+                elevation: 5.0,
+                child: RaisedButton(
+                  color: Colors.red[200],
+                  padding: EdgeInsets.fromLTRB(20, 20.0, 20, 20.0),
+                  onPressed: () => setState(() {
+                    _launched = _launchInBrowser(toLaunch);
+                  }),
+                  child: Text("Launch in Browser",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.kalam(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      )),
+                ),
+              ),
+              const Padding(padding: EdgeInsets.all(16.0)),
+              Material(
+                elevation: 5.0,
+                child: RaisedButton(
+                  color: Colors.red[200],
+                  padding: EdgeInsets.fromLTRB(20, 20.0, 20, 20.0),
+                  onPressed: () => setState(() {
+                    _launched = _launchInWebViewOrVC(toLaunch);
+                  }),
+                  child: Text("Launch in App",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.kalam(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      )),
+                ),
               ),
             ],
           ),
