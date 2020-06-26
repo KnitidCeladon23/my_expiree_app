@@ -116,9 +116,9 @@ class _URLLauncherState extends State<URLLauncher> {
           ),
         ),
       ),
-      body: Center(
-        child: Container(
-          decoration: BoxDecoration(color: Colors.brown),
+      body: Container(
+        decoration: BoxDecoration(color: Colors.brown),
+        child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
