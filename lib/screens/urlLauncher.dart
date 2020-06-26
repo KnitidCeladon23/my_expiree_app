@@ -122,6 +122,7 @@ class _URLLauncherState extends State<URLLauncher> {
           child: ListView(
             children: <Widget>[
               Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Material(
