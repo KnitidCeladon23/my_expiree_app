@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class URLLauncher extends StatefulWidget {
@@ -103,7 +104,9 @@ class _URLLauncherState extends State<URLLauncher> {
   @override
   Widget build(BuildContext context) {
     String foodItem = widget.foodItem;
-    String toLaunch = "https://www.google.com/search?q=" + foodItem + "%20recipe";
+    String toLaunch =
+        "https://www.google.com/search?q=" + foodItem + "%20recipe";
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -113,18 +116,40 @@ class _URLLauncherState extends State<URLLauncher> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              RaisedButton(
-                onPressed: () => setState(() {
+              Material(
+                elevation: 5.0,
+                child: RaisedButton(
+                  color: Colors.red[200],
+                  padding: EdgeInsets.fromLTRB(20, 20.0, 20, 20.0),
+                  onPressed: () => setState(() {
                   _launched = _launchInBrowser(toLaunch);
                 }),
-                child: const Text('Launch in browser'),
+                  child: Text("Launch in Browser",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.kalam(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      )),
+                ),
               ),
               const Padding(padding: EdgeInsets.all(16.0)),
-              RaisedButton(
-                onPressed: () => setState(() {
+              Material(
+                elevation: 5.0,
+                child: RaisedButton(
+                  color: Colors.red[200],
+                  padding: EdgeInsets.fromLTRB(20, 20.0, 20, 20.0),
+                  onPressed: () => setState(() {
                   _launched = _launchInWebViewOrVC(toLaunch);
                 }),
-                child: const Text('Launch in app'),
+                  child: Text("Launch in App",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.kalam(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      )),
+                ),
               ),
             ],
           ),
