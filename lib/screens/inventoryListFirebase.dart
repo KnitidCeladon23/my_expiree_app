@@ -48,7 +48,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
     return RaisedButton(
       color: Colors.brown[400],
       padding: EdgeInsets.all(8.0),
-      onPressed: navigateToNotificationCreation,
+      onPressed: () => moveToURL(foodItem),
       child: Text(
         'Recipes',
         style: TextStyle(
