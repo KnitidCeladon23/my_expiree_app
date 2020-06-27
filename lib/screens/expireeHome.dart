@@ -91,10 +91,10 @@ class _ExpireeHomeState extends State<ExpireeHome> {
                       child: Text("Enter expiry date")),
                   RaisedButton(
                       onPressed: () async {
-                        if (newItem != null && _expiryDateTime != null) {
-                          addToList(newItem, _expiryDateTime.toString(),
-                              _description.text);
-                        }
+                        // if (newItem != null && _expiryDateTime != null) {
+                        //   addToList(newItem, _expiryDateTime.toString(),
+                        //       _description.text);
+                        // }
                         if (widget.note != null) {
                           await eventDBS.updateData(widget.note.id, _uid, {
                             "item": newItem,
