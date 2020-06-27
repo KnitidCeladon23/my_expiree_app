@@ -266,14 +266,15 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                             "description": _description.text,
                             "expiryDateTime": _expiryDateTime
                           });
-                        } else {
-                          await eventDBS.createItem(
-                              _uid,
-                              EventModel(
-                                  item: newItem,
-                                  description: _description.text,
-                                  expiryDateTime: _expiryDateTime));
                         }
+                        // else {
+                        //   await eventDBS.createItem(
+                        //       _uid,
+                        //       EventModel(
+                        //           item: newItem,
+                        //           description: _description.text,
+                        //           expiryDateTime: _expiryDateTime));
+                        // }
                         Navigator.of(context).pop();
                       },
                       child: Text("Confirm new item")),
