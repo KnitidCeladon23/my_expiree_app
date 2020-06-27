@@ -11,7 +11,7 @@ import 'package:expiree_app/states/currentUser.dart';
 class ExpireeHome extends StatefulWidget {
   final EventModel note;
   const ExpireeHome({Key key, this.note}) : super(key: key);
-  @override
+
   @override
   _ExpireeHomeState createState() => _ExpireeHomeState();
 }
@@ -52,8 +52,7 @@ class _ExpireeHomeState extends State<ExpireeHome> {
                 content: SingleChildScrollView(
                   child: ListBody(
                     children: <Widget>[
-                      TextField(
-                        onChanged: (String input) {
+                      TextField(onChanged: (String input) {
                         newItem = input;
                       }),
                       // TextFormField(
@@ -136,13 +135,15 @@ class _ExpireeHomeState extends State<ExpireeHome> {
       ),
     );
 
-
     return Scaffold(
       appBar: AppBar(
-        title: Text("Welcome back",
-        style: GoogleFonts.permanentMarker(
-          fontSize: 30,),
-      ),),
+        title: Text(
+          "Welcome back",
+          style: GoogleFonts.permanentMarker(
+            fontSize: 30,
+          ),
+        ),
+      ),
       body: Container(
         color: Colors.brown,
         child: Center(
@@ -150,7 +151,9 @@ class _ExpireeHomeState extends State<ExpireeHome> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               settingsButton,
             ],
           ),
@@ -162,9 +165,10 @@ class _ExpireeHomeState extends State<ExpireeHome> {
   }
 
   void moveToSettings() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => SettingsPage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => SettingsPage()));
   }
+
   Future<Null> _selectExpiryDate(BuildContext context) async {
     final DateTime pickedDate = await showDatePicker(
         context: context,
@@ -182,7 +186,7 @@ class _ExpireeHomeState extends State<ExpireeHome> {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String _uid = _currentUser.getUid;
     await databaseReference
-        .collection("inventorylists")
+        .collection("inventoryLists")
         .document(_uid)
         .collection("indivInventory")
         .add({

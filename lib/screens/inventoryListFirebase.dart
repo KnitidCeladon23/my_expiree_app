@@ -83,7 +83,9 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                           Padding(padding: EdgeInsets.only(right: 10.0)),
                           Text(
                             document['item'][0].toUpperCase() +
-                            (document['item'] + ':').substring(1,),
+                                (document['item'] + ':').substring(
+                                  1,
+                                ),
                             style: GoogleFonts.anton(fontSize: 23),
                           ),
                           Padding(padding: EdgeInsets.only(right: 10.0)),
@@ -130,7 +132,9 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          document['expiryDateTime'].substring(0, 10),
+                          document['expiryDateTime']
+                              .toString()
+                              .substring(0, 10),
                           style: TextStyle(fontSize: 15.0),
                         ),
                         SizedBox(
@@ -148,7 +152,9 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                                 color: Colors.white),
                           ),
                         ),
-                        SizedBox(width: 10,),
+                        SizedBox(
+                          width: 10,
+                        ),
                         findRecipeButton(document['item']),
                       ]),
                 ),
@@ -183,7 +189,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String _uid = _currentUser.getUid;
     await databaseReference
-        .collection("inventorylists")
+        .collection("inventoryLists")
         .document(_uid)
         .collection("indivInventory")
         .add({
@@ -211,8 +217,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                 content: SingleChildScrollView(
                   child: ListBody(
                     children: <Widget>[
-                      TextField(
-                        onChanged: (String input) {
+                      TextField(onChanged: (String input) {
                         newItem = input;
                       }),
                       // TextFormField(
@@ -288,7 +293,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
       body: Container(
           child: StreamBuilder(
               stream: databaseReference
-                  .collection('inventorylists')
+                  .collection('inventoryLists')
                   .document(_uid)
                   .collection("indivInventory")
                   .snapshots(),

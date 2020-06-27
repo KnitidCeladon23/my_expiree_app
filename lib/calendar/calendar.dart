@@ -68,7 +68,7 @@ class _CalendarState extends State<Calendar> {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String _uid = _currentUser.getUid;
     await databaseReference
-        .collection("inventorylists")
+        .collection("inventoryLists")
         .document(_uid)
         .collection("indivInventory")
         .add({
