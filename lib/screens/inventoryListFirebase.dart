@@ -107,7 +107,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                           onPressed: () {
                             try {
                               databaseReference
-                                  .collection('inventorylists')
+                                  .collection('inventoryLists')
                                   .document(_uid)
                                   .collection("indivInventory")
                                   .document(document.documentID)
