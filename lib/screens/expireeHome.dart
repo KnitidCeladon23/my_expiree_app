@@ -143,19 +143,16 @@ class _ExpireeHomeState extends State<ExpireeHome> {
         style: GoogleFonts.permanentMarker(
           fontSize: 30,),
       ),),
-      body: Center(
-        child: Container(
-          color: Colors.brown,
-          child: Padding(
-            padding: const EdgeInsets.all(149.4),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(height: 10,),
-                settingsButton,
-              ],
-            ),
+      body: Container(
+        color: Colors.brown,
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(height: 10,),
+              settingsButton,
+            ],
           ),
         ),
       ),
