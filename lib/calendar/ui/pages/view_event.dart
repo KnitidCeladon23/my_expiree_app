@@ -1,5 +1,5 @@
 import 'package:expiree_app/notification/createNotifPage.dart';
-import 'package:expiree_app/screens/urlLauncher.dart';
+import 'package:expiree_app/urlLauncher.dart';
 import 'package:flutter/material.dart';
 import '../../model/event.dart';
 
