@@ -6,12 +6,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import "package:expiree_app/states/currentUser.dart";
 
-class CreateAccount extends StatefulWidget {
+class ChangePassword extends StatefulWidget {
   @override
-  _CreateAccountState createState() => _CreateAccountState();
+  _ChangePasswordState createState() => _ChangePasswordState();
 }
 
-class _CreateAccountState extends State<CreateAccount> {
+class _ChangePasswordState extends State<ChangePassword> {
   //final _formKey = GlobalKey<FormState>();
   //String _email, _password;
   final _passKey = GlobalKey<FormFieldState>();
@@ -46,7 +46,6 @@ class _CreateAccountState extends State<CreateAccount> {
 
   @override
   Widget build(BuildContext context) {
-
     final newPasswordField = TextFormField(
       controller: _passwordController,
       key: _passKey,
@@ -66,8 +65,7 @@ class _CreateAccountState extends State<CreateAccount> {
       validator: (input) {
         if (input.isEmpty) {
           return "Please provide a new password";
-        }
-        else if (input.length < 6) {
+        } else if (input.length < 6) {
           return 'Password should be at least 6 characters long';
         }
         return null;
@@ -108,24 +106,24 @@ class _CreateAccountState extends State<CreateAccount> {
         minWidth: 90,
         padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
         onPressed: () async {
-              if ((_passwordController.text == _confirmPasswordController.text)) {
-                await FirebaseAuthPlatform.instance.updatePassword('Expiree Login', _passwordController.text);
-              } else {
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text("Passwords do not match"),
-                    duration: Duration(seconds: 2),
-                  ),
-                );
-              }
-            },
-        child: Text('Create Account',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.permanentMarker(
-              fontSize: 22,
-              color: Colors.white),
+          if ((_passwordController.text == _confirmPasswordController.text)) {
+            await FirebaseAuthPlatform.instance
+                .updatePassword('Expiree Login', _passwordController.text);
+          } else {
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Passwords do not match"),
+                duration: Duration(seconds: 2),
               ),
+            );
+          }
+        },
+        child: Text(
+          'Create Account',
+          textAlign: TextAlign.center,
+          style: GoogleFonts.permanentMarker(fontSize: 22, color: Colors.white),
         ),
+      ),
     );
 
     final cancelButton = Material(
@@ -141,10 +139,8 @@ class _CreateAccountState extends State<CreateAccount> {
         },
         child: Text('Cancel and Go Back',
             textAlign: TextAlign.center,
-            style: GoogleFonts.permanentMarker(
-              fontSize: 22,
-              color: Colors.white)
-            ),
+            style:
+                GoogleFonts.permanentMarker(fontSize: 22, color: Colors.white)),
       ),
     );
 

@@ -133,6 +133,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                       children: <Widget>[
                         Text(
                           document['expiryDateTime']
+                              .toDate()
                               .toString()
                               .substring(0, 10),
                           style: TextStyle(fontSize: 15.0),
@@ -256,25 +257,24 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                       child: Text("Enter expiry date")),
                   RaisedButton(
                       onPressed: () async {
-                        if (newItem != null && _expiryDateTime != null) {
-                          addToList(newItem, _expiryDateTime.toString(),
-                              _description.text);
-                        }
+                        // if (newItem != null && _expiryDateTime != null) {
+                        //   addToList(newItem, _expiryDateTime.toString(),
+                        //       _description.text);
+                        // }
                         if (widget.note != null) {
                           await eventDBS.updateData(widget.note.id, _uid, {
                             "item": newItem,
                             "description": _description.text,
                             "expiryDateTime": _expiryDateTime
                           });
+                        } else {
+                          await eventDBS.createItem(
+                              _uid,
+                              EventModel(
+                                  item: newItem,
+                                  description: _description.text,
+                                  expiryDateTime: _expiryDateTime));
                         }
-                        // else {
-                        //   await eventDBS.createItem(
-                        //       _uid,
-                        //       EventModel(
-                        //           item: newItem,
-                        //           description: _description.text,
-                        //           expiryDateTime: _expiryDateTime));
-                        // }
                         Navigator.of(context).pop();
                       },
                       child: Text("Confirm new item")),
