@@ -40,7 +40,9 @@ class EventDetailsPage extends StatelessWidget {
               style: Theme.of(context).textTheme.headline4,
             ),
             SizedBox(height: 20.0),
-            Text(event.description),
+            Text(
+              event.description == "" ? "description" : event.description
+            ),
             SizedBox(height: 10.0),
             RaisedButton(
               color: Colors.brown[400],
