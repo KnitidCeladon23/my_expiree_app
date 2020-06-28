@@ -104,8 +104,9 @@ class _URLLauncherState extends State<URLLauncher> {
   @override
   Widget build(BuildContext context) {
     String foodItem = widget.foodItem;
-    String toLaunch =
-        "https://www.google.com/search?q=" + foodItem + "%20recipe";
+    String toLaunch = "https://www.google.com/search?q=" +
+        foodItem.replaceAll(' ', '%20') +
+        "%20recipe";
 
     return Scaffold(
       appBar: AppBar(

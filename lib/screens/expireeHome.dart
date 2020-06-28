@@ -95,19 +95,23 @@ class _ExpireeHomeState extends State<ExpireeHome> {
                         //   addToList(newItem, _expiryDateTime.toString(),
                         //       _description.text);
                         // }
-                        if (widget.note != null) {
-                          await eventDBS.updateData(widget.note.id, _uid, {
-                            "item": newItem,
-                            "description": _description.text,
-                            "expiryDateTime": _expiryDateTime
-                          });
-                        } else {
-                          await eventDBS.createItem(
-                              _uid,
-                              EventModel(
-                                  item: newItem,
-                                  description: _description.text,
-                                  expiryDateTime: _expiryDateTime));
+                        print(newItem);
+                        print(_expiryDateTime);
+                        if (newItem != null && _expiryDateTime != null) {
+                          if (widget.note != null) {
+                            await eventDBS.updateData(widget.note.id, _uid, {
+                              "item": newItem,
+                              "description": _description.text,
+                              "expiryDateTime": _expiryDateTime
+                            });
+                          } else {
+                            await eventDBS.createItem(
+                                _uid,
+                                EventModel(
+                                    item: newItem,
+                                    description: _description.text,
+                                    expiryDateTime: _expiryDateTime));
+                          }
                         }
                         Navigator.of(context).pop();
                       },
