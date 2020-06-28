@@ -32,6 +32,8 @@ class _CalendarState extends State<Calendar> {
   String deleteItem;
   TextEditingController _description;
 
+  String descriptionInfo;
+
   @override
   void initState() {
     super.initState();
@@ -90,6 +92,7 @@ class _CalendarState extends State<Calendar> {
       backgroundColor: Colors.green,
       onPressed: () {
         newItem = null;
+        descriptionInfo = null;
         _expiryDateTime = null;
         showDialog(
             context: context,
@@ -99,9 +102,16 @@ class _CalendarState extends State<Calendar> {
                 content: SingleChildScrollView(
                   child: ListBody(
                     children: <Widget>[
-                      TextField(onChanged: (String input) {
-                        newItem = input;
-                      }),
+                      TextField(
+                        style: style,
+                        onChanged: (String input) {
+                          newItem = input;
+                        },
+                        decoration: InputDecoration(
+                            labelText: "Item Name",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                      ),
                       // TextFormField(
                       //   controller: _description,
                       //   minLines: 3,
@@ -115,13 +125,17 @@ class _CalendarState extends State<Calendar> {
                       //           borderRadius: BorderRadius.circular(10))),
                       // ),
                       SizedBox(height: 15),
-                      TextFormField(
-                        controller: _description,
+                      TextField(
+                        // initialValue: "",
+                        // controller: _description,
                         minLines: 3,
                         maxLines: 5,
-                        validator: (value) =>
-                            (value.isEmpty) ? "Please enter description" : null,
-                        style: style,
+                        // validator: (value) =>
+                        //     (value.isEmpty) ? "Please enter description" : null,
+                        // style: style,
+                        onChanged: (String input) {
+                          descriptionInfo = input;
+                        },
                         decoration: InputDecoration(
                             labelText: "Description",
                             border: OutlineInputBorder(
@@ -142,8 +156,8 @@ class _CalendarState extends State<Calendar> {
                         //   addToList(newItem, _expiryDateTime.toString(),
                         //       _description.text);
                         // }
-                        print(newItem);
-                        print(_expiryDateTime);
+                        // print(newItem);
+                        // print(_expiryDateTime);
                         if (newItem != null && _expiryDateTime != null) {
                           if (widget.note != null) {
                             await eventDBS.updateData(widget.note.id, _uid, {
@@ -169,7 +183,6 @@ class _CalendarState extends State<Calendar> {
       },
       child: Icon(Icons.add, color: Colors.white),
     );
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
