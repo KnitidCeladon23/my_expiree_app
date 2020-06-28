@@ -95,8 +95,8 @@ class _ExpireeHomeState extends State<ExpireeHome> {
                         //   addToList(newItem, _expiryDateTime.toString(),
                         //       _description.text);
                         // }
-                        print(newItem);
-                        print(_expiryDateTime);
+                        // print(newItem);
+                        // print(_expiryDateTime);
                         if (newItem != null && _expiryDateTime != null) {
                           if (widget.note != null) {
                             await eventDBS.updateData(widget.note.id, _uid, {

@@ -82,17 +82,22 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                           ),
                           Padding(padding: EdgeInsets.only(right: 10.0)),
                           Text(
-                            document['item'][0].toUpperCase() +
-                                (document['item'] + ':').substring(
-                                  1,
-                                ),
+                            // document['item'][0].toUpperCase() +
+                            //     (document['item'] + ':').substring(
+                            //       1,
+                            //     ),
+                            document['item']
+                                .split(' ')
+                                .map((word) =>
+                                    word[0].toUpperCase() + word.substring(1))
+                                .join(' '),
                             style: GoogleFonts.anton(fontSize: 23),
                           ),
-                          Padding(padding: EdgeInsets.only(right: 10.0)),
-                          Text(
-                            document['description'],
-                            style: GoogleFonts.roboto(fontSize: 20),
-                          ),
+                          // Padding(padding: EdgeInsets.only(right: 10.0)),
+                          // Text(
+                          //   document['description'],
+                          //   style: GoogleFonts.roboto(fontSize: 20),
+                          // ),
                         ],
                       ),
                     ),
@@ -125,6 +130,10 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                         ))
                   ],
                 ),
+                SizedBox(height: 10),
+                Text(document['description'] == ""
+                    ? "<no description>"
+                    : "Info: " + document['description']),
                 SizedBox(height: 10),
                 Container(
                   child: Row(
