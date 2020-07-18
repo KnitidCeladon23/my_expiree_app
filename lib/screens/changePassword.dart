@@ -24,11 +24,11 @@ class _ChangePasswordState extends State<ChangePassword> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
 
-  void _signUpUser(String email, String password, BuildContext context) async {
+  void _signUpUser(String email, String password, String username, BuildContext context) async {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
 
     try {
-      String _returnString = await _currentUser.signUpUser(email, password);
+      String _returnString = await _currentUser.signUpUser(email, password, username);
       if (_returnString == "success") {
         Navigator.pop(context);
       } else {

@@ -40,11 +40,20 @@ class CurrentUser extends ChangeNotifier {
     return retVal;
   }
 
-  Future<String> signUpUser(String email, String password) async {
+  Future updateUserName(String name, FirebaseUser currentUser) async {
+    var userUpdateInfo = UserUpdateInfo();
+    userUpdateInfo.displayName = name;
+    await currentUser.updateProfile(userUpdateInfo);
+    await currentUser.reload();
+  }
+
+  Future<String> signUpUser(String email, String password, name) async {
     String retVal = "error";
 
     try {
-      await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      final authResult = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      await updateUserName(name, authResult.user);
+
 
       retVal = "success";
     } catch (e) {

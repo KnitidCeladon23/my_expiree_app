@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:expiree_app/screens/expireeHome.dart';
 import 'package:provider/provider.dart';
 import 'package:expiree_app/notification/app_bloc.dart';
+import 'package:expiree_app/wall/postPage.dart';
 
 class NavBarImpl extends StatefulWidget {
   NavBarImpl({Key key}) : super(key: key);
@@ -29,6 +30,7 @@ class _NavBarImplState extends State<NavBarImpl> {
   final _pageOptions = [
     ExpireeHome(),
     Calendar(),
+    PostPage(),
     InventoryListFirebase(),
     ReminderPage(),
   ];
@@ -60,6 +62,10 @@ class _NavBarImplState extends State<NavBarImpl> {
             BottomNavigationBarItem(
               icon: Icon(Icons.create),
               title: Text('Calendar'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.create),
+              title: Text('Wall'),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.chat),
