@@ -43,7 +43,12 @@ class _FirebaseStoragePageState extends State<FirebaseStoragePage> {
 
             return Column(
               children: [
-                if (_uploadTask.isComplete) Text('🎉🎉🎉'),
+                if (_uploadTask.isComplete)
+                  RaisedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("Return")),
 
                 if (_uploadTask.isPaused)
                   FlatButton(
