@@ -10,11 +10,11 @@ class FirebaseStorage extends StatefulWidget {
 
 class _FirebaseStorageState extends State<FirebaseStorage> {
   File _image;
-  final picker = ImagePicker();
+  final _picker = ImagePicker();
 
   Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-
+    final pickedFile = await _picker.getImage(source: ImageSource.camera);
+    final File file = File(pickedFile.path);
     setState(() {
       _image = File(pickedFile.path);
     });
