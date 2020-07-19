@@ -14,7 +14,7 @@ class FirebaseStoragePage extends StatefulWidget {
 
 class _FirebaseStoragePageState extends State<FirebaseStoragePage> {
   final FirebaseStorage _storage =
-      FirebaseStorage(storageBucket: 'gs://test.expiree.com');
+      FirebaseStorage(storageBucket: 'gs://expiree-login-51433.appspot.com/');
 
   StorageUploadTask _uploadTask;
 
