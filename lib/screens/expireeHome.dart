@@ -1,9 +1,10 @@
-import 'package:expiree_app/screens/firebaseStorage.dart';
+import 'package:expiree_app/screens/imagePicker.dart';
 import 'package:expiree_app/screens/rootPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:expiree_app/calendar/calendar.dart';
 import "package:expiree_app/states/currentUser.dart";
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:expiree_app/screens/inventoryListFirebase.dart';
 import 'package:expiree_app/screens/reminderPage.dart';
@@ -33,7 +34,7 @@ class _ExpireeHomeState extends State<ExpireeHome> {
       child: RaisedButton(
         color: Colors.lightBlue[300],
         padding: EdgeInsets.fromLTRB(20, 20.0, 20, 20.0),
-        onPressed: moveToStorage,
+        onPressed: moveToPicker,
         child: Text("Calendar",
             textAlign: TextAlign.center,
             style: GoogleFonts.kalam(
@@ -175,8 +176,8 @@ class _ExpireeHomeState extends State<ExpireeHome> {
         context, MaterialPageRoute(builder: (context) => Calendar()));
   }
 
-  void moveToStorage() {
+  void moveToPicker() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => FirebaseStorage()));
+        context, MaterialPageRoute(builder: (context) => ImagePickerPage()));
   }
 }
