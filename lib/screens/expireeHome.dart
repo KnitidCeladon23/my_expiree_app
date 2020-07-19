@@ -1,3 +1,4 @@
+import 'package:expiree_app/screens/firebaseStorage.dart';
 import 'package:expiree_app/screens/rootPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,7 +21,7 @@ class _ExpireeHomeState extends State<ExpireeHome> {
   //   super.initState();
 
   //   Future.delayed(Duration.zero, () async {
-  //     final appBloc = Provider.of<AppBloc>(context, listen: false); 
+  //     final appBloc = Provider.of<AppBloc>(context, listen: false);
   //     await appBloc.init();
   //   });
   // }
@@ -32,7 +33,7 @@ class _ExpireeHomeState extends State<ExpireeHome> {
       child: RaisedButton(
         color: Colors.lightBlue[300],
         padding: EdgeInsets.fromLTRB(20, 20.0, 20, 20.0),
-        onPressed: moveToCalendar,
+        onPressed: moveToStorage,
         child: Text("Calendar",
             textAlign: TextAlign.center,
             style: GoogleFonts.kalam(
@@ -77,18 +78,19 @@ class _ExpireeHomeState extends State<ExpireeHome> {
         color: Colors.red,
         padding: EdgeInsets.fromLTRB(20, 20.0, 20, 20.0),
         onPressed: () async {
-            CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
-            String _returnString = await _currentUser.signOut();
-            if (_returnString == "success") {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RootPage(),
-                ),
-                (route) => false,
-              );
-            }
-          },
+          CurrentUser _currentUser =
+              Provider.of<CurrentUser>(context, listen: false);
+          String _returnString = await _currentUser.signOut();
+          if (_returnString == "success") {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => RootPage(),
+              ),
+              (route) => false,
+            );
+          }
+        },
         child: Text("Sign Out",
             textAlign: TextAlign.center,
             style: GoogleFonts.kalam(
@@ -129,10 +131,13 @@ class _ExpireeHomeState extends State<ExpireeHome> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Welcome back",
-        style: GoogleFonts.permanentMarker(
-          fontSize: 30,),
-      ),),
+        title: Text(
+          "Welcome back",
+          style: GoogleFonts.permanentMarker(
+            fontSize: 30,
+          ),
+        ),
+      ),
       body: Center(
         child: Container(
           color: Colors.brown,
@@ -143,7 +148,9 @@ class _ExpireeHomeState extends State<ExpireeHome> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 buttons,
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 buttons1,
               ],
             ),
@@ -154,8 +161,8 @@ class _ExpireeHomeState extends State<ExpireeHome> {
   }
 
   void moveToReminder() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ReminderPage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ReminderPage()));
   }
 
   void moveToInventory() {
@@ -166,5 +173,10 @@ class _ExpireeHomeState extends State<ExpireeHome> {
   void moveToCalendar() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => Calendar()));
+  }
+
+  void moveToStorage() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => FirebaseStorage()));
   }
 }
