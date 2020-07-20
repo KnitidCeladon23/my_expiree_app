@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 //import 'expireeWelcome.dart';
 import 'package:provider/provider.dart';
 import "package:expiree_app/states/currentUser.dart";
-import 'package:expiree_app/helperfunctions.dart';
+import 'package:expiree_app/helper/helperfunctions.dart';
 import 'package:expiree_app/database.dart';
 
 class CreateAccount extends StatefulWidget {

@@ -5,7 +5,7 @@ import 'package:expiree_app/wall/addPost.dart';
 import 'package:expiree_app/states/currentUser.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:expiree_app/helperfunctions.dart';
+import 'package:expiree_app/helper/helperfunctions.dart';
 
 class PostPage extends StatefulWidget {
   @override
@@ -21,12 +21,11 @@ class _PostPageState extends State<PostPage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Wall',
-          style: GoogleFonts.montserrat(
-            fontSize: 32,
-            color: Colors.white
-          )
-        )
+          "Wall",
+          style: GoogleFonts.permanentMarker(
+            fontSize: 30,
+          ),
+        ),
         ),
       body: _buildBody(context),
       floatingActionButton: AddNote(),

@@ -1,3 +1,4 @@
+import 'package:expiree_app/chats/chatrooms.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:expiree_app/screens/settingsPage.dart';
@@ -153,6 +154,22 @@ class _ExpireeHomeState extends State<ExpireeHome> {
       ),
     );
 
+    final chatRoomPageButton = Material(
+      elevation: 5.0,
+      child: RaisedButton(
+        color: Colors.red[200],
+        padding: EdgeInsets.fromLTRB(20, 20.0, 20, 20.0),
+        onPressed: moveToChats,
+        child: Text("Chats",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.kalam(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            )),
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -173,6 +190,10 @@ class _ExpireeHomeState extends State<ExpireeHome> {
                 height: 10,
               ),
               settingsButton,
+              SizedBox(
+                height: 10,
+              ),
+              chatRoomPageButton,
             ],
           ),
         ),
@@ -185,6 +206,11 @@ class _ExpireeHomeState extends State<ExpireeHome> {
   void moveToSettings() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => SettingsPage()));
+  }
+
+  void moveToChats() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ChatRoom()));
   }
 
   Future<Null> _selectExpiryDate(BuildContext context) async {

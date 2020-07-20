@@ -23,7 +23,7 @@ class _AddNoteState extends State<AddNote> {
         ? FloatingActionButton(
             child: Icon(Icons.add),
             mini: true,
-            backgroundColor: Colors.lightBlue,
+            backgroundColor: Colors.green,
             onPressed: () {
               var bottomSheetController = showBottomSheet(
                   context: context, builder: (context) => BottomSheetWidget());
@@ -205,7 +205,7 @@ class _ColorPickerState extends State<ColorPicker> {
   // Use temp variable to only update color when press dialog 'submit' button
   ColorSwatch _tempMainColor;
 
-  ColorSwatch _mainColor = Colors.blue;
+  ColorSwatch _mainColor = Colors.brown;
 
   void _openDialog(String title, Widget content) {
     showDialog(

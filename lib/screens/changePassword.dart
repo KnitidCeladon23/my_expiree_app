@@ -1,204 +1,102 @@
-import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
-//import 'expireeWelcome.dart';
 import 'package:provider/provider.dart';
 import "package:expiree_app/states/currentUser.dart";
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ChangePassword extends StatefulWidget {
+  ChangePassword({Key key, this.title}) : super(key: key);
+//hi
+  final String title;
+
   @override
   _ChangePasswordState createState() => _ChangePasswordState();
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
-  //final _formKey = GlobalKey<FormState>();
-  //String _email, _password;
-  final _passKey = GlobalKey<FormFieldState>();
+  TextEditingController _emailController = TextEditingController();
   TextStyle style = GoogleFonts.chelseaMarket(
-    fontSize: 20,
-  );
-
-  //TextEditingController _fullNameController = TextEditingController();
-  TextEditingController _oldPWController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _confirmPasswordController = TextEditingController();
-
-  void _signUpUser(String email, String password, String username, BuildContext context) async {
-    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
-
-    try {
-      String _returnString = await _currentUser.signUpUser(email, password, username);
-      if (_returnString == "success") {
-        Navigator.pop(context);
-      } else {
-        Scaffold.of(context).showSnackBar(
-          SnackBar(
-            content: Text(_returnString),
-            duration: Duration(seconds: 2),
-          ),
-        );
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
+    fontSize: 20,);
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
-    final newPasswordField = TextFormField(
-      controller: _passwordController,
-      key: _passKey,
-      obscureText: true,
-      //controller: TextEditingController(),
+
+    final emailField = TextFormField(
+      controller: _emailController,
+      obscureText: false,
       style: GoogleFonts.roboto(
         fontSize: 17,
         color: Colors.black,
       ),
+      validator: (input) {
+        if (input.isEmpty) {
+          return 'Please key in your email';
+        }
+        return null;
+      },
       decoration: InputDecoration(
           fillColor: Colors.white,
           filled: true,
           contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-          hintText: 'Type in a new password',
+          hintText: "Email",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(15.0))),
-      validator: (input) {
-        if (input.isEmpty) {
-          return "Please provide a new password";
-        } else if (input.length < 6) {
-          return 'Password should be at least 6 characters long';
-        }
-        return null;
-      },
-      //onSaved: (input) => _password = input,
+      //onSaved: (input) => _email = input,
     );
 
-    final confirmPasswordField = TextFormField(
-      controller: _confirmPasswordController,
-      obscureText: true,
-      style: GoogleFonts.roboto(
-        fontSize: 17,
-        color: Colors.black,
-      ),
-      decoration: InputDecoration(
-          fillColor: Colors.white,
-          filled: true,
-          contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-          hintText: 'Confirm your new password',
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(15.0))),
-      validator: (input) {
-        if (input.isEmpty) {
-          return "Please confirm your password";
-        }
-        if (input != _passKey.currentState.value) {
-          return 'Password does not match';
-        }
-        return null;
-      },
-    );
-
-    final changePasswordButton = Material(
+    final submitButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: Colors.brown,
+      color: Colors.white,
       child: MaterialButton(
-        minWidth: 90,
+        minWidth: 170,
         padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
         onPressed: () async {
-          if ((_passwordController.text == _confirmPasswordController.text)) {
-            await FirebaseAuthPlatform.instance
-                .updatePassword('Expiree Login', _passwordController.text);
-          } else {
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Passwords do not match"),
-                duration: Duration(seconds: 2),
-              ),
-            );
-          }
-        },
-        child: Text(
-          'Create Account',
-          textAlign: TextAlign.center,
-          style: GoogleFonts.permanentMarker(fontSize: 22, color: Colors.white),
-        ),
-      ),
-    );
-
-    final cancelButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.red[900],
-      child: MaterialButton(
-        minWidth: 90,
-        //MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        child: Text('Cancel and Go Back',
+                await _firebaseAuth.sendPasswordResetEmail(email: _emailController.text);
+                Navigator.pop(context);
+            },
+        child: Text("Submit",
             textAlign: TextAlign.center,
-            style:
-                GoogleFonts.permanentMarker(fontSize: 22, color: Colors.white)),
+            style: GoogleFonts.permanentMarker(
+              fontSize: 20,
+              color: Colors.black),
+                //color: Colors.white, fontWeight: FontWeight.bold)
+                ),
       ),
     );
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create a new account'),
+        title: Text(
+          'Change Password',
+          style: TextStyle(fontSize: 30.0, wordSpacing: 5.0),
+        ),
       ),
       body: SingleChildScrollView(
-        child: Form(
-          //key: _formKey,
-          child: Container(
+        child: Container(
             color: Colors.white,
             child: Padding(
-              padding: const EdgeInsets.all(36.0),
+              padding: EdgeInsets.all(36.0),
               child: Column(
                 //infinite height
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'New Password',
+                    'Please key in an Email address to receive a link',
                     style: GoogleFonts.kalam(fontSize: 20, color: Colors.black),
-                    textAlign: TextAlign.start,
+                    textAlign: TextAlign.center,
                   ),
-                  newPasswordField,
                   SizedBox(height: 20.0),
-                  Text(
-                    'Confirm your new password',
-                    style: GoogleFonts.kalam(fontSize: 20, color: Colors.black),
-                    textAlign: TextAlign.start,
-                  ),
-                  confirmPasswordField,
+                  emailField,
                   SizedBox(height: 20.0),
-                  changePasswordButton,
-                  SizedBox(height: 20.0),
-                  cancelButton,
+                  submitButton,
                 ],
               ),
             ),
           ),
-        ),
       ),
     );
   }
-
-  /*Future<void> signUp() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-      try {
-        FirebaseUser user = (await FirebaseAuth.instance
-                .createUserWithEmailAndPassword(
-                    email: _email, password: _password))
-            .user;
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ExpireeWelcome()));
-      } catch (e) {
-        print(e.message);
-      }
-    }
-  }*/
 }

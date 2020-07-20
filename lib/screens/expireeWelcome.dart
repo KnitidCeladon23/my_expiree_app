@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:expiree_app/screens/rootPage.dart';
 import 'package:expiree_app/screens/createAccount.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import "package:expiree_app/states/currentUser.dart";
+import 'package:expiree_app/screens/changePassword.dart';
 
 enum LoginType {
   email,
@@ -46,11 +46,6 @@ class _ExpireeWelcomeState extends State<ExpireeWelcome> {
         case LoginType.email:
           _returnString = await _currentUser.loginUserWithEmail(email, password);
           break;
-        // case LoginType.google:
-        //   print(' Current user : ${_currentUser}');
-        //   _returnString = await _currentUser.loginUserWithGoogle();
-        //   break;
-        // default:
       }
 
       if (_returnString == "success") {
@@ -131,6 +126,30 @@ class _ExpireeWelcomeState extends State<ExpireeWelcome> {
       //onSaved: (input) => _password = input,
     );
 
+    final forgotPasswordButton = Material(
+      elevation: 0.0,
+      borderRadius: BorderRadius.circular(30.0),
+      color: Colors.white,
+      child: MaterialButton(
+        minWidth: 170,
+        padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChangePassword(), fullscreenDialog: true),
+          );
+            },
+        child: Text("Forgot password?",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.roboto(
+              fontSize: 15,
+              color: Colors.black,
+              decoration: TextDecoration.underline,),
+                ),
+      ),
+    );
+
     final loginButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
@@ -180,43 +199,6 @@ class _ExpireeWelcomeState extends State<ExpireeWelcome> {
       ),
     );
 
-  //not implemented properly yet, can be used as an extension
-  //   Widget googleButton() {
-  //   return OutlineButton(
-  //     splashColor: Colors.grey,
-  //     onPressed: () {
-  //       _loginUser(type: LoginType.google, context: context);
-  //       Navigator.push(
-  //           context,
-  //           MaterialPageRoute(
-  //               builder: (context) => CreateAccount(), fullscreenDialog: true),
-  //         );
-  //     },
-  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-  //     highlightElevation: 0,
-  //     borderSide: BorderSide(color: Colors.grey),
-  //     child: Padding(
-  //       padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-  //       child: Row(
-  //         mainAxisSize: MainAxisSize.min,
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         children: <Widget>[
-  //           Image(image: AssetImage("assets/images/google_logo.png"), height: 25.0),
-  //           Padding(
-  //             padding: const EdgeInsets.only(left: 10),
-  //             child: Text(
-  //               'Sign in with Google',
-  //               style: TextStyle(
-  //                 fontSize: 20,
-  //                 color: Colors.grey,
-  //               ),
-  //             ),
-  //           )
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 
     return Scaffold(
       appBar: AppBar(
@@ -242,6 +224,7 @@ class _ExpireeWelcomeState extends State<ExpireeWelcome> {
                   emailField,
                   SizedBox(height: 20.0),
                   passwordField,
+                  forgotPasswordButton,
                   SizedBox(height: 20.0),
                   loginButton,
                   SizedBox(height: 20.0),
@@ -256,19 +239,4 @@ class _ExpireeWelcomeState extends State<ExpireeWelcome> {
       ),
     );
   }
-
-/*Future<void> logIn() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-      try {
-        FirebaseUser user = (await FirebaseAuth.instance
-                .signInWithEmailAndPassword(email: _email, password: _password))
-            .user;
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ExpireeHome()));
-      } catch (e) {
-        print(e.message);
-      }
-    }
-  }*/
 }
