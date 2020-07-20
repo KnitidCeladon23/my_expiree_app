@@ -48,7 +48,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     final submitButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: Colors.white,
+      color: Colors.brown,
       child: MaterialButton(
         minWidth: 170,
         padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
@@ -84,7 +84,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'Please key in an Email address to receive a link',
+                    'Please key in your Email address to receive a link to change your password',
                     style: GoogleFonts.kalam(fontSize: 20, color: Colors.black),
                     textAlign: TextAlign.center,
                   ),
