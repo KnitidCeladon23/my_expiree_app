@@ -1,4 +1,6 @@
+import 'package:expiree_app/screens/imagePickerPage.dart';
 import 'package:expiree_app/states/currentUser.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:expiree_app/calendar/model/event.dart';
 import 'package:expiree_app/calendar/res/event_firestore_service.dart';
 import 'package:expiree_app/screens/urlLauncher.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
 
 class InventoryListFirebase extends StatefulWidget {
   final EventModel note;
@@ -23,7 +26,14 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
   DateTime _entryDateTime;
   DateTime _expiryDateTime;
   String newItem;
+  String itemID;
   final databaseReference = Firestore.instance;
+  // final storage = FirebaseStorage.instance;
+  final FirebaseStorage _storage =
+      FirebaseStorage(storageBucket: 'gs://expiree-login-51433.appspot.com/');
+
+  StorageUploadTask _uploadTask;
+
   String deleteExpiryDateTime;
   String deleteItem;
   TextEditingController _description;
@@ -33,14 +43,15 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
     super.initState();
     _description = TextEditingController(
         text: widget.note != null ? widget.note.description : "");
+    itemID = null;
   }
 
   void moveToURL(String foodItem) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                URLLauncher(title: "Recipe for " + foodItem, foodItem: foodItem)));
+            builder: (context) => URLLauncher(
+                title: "Recipe for " + foodItem, foodItem: foodItem)));
   }
 
   Widget findRecipeButton(String foodItem) {
@@ -84,7 +95,9 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                       ),
                     ),
                     findRecipeButton(document['item']),
-                    SizedBox(width: 10,),
+                    SizedBox(
+                      width: 10,
+                    ),
                     ButtonTheme(
                         buttonColor: Colors.brown[400],
                         materialTapTargetSize: MaterialTapTargetSize
@@ -155,9 +168,8 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
       });
   }
 
-
-
-  void addToList(String item, String expiryDateTime, String description) async {
+  void addToList(String item, String expiryDateTime, String description,
+      String foodID) async {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String _uid = _currentUser.getUid;
     await databaseReference
@@ -168,7 +180,10 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
       'item': item,
       'expiryDateTime': expiryDateTime,
       'description': description,
-      'id': null,
+      'id': foodID,
+    });
+    setState(() {
+      itemID = foodID;
     });
   }
 
@@ -211,6 +226,18 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                 actions: <Widget>[
                   FlatButton(
                       onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ImagePickerPage(
+                                    userID: widget.note.id, itemID: itemID)));
+                        setState(() {
+                          itemID = null;
+                        });
+                      },
+                      child: Text("Picture")),
+                  FlatButton(
+                      onPressed: () {
                         _selectExpiryDate(context);
                       },
                       child: Text("Enter expiry date")),
@@ -218,16 +245,16 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                       onPressed: () async {
                         if (newItem != null && _expiryDateTime != null) {
                           addToList(newItem, _expiryDateTime.toString(),
-                              _description.text);
+                              _description.text, DateTime.now().toString());
                         }
                         if (widget.note != null) {
-                           await eventDBS.updateData(widget.note.id, _uid, {
+                          await eventDBS.updateData(widget.note.id, _uid, {
                             "item": newItem,
                             "description": _description.text,
-                            "expiryDateTime": _expiryDateTime
+                            "expiryDateTime": _expiryDateTime,
                           });
-                        } else  {
-                           await eventDBS.createItem(
+                        } else {
+                          await eventDBS.createItem(
                               _uid,
                               EventModel(
                                   item: newItem,

@@ -7,6 +7,9 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickerPage extends StatefulWidget {
+  final String userID;
+  final String itemID;
+  ImagePickerPage({Key key, this.userID, this.itemID}) : super(key: key);
   @override
   _ImagePickerPageState createState() => _ImagePickerPageState();
 }
@@ -82,7 +85,8 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
                 ),
               ],
             ),
-            FirebaseStoragePage(file: _imageFile)
+            FirebaseStoragePage(
+                file: _imageFile, userID: widget.userID, itemID: widget.itemID)
           ]
         ],
       ),

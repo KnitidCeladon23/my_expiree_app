@@ -7,7 +7,10 @@ import 'package:image_picker/image_picker.dart';
 
 class FirebaseStoragePage extends StatefulWidget {
   final File file;
-  FirebaseStoragePage({Key key, this.file}) : super(key: key);
+  final String userID;
+  final String itemID;
+  FirebaseStoragePage({Key key, this.file, this.userID, this.itemID})
+      : super(key: key);
   @override
   _FirebaseStoragePageState createState() => _FirebaseStoragePageState();
 }
@@ -21,7 +24,7 @@ class _FirebaseStoragePageState extends State<FirebaseStoragePage> {
   /// Starts an upload task
   void _startUpload() {
     /// Unique file name for the file
-    String filePath = 'images/${DateTime.now()}.png';
+    String filePath = 'images/${widget.userID}/${widget.itemID}.png';
 
     setState(() {
       _uploadTask = _storage.ref().child(filePath).putFile(widget.file);
