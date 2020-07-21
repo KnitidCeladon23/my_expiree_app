@@ -1,4 +1,4 @@
-import 'package:expiree_app/screens/imagePicker.dart';
+import 'package:expiree_app/screens/imagePickerPage.dart';
 import 'package:expiree_app/screens/rootPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,7 +34,7 @@ class _ExpireeHomeState extends State<ExpireeHome> {
       child: RaisedButton(
         color: Colors.lightBlue[300],
         padding: EdgeInsets.fromLTRB(20, 20.0, 20, 20.0),
-        onPressed: moveToPicker,
+        onPressed: moveToCalendar,
         child: Text("Calendar",
             textAlign: TextAlign.center,
             style: GoogleFonts.kalam(
@@ -174,10 +174,5 @@ class _ExpireeHomeState extends State<ExpireeHome> {
   void moveToCalendar() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => Calendar()));
-  }
-
-  void moveToPicker() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ImagePickerPage()));
   }
 }
