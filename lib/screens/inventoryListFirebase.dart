@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:expiree_app/screens/imagePickerPage.dart';
 import 'package:expiree_app/states/currentUser.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -69,7 +71,27 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
   List<Widget> makeListWidget(AsyncSnapshot snapshot) {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String _uid = _currentUser.getUid;
+    StorageReference photosReference = _storage.ref().child(_uid);
+    Uint8List imageFile;
+    getImage() {}
+
     return snapshot.data.documents.map<Widget>((document) {
+      Widget avatar(String foodID) {
+        int maxSize = 7 * 1024 * 1024;
+        photosReference.child(foodID + ".png").getData(maxSize).then((data) {
+          imageFile = data;
+        }).catchError((error) {
+          print(error);
+          print(foodID);
+        });
+
+        if (imageFile == null) {
+          return Text(document['item'][0]);
+        } else {
+          return Image.memory(imageFile);
+        }
+      }
+
       return Card(
         child: Container(
           padding: EdgeInsets.all(8.0),
@@ -83,7 +105,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           CircleAvatar(
-                            child: Text(document['item'][0]),
+                            child: avatar(document['id']),
                           ),
                           Padding(padding: EdgeInsets.only(right: 10.0)),
                           Text(
