@@ -57,7 +57,8 @@ class _PostPageState extends State<PostPage> {
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final note = Note.fromSnapshot(data);
-    final firebaseUser = FirebaseAuth.instance.currentUser();
+    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
+    String _username = _currentUser.getUsername;
     return Padding(
       key: ValueKey(note.message),
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -78,7 +79,8 @@ class _PostPageState extends State<PostPage> {
         child: ListTile(
           title: Row( 
             children: 
-            <Widget> [Text("input username: ", style: TextStyle(fontSize:15)),
+            <Widget> [Text(_username, style: TextStyle(fontSize:15)),
+            Text(": ", style: TextStyle(fontSize:15)),
             Text(note.title, style: TextStyle(fontSize:15))
           ]),
           subtitle: Text(note.message, style:TextStyle(fontSize:15)),

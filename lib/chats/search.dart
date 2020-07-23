@@ -102,7 +102,7 @@ class _SearchState extends State<Search> {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 12,vertical: 8),
               decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Colors.brown,
                   borderRadius: BorderRadius.circular(24)
               ),
               child: Text("Message",

@@ -1,14 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-//import 'package:google_sign_in/google_sign_in.dart';
 
 class CurrentUser extends ChangeNotifier {
   String _uid;
   String _email;
+  String _username;
 
   String get getUid => _uid;
 
   String get getEmail => _email;
+
+  String get getUsername => _username;
 
   FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -19,6 +21,7 @@ class CurrentUser extends ChangeNotifier {
       FirebaseUser _firebaseUser = await _auth.currentUser();
       _uid = _firebaseUser.uid;
       _email = _firebaseUser.email;
+      _username = _firebaseUser.displayName;
       retVal = "success";
     } catch (e) {
       print(e);
