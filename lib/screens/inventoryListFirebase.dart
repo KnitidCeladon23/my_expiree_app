@@ -451,10 +451,17 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                                 EventModel(
                                     item: newItem,
                                     description: descriptionInfo,
-                                    expiryDateTime: _expiryDateTime));
+                                    expiryDateTime: _expiryDateTime,
+                                    id: foodID.toString()));
                           }
                         }
-                        Navigator.of(context).pop();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ImagePickerPage(
+                                    pageRef: 3,
+                                    userID: _uid,
+                                    itemID: foodID.toString())));
                       },
                       child: Text("Confirm new item")),
                 ],

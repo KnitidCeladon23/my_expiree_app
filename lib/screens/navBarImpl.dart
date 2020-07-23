@@ -16,6 +16,8 @@ class NavBarImpl extends StatefulWidget {
 }
 
 class _NavBarImplState extends State<NavBarImpl> {
+  int _selectedPage = 0;
+
   @override
   void initState() {
     super.initState();
@@ -24,9 +26,9 @@ class _NavBarImplState extends State<NavBarImpl> {
       final appBloc = Provider.of<AppBloc>(context, listen: false);
       await appBloc.init();
     });
+    _selectedPage = widget.refPage != null ? widget.refPage : 0;
   }
 
-  int _selectedPage = 0;
   final _pageOptions = [
     ExpireeHome(),
     Calendar(),
@@ -37,7 +39,6 @@ class _NavBarImplState extends State<NavBarImpl> {
 
   @override
   Widget build(BuildContext context) {
-    _selectedPage = widget.refPage != null ? widget.refPage : 0;
     return MaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.green,
