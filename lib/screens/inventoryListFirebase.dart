@@ -237,6 +237,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     ImagePickerPage(
+                                                        pageRef: 3,
                                                         userID: _uid,
                                                         itemID: foodID
                                                             .toString())));

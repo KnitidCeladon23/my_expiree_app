@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:expiree_app/screens/navBarImpl.dart';
+import 'package:expiree_app/screens/rootPage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
@@ -9,7 +11,9 @@ class FirebaseStoragePage extends StatefulWidget {
   final File file;
   final String userID;
   final String itemID;
-  FirebaseStoragePage({Key key, this.file, this.userID, this.itemID})
+  final int pageRef;
+  FirebaseStoragePage(
+      {Key key, this.file, this.userID, this.itemID, this.pageRef})
       : super(key: key);
   @override
   _FirebaseStoragePageState createState() => _FirebaseStoragePageState();
@@ -49,7 +53,11 @@ class _FirebaseStoragePageState extends State<FirebaseStoragePage> {
                 if (_uploadTask.isComplete)
                   RaisedButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    NavBarImpl(refPage: widget.pageRef)));
                       },
                       child: Text("Return")),
 
