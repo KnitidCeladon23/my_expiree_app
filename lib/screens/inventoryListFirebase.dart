@@ -436,12 +436,14 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                         // }
                         // print(newItem);
                         // print(_expiryDateTime);
+                        DateTime foodID = DateTime.now();
                         if (newItem != null && _expiryDateTime != null) {
                           if (widget.note != null) {
                             await eventDBS.updateData(widget.note.id, _uid, {
                               "item": newItem,
                               "description": descriptionInfo,
-                              "expiryDateTime": _expiryDateTime
+                              "expiryDateTime": _expiryDateTime,
+                              "id": foodID.toString()
                             });
                           } else {
                             await eventDBS.createItem(
