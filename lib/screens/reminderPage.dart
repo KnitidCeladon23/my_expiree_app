@@ -12,7 +12,6 @@ class ReminderPage extends StatefulWidget {
 class _ReminderPageState extends State<ReminderPage> {
   final databaseReference = Firestore.instance;
 
-
   List<Widget> makeListWidget(AsyncSnapshot snapshot) {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String _uid = _currentUser.getUid;
@@ -20,18 +19,24 @@ class _ReminderPageState extends State<ReminderPage> {
     return snapshot.data.documents.map<Widget>((document) {
       return Card(
         color: Colors.brown[400],
-        shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(27.0)),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(27.0)),
         child: Container(
           padding: EdgeInsets.all(8.0),
           child: Row(
             children: <Widget>[
-              SizedBox(width: 10,),
+              SizedBox(
+                width: 10,
+              ),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(document['title'][0].toUpperCase() +
-                            (document['title'] + ':').substring(1,),
+                    Text(
+                        document['title'][0].toUpperCase() +
+                            (document['title'] + ':').substring(
+                              1,
+                            ),
                         style: GoogleFonts.anton(fontSize: 25)),
                     Padding(padding: EdgeInsets.only(right: 10.0)),
                     Text(
@@ -40,13 +45,15 @@ class _ReminderPageState extends State<ReminderPage> {
                     ),
                     Padding(padding: EdgeInsets.only(right: 10.0)),
                     Text(
-                      document['dateTimeStr'].substring(0,16),
+                      document['dateTimeStr'].substring(0, 16),
                       style: TextStyle(fontSize: 15.0),
                     ),
                   ],
                 ),
               ),
-              SizedBox(width: 20,),
+              SizedBox(
+                width: 20,
+              ),
               ButtonTheme(
                   buttonColor: Colors.grey[300],
                   materialTapTargetSize: MaterialTapTargetSize
