@@ -1,8 +1,4 @@
-import 'dart:typed_data';
-
-import 'package:expiree_app/screens/imagePickerPage.dart';
 import 'package:expiree_app/states/currentUser.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:expiree_app/calendar/model/event.dart';
 import 'package:expiree_app/calendar/res/event_firestore_service.dart';
 import 'package:expiree_app/screens/urlLauncher.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
 
 class InventoryListFirebase extends StatefulWidget {
   final EventModel note;
@@ -28,24 +23,20 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
   DateTime _entryDateTime;
   DateTime _expiryDateTime;
   String newItem;
-  String itemID;
   final databaseReference = Firestore.instance;
-  // final storage = FirebaseStorage.instance;
-  final FirebaseStorage _storage =
-      FirebaseStorage(storageBucket: 'gs://expiree-login-51433.appspot.com/');
-
-  StorageUploadTask _uploadTask;
-
   String deleteExpiryDateTime;
   String deleteItem;
   TextEditingController _description;
+  String showExpiryDateTime;
+
+  String descriptionInfo;
+  //TextEditingController _itemController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _description = TextEditingController(
         text: widget.note != null ? widget.note.description : "");
-    itemID = null;
   }
 
   void moveToURL(String foodItem) {
@@ -57,13 +48,14 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
   }
 
   Widget findRecipeButton(String foodItem) {
-    return SizedBox(
-      width: 50,
-      child: RaisedButton(
-        onPressed: () {
-          moveToURL(foodItem);
-        },
-        child: Text('R'),
+    return RaisedButton(
+      color: Colors.brown[400],
+      padding: EdgeInsets.all(8.0),
+      onPressed: () => moveToURL(foodItem),
+      child: Text(
+        'Recipes',
+        style: TextStyle(
+            fontSize: 15.0, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
   }
@@ -71,97 +63,251 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
   List<Widget> makeListWidget(AsyncSnapshot snapshot) {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String _uid = _currentUser.getUid;
-    StorageReference photosReference = _storage.ref().child(_uid);
-    Uint8List imageFile;
-
     return snapshot.data.documents.map<Widget>((document) {
-      Widget avatar(String foodID) {
-        int maxSize = 7 * 1024 * 1024;
-        photosReference.child(foodID + ".png").getData(maxSize).then((data) {
-          imageFile = data;
-        }).catchError((error) {
-          print(error);
-          print(foodID);
-        });
-        if (imageFile == null) {
-          Text(document['item'][0]);
-        } else {
-          Image.memory(imageFile);
-        }
-      }
-
       return Card(
+        color: Colors.grey[200],
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(27.0)),
         child: Container(
           padding: EdgeInsets.all(8.0),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
+                  Widget>[
+            Row(
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          CircleAvatar(
-                            child: avatar(document['id']),
-                          ),
-                          Padding(padding: EdgeInsets.only(right: 10.0)),
-                          Text(
-                            document['item'],
-                            style: TextStyle(fontSize: 20.0),
-                          ),
-                          Padding(padding: EdgeInsets.only(right: 10.0)),
-                        ],
+                Expanded(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      CircleAvatar(
+                        child: Text(document['item'][0].toUpperCase()),
                       ),
+                      Padding(padding: EdgeInsets.only(right: 10.0)),
+                      Text(
+                        // document['item'][0].toUpperCase() +
+                        //     (document['item'] + ':').substring(
+                        //       1,
+                        //     ),
+                        document['item']
+                            .split(' ')
+                            .map((word) =>
+                                word[0].toUpperCase() + word.substring(1))
+                            .join(' '),
+                        style: GoogleFonts.anton(fontSize: 23),
+                      ),
+                      // Padding(padding: EdgeInsets.only(right: 10.0)),
+                      // Text(
+                      //   document['description'],
+                      //   style: GoogleFonts.roboto(fontSize: 20),
+                      // ),
+                    ],
+                  ),
+                ),
+                // findRecipeButton(document['item']),
+                SizedBox(width: 5),
+                ButtonTheme(
+                    buttonColor: Colors.grey[300],
+                    materialTapTargetSize: MaterialTapTargetSize
+                        .shrinkWrap, //limits the touch area to the button area
+                    minWidth: 0, //wraps child's width
+                    height: 0, //wraps child's height
+                    child: RaisedButton(
+                      padding: EdgeInsets.all(8.0),
+                      onPressed: () {
+                        String foodItem = document['item'];
+                        String foodDescription = document['description'];
+                        DateTime originalExpiryDateTime =
+                            document['expiryDateTime'].toDate();
+                        // try {
+                        //   databaseReference
+                        //       .collection('inventoryLists')
+                        //       .document(_uid)
+                        //       .collection("indivInventory")
+                        //       .document(document.documentID)
+                        //       .delete();
+                        // } catch (e) {
+                        //   print(e.toString());
+                        // }
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Add Item"),
+                                content: SingleChildScrollView(
+                                  child: ListBody(
+                                    children: <Widget>[
+                                      TextFormField(
+                                        style: style,
+                                        initialValue: foodItem,
+                                        onChanged: (String input) {
+                                          newItem = input;
+                                        },
+                                        decoration: InputDecoration(
+                                            labelText: "Item Name",
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10))),
+                                      ),
+                                      // TextFormField(
+                                      //   controller: _description,
+                                      //   minLines: 3,
+                                      //   maxLines: 5,
+                                      //   validator: (value) =>
+                                      //       (value.isEmpty) ? "Please enter description" : null,
+                                      //   style: style,
+                                      //   decoration: InputDecoration(
+                                      //       labelText: "Description",
+                                      //       border: OutlineInputBorder(
+                                      //           borderRadius: BorderRadius.circular(10))),
+                                      // ),
+                                      SizedBox(height: 15),
+                                      TextFormField(
+                                        initialValue: foodDescription,
+                                        // controller: _description,
+                                        minLines: 3,
+                                        maxLines: 5,
+                                        // validator: (value) =>
+                                        //     (value.isEmpty) ? "Please enter description" : null,
+                                        // style: style,
+                                        onChanged: (String input) {
+                                          descriptionInfo = input;
+                                        },
+                                        decoration: InputDecoration(
+                                            labelText: "Description",
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10))),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                actions: <Widget>[
+                                  FlatButton(
+                                      onPressed: () {
+                                        _selectExpiryDate(context,
+                                            initialDate:
+                                                originalExpiryDateTime);
+                                      },
+                                      child: Text("Enter expiry date")),
+                                  RaisedButton(
+                                      onPressed: () async {
+                                        // if (newItem != null && _expiryDateTime != null) {
+                                        //   addToList(newItem, _expiryDateTime.toString(),
+                                        //       _description.text);
+                                        // }
+                                        // print(newItem);
+                                        // print(_expiryDateTime);
+                                        try {
+                                          databaseReference
+                                              .collection('inventoryLists')
+                                              .document(_uid)
+                                              .collection("indivInventory")
+                                              .document(document.documentID)
+                                              .delete();
+                                        } catch (e) {
+                                          print(e.toString());
+                                        }
+                                        if (newItem != null &&
+                                            _expiryDateTime != null) {
+                                          if (widget.note != null) {
+                                            await eventDBS.updateData(
+                                                widget.note.id, _uid, {
+                                              "item": newItem,
+                                              "description": descriptionInfo,
+                                              "expiryDateTime": _expiryDateTime
+                                            });
+                                          } else {
+                                            await eventDBS.createItem(
+                                                _uid,
+                                                EventModel(
+                                                    item: newItem,
+                                                    description:
+                                                        descriptionInfo,
+                                                    expiryDateTime:
+                                                        _expiryDateTime));
+                                          }
+                                        }
+
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text("Confirm new item")),
+                                ],
+                              );
+                            });
+                      },
+                      child: Icon(
+                        IconData(58313, fontFamily: 'MaterialIcons'),
+                        size: 30,
+                      ),
+                    )),
+                SizedBox(width: 15),
+                ButtonTheme(
+                    buttonColor: Colors.grey[300],
+                    materialTapTargetSize: MaterialTapTargetSize
+                        .shrinkWrap, //limits the touch area to the button area
+                    minWidth: 0, //wraps child's width
+                    height: 0, //wraps child's height
+                    child: RaisedButton(
+                      padding: EdgeInsets.all(8.0),
+                      onPressed: () {
+                        try {
+                          databaseReference
+                              .collection('inventoryLists')
+                              .document(_uid)
+                              .collection("indivInventory")
+                              .document(document.documentID)
+                              .delete();
+                        } catch (e) {
+                          print(e.toString());
+                        }
+                      },
+                      child: Icon(
+                        IconData(59506, fontFamily: 'MaterialIcons'),
+                        size: 30,
+                      ),
+                    )),
+              ],
+            ),
+            SizedBox(height: 10),
+            Text(document['description'] == ""
+                ? "<no description>"
+                : "Info: " + document['description']),
+            SizedBox(height: 10),
+            Container(
+              child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      document['expiryDateTime']
+                          .toDate()
+                          .toString()
+                          .substring(0, 10),
+                      style: TextStyle(fontSize: 15.0),
                     ),
-                    findRecipeButton(document['item']),
                     SizedBox(
                       width: 10,
                     ),
-                    ButtonTheme(
-                        buttonColor: Colors.brown[400],
-                        materialTapTargetSize: MaterialTapTargetSize
-                            .shrinkWrap, //limits the touch area to the button area
-                        minWidth: 0, //wraps child's width
-                        height: 0, //wraps child's height
-                        child: RaisedButton(
-                            padding: EdgeInsets.all(8.0),
-                            onPressed: navigateToNotificationCreation,
-                            child: Text('Remind me!'))),
-                    SizedBox(width: 15),
-                    ButtonTheme(
-                        buttonColor: Colors.grey[300],
-                        materialTapTargetSize: MaterialTapTargetSize
-                            .shrinkWrap, //limits the touch area to the button area
-                        minWidth: 0, //wraps child's width
-                        height: 0, //wraps child's height
-                        child: RaisedButton(
-                          padding: EdgeInsets.all(8.0),
-                          onPressed: () {
-                            try {
-                              databaseReference
-                                  .collection('inventorylists')
-                                  .document(_uid)
-                                  .collection("indivInventory")
-                                  .document(document.documentID)
-                                  .delete();
-                            } catch (e) {
-                              print(e.toString());
-                            }
-                          },
-                          child: Icon(
-                            IconData(59506, fontFamily: 'MaterialIcons'),
-                            size: 30,
-                          ),
-                        ))
-                  ],
-                ),
-                SizedBox(height: 10),
-                Text(
-                  document['expiryDateTime'].substring(0, 10),
-                  style: TextStyle(fontSize: 10.0),
-                ),
-              ]),
+                    RaisedButton(
+                      color: Colors.grey[700],
+                      padding: EdgeInsets.all(8.0),
+                      onPressed: navigateToNotificationCreation,
+                      child: Text(
+                        'Remind me!',
+                        style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    findRecipeButton(document['item']),
+                  ]),
+            ),
+          ]),
         ),
       );
     }).toList();
@@ -175,10 +321,11 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
     );
   }
 
-  Future<Null> _selectExpiryDate(BuildContext context) async {
+  Future<Null> _selectExpiryDate(BuildContext context,
+      {DateTime initialDate}) async {
     final DateTime pickedDate = await showDatePicker(
         context: context,
-        initialDate: DateTime.now(),
+        initialDate: (initialDate == null ? DateTime.now() : initialDate),
         firstDate: DateTime.now(),
         lastDate: DateTime(2101));
     if (pickedDate != null && pickedDate != _expiryDateTime)
@@ -188,22 +335,18 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
       });
   }
 
-  void addToList(String item, String expiryDateTime, String description,
-      String foodID) async {
+  void addToList(String item, String expiryDateTime, String description) async {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String _uid = _currentUser.getUid;
     await databaseReference
-        .collection("inventorylists")
+        .collection("inventoryLists")
         .document(_uid)
         .collection("indivInventory")
         .add({
       'item': item,
       'expiryDateTime': expiryDateTime,
       'description': description,
-      'id': foodID,
-    });
-    setState(() {
-      itemID = foodID;
+      'id': null,
     });
   }
 
@@ -215,6 +358,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
       backgroundColor: Colors.green,
       onPressed: () {
         newItem = null;
+        descriptionInfo = null;
         _expiryDateTime = null;
         showDialog(
             context: context,
@@ -224,17 +368,40 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                 content: SingleChildScrollView(
                   child: ListBody(
                     children: <Widget>[
-                      TextField(onChanged: (String input) {
-                        newItem = input;
-                      }),
+                      TextField(
+                        style: style,
+                        onChanged: (String input) {
+                          newItem = input;
+                        },
+                        decoration: InputDecoration(
+                            labelText: "Item Name",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                      ),
+                      // TextFormField(
+                      //   controller: _description,
+                      //   minLines: 3,
+                      //   maxLines: 5,
+                      //   validator: (value) =>
+                      //       (value.isEmpty) ? "Please enter description" : null,
+                      //   style: style,
+                      //   decoration: InputDecoration(
+                      //       labelText: "Description",
+                      //       border: OutlineInputBorder(
+                      //           borderRadius: BorderRadius.circular(10))),
+                      // ),
                       SizedBox(height: 15),
-                      TextFormField(
-                        controller: _description,
+                      TextField(
+                        // initialValue: "",
+                        // controller: _description,
                         minLines: 3,
                         maxLines: 5,
-                        validator: (value) =>
-                            (value.isEmpty) ? "Please enter description" : null,
-                        style: style,
+                        // validator: (value) =>
+                        //     (value.isEmpty) ? "Please enter description" : null,
+                        // style: style,
+                        onChanged: (String input) {
+                          descriptionInfo = input;
+                        },
                         decoration: InputDecoration(
                             labelText: "Description",
                             border: OutlineInputBorder(
@@ -246,40 +413,32 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                 actions: <Widget>[
                   FlatButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ImagePickerPage(
-                                    userID: widget.note.id, itemID: itemID)));
-                        setState(() {
-                          itemID = null;
-                        });
-                      },
-                      child: Text("Picture")),
-                  FlatButton(
-                      onPressed: () {
                         _selectExpiryDate(context);
                       },
                       child: Text("Enter expiry date")),
                   RaisedButton(
                       onPressed: () async {
+                        // if (newItem != null && _expiryDateTime != null) {
+                        //   addToList(newItem, _expiryDateTime.toString(),
+                        //       _description.text);
+                        // }
+                        // print(newItem);
+                        // print(_expiryDateTime);
                         if (newItem != null && _expiryDateTime != null) {
-                          addToList(newItem, _expiryDateTime.toString(),
-                              _description.text, DateTime.now().toString());
-                        }
-                        if (widget.note != null) {
-                          await eventDBS.updateData(widget.note.id, _uid, {
-                            "item": newItem,
-                            "description": _description.text,
-                            "expiryDateTime": _expiryDateTime,
-                          });
-                        } else {
-                          await eventDBS.createItem(
-                              _uid,
-                              EventModel(
-                                  item: newItem,
-                                  description: _description.text,
-                                  expiryDateTime: _expiryDateTime));
+                          if (widget.note != null) {
+                            await eventDBS.updateData(widget.note.id, _uid, {
+                              "item": newItem,
+                              "description": descriptionInfo,
+                              "expiryDateTime": _expiryDateTime
+                            });
+                          } else {
+                            await eventDBS.createItem(
+                                _uid,
+                                EventModel(
+                                    item: newItem,
+                                    description: descriptionInfo,
+                                    expiryDateTime: _expiryDateTime));
+                          }
                         }
                         Navigator.of(context).pop();
                       },
@@ -300,7 +459,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
       body: Container(
           child: StreamBuilder(
               stream: databaseReference
-                  .collection('inventorylists')
+                  .collection('inventoryLists')
                   .document(_uid)
                   .collection("indivInventory")
                   .snapshots(),

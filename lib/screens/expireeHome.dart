@@ -6,13 +6,6 @@ import 'package:expiree_app/screens/settingsPage.dart';
 import 'package:expiree_app/calendar/model/event.dart';
 import 'package:expiree_app/calendar/res/event_firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expiree_app/screens/imagePickerPage.dart';
-import 'package:expiree_app/screens/rootPage.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:expiree_app/calendar/calendar.dart';
-import "package:expiree_app/states/currentUser.dart";
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:expiree_app/states/currentUser.dart';
 
@@ -44,11 +37,6 @@ class _ExpireeHomeState extends State<ExpireeHome> {
     _description = TextEditingController(
         text: widget.note != null ? widget.note.description : "");
   }
-  //   Future.delayed(Duration.zero, () async {
-  //     final appBloc = Provider.of<AppBloc>(context, listen: false);
-  //     await appBloc.init();
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
