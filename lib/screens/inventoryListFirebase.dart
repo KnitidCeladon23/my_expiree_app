@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:expiree_app/notification/createNotifPage.dart';
 import 'package:provider/provider.dart';
-//import 'package:google_fonts/google_fonts.dart';
 import 'package:expiree_app/calendar/model/event.dart';
 import 'package:expiree_app/calendar/res/event_firestore_service.dart';
 import 'package:expiree_app/screens/urlLauncher.dart';

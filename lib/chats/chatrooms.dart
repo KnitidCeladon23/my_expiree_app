@@ -1,16 +1,13 @@
-//import 'package:chatapp/helper/authenticate.dart';
 import 'package:expiree_app/helper/constants.dart';
 import 'package:expiree_app/helper/helperfunctions.dart';
-import 'package:expiree_app/helper/theme.dart';
-//import 'package:expiree_app/services/auth.dart';
 import 'package:expiree_app/database.dart';
 import 'package:expiree_app/chats/chat.dart';
 import 'package:expiree_app/chats/search.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:random_color/random_color.dart';
 import 'package:expiree_app/states/currentUser.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ChatRoom extends StatefulWidget {
   @override
@@ -60,7 +57,10 @@ class _ChatRoomState extends State<ChatRoom> {
 
   getUserInfogetChats() async {
     Constants.myName = await HelperFunctions.getUserNameSharedPreference();
-    DatabaseMethods().getUserChats(Constants.myName).then((snapshots) {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    FirebaseUser _firebaseUser = await _auth.currentUser();
+    String username = _firebaseUser.displayName;
+    DatabaseMethods().getUserChats(username).then((snapshots) {
       setState(() {
         chatRooms = snapshots;
         print(
