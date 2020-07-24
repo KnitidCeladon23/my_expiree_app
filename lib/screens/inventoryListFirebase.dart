@@ -143,20 +143,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                         DateTime originalExpiryDateTime =
                             document['expiryDateTime'].toDate();
                         String foodID = document['id'];
-                        print(foodItem);
-                        print(foodDescription);
-                        print(originalExpiryDateTime);
-                        print(foodID);
-                        // try {
-                        //   databaseReference
-                        //       .collection('inventoryLists')
-                        //       .document(_uid)
-                        //       .collection("indivInventory")
-                        //       .document(document.documentID)
-                        //       .delete();
-                        // } catch (e) {
-                        //   print(e.toString());
-                        // }
+                        String imageURL = document['url'];
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -169,7 +156,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                                         style: style,
                                         initialValue: foodItem,
                                         onChanged: (String input) {
-                                          newItem = input;
+                                          foodItem = input;
                                         },
                                         decoration: InputDecoration(
                                             labelText: "Item Name",
@@ -267,11 +254,8 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                                         // } catch (e) {
                                         //   print(e.toString());
                                         // }
-                                        print(newItem != null);
-                                        print(_expiryDateTime != null);
-                                        print(widget.note != null);
-                                        print(originalExpiryDateTime != null);
-                                        if (newItem != null &&
+
+                                        if (foodItem != null &&
                                             (_expiryDateTime != null ||
                                                 originalExpiryDateTime !=
                                                     null)) {
@@ -288,13 +272,14 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                                           await eventDBS.createItem(
                                               _uid,
                                               EventModel(
-                                                  item: newItem,
+                                                  item: foodItem,
                                                   description: foodDescription,
                                                   expiryDateTime:
                                                       _expiryDateTime == null
                                                           ? originalExpiryDateTime
                                                           : _expiryDateTime,
-                                                  id: foodID));
+                                                  id: foodID,
+                                                  url: imageURL));
                                         }
                                         if (_imageFile != null) {
                                           Navigator.push(
@@ -437,26 +422,6 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
     setState(() {
       _imageFile = selected;
     });
-  }
-
-  Future<void> _cropImage() async {
-    File cropped = await ImageCropper.cropImage(
-        sourcePath: _imageFile.path,
-        // ratioX: 1.0,
-        // ratioY: 1.0,
-        // maxWidth: 512,
-        // maxHeight: 512,
-        toolbarColor: Colors.purple,
-        toolbarWidgetColor: Colors.white,
-        toolbarTitle: 'Crop It');
-
-    setState(() {
-      _imageFile = cropped ?? _imageFile;
-    });
-  }
-
-  void _clear() {
-    setState(() => _imageFile = null);
   }
 
   @override
