@@ -23,7 +23,7 @@ class _AddNoteState extends State<AddNote> {
         ? FloatingActionButton(
             child: Icon(Icons.add),
             mini: true,
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.brown,
             onPressed: () {
               var bottomSheetController = showBottomSheet(
                   context: context, builder: (context) => BottomSheetWidget());

@@ -235,13 +235,6 @@ class DatabaseService<T> {
 
   Future<dynamic> createItem(String userid, T item, {String id}) {
     return _db.collection('inventoryLists').document(userid).collection('indivInventory').document(id).setData(toMap(item));
-    // if (id != null) {
-    //     return _db.collection('inventoryLists').document(userid).collection('indivInventory').document(id).setData(toMap(item));
-    // //   return _db.collection.document(id).setData(toMap(item));
-    //  } else {
-    //       return _db.collection('inventoryLists').document(userid).collection('indivInventory').document(id).setData(toMap(item));
-    // //   return _db.collection(collection).add(toMap(item));
-    //  }
   }
 
   Future<void> updateData(String id, String userid, Map<String, dynamic> data) {

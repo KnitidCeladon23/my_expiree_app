@@ -60,7 +60,7 @@ class _NavBarImplState extends State<NavBarImpl> {
               title: Text('Home'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.create),
+              icon: Icon(Icons.calendar_today),
               title: Text('Calendar'),
             ),
             BottomNavigationBarItem(
@@ -68,11 +68,11 @@ class _NavBarImplState extends State<NavBarImpl> {
               title: Text('Wall'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.chat),
+              icon: Icon(Icons.add_circle_outline),
               title: Text('Inventory'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.tag_faces),
+              icon: Icon(Icons.timer),
               title: Text('Reminders'),
             ),
           ],

@@ -8,6 +8,9 @@ import 'package:expiree_app/chats/chat.dart';
 import 'package:expiree_app/chats/search.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:random_color/random_color.dart';
+import 'package:expiree_app/states/currentUser.dart';
+import 'package:provider/provider.dart';
 
 class ChatRoom extends StatefulWidget {
   @override
@@ -17,7 +20,11 @@ class ChatRoom extends StatefulWidget {
 class _ChatRoomState extends State<ChatRoom> {
   Stream chatRooms;
 
+
+
   Widget chatRoomsList() {
+    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
+    print("hi the current user name is: ${_currentUser.getUsername}");
     return StreamBuilder(
       stream: chatRooms,
       builder: (context, snapshot) {
@@ -30,8 +37,10 @@ class _ChatRoomState extends State<ChatRoom> {
                     userName: snapshot.data.documents[index].data['chatRoomId']
                         .toString()
                         .replaceAll("_", "")
-                        .replaceAll(Constants.myName, ""),
-                    chatRoomId: snapshot.data.documents[index].data["chatRoomId"],
+                        .replaceAll(_currentUser.getUsername, ""),
+                        //.replaceAll(Constants.myName, ""),
+                    chatRoomId:
+                        snapshot.data.documents[index].data["chatRoomId"],
                   );
                 })
             : Container();
@@ -43,6 +52,10 @@ class _ChatRoomState extends State<ChatRoom> {
   void initState() {
     getUserInfogetChats();
     super.initState();
+    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
+    print("current username is: ${_currentUser.getUsername}");
+    print("Constants.myName is: ${Constants.myName}");
+    print("hello");
   }
 
   getUserInfogetChats() async {
@@ -66,24 +79,6 @@ class _ChatRoomState extends State<ChatRoom> {
             fontSize: 30,
           ),
         ),
-        // Image.asset(
-        //   "assets/images/logo.png",
-        //   height: 40,
-        // ),
-        elevation: 0.0,
-        centerTitle: false,
-        // actions: [
-        //   GestureDetector(
-        //     onTap: () {
-        //       AuthService().signOut();
-        //       Navigator.pushReplacement(context,
-        //           MaterialPageRoute(builder: (context) => Authenticate()));
-        //     },
-        //     child: Container(
-        //         padding: EdgeInsets.symmetric(horizontal: 16),
-        //         child: Icon(Icons.exit_to_app)),
-        //   )
-        // ],
       ),
       body: Container(
         child: chatRoomsList(),
@@ -103,47 +98,41 @@ class ChatRoomsTile extends StatelessWidget {
   final String userName;
   final String chatRoomId;
 
-  ChatRoomsTile({this.userName,@required this.chatRoomId});
+  ChatRoomsTile({this.userName, @required this.chatRoomId});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) => Chat(
-            chatRoomId: chatRoomId,
-          )
-        ));
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Chat(
+                      chatRoomId: chatRoomId,
+                    )));
       },
       child: Container(
-        color: Colors.black26,
+        color: Colors.grey[300],
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
         child: Row(
           children: [
-            Container(
-              height: 30,
-              width: 30,
-              decoration: BoxDecoration(
-                  color: CustomTheme.colorAccent,
-                  borderRadius: BorderRadius.circular(30)),
-              child: Text(userName.substring(0, 1),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontFamily: 'OverpassRegular',
-                      fontWeight: FontWeight.w300)),
-            ),
+            CircleAvatar(
+                child: Text(userName.substring(0, 1).toUpperCase()),
+                // backgroundColor: RandomColor()
+                //     .randomColor(colorBrightness: ColorBrightness.primary)
+                    backgroundColor: Colors.brown,),
             SizedBox(
               width: 12,
             ),
             Text(userName,
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontFamily: 'OverpassRegular',
-                    fontWeight: FontWeight.w300))
+                style: GoogleFonts.roboto(fontSize: 25),
+                // style: TextStyle(
+                //     color: Colors.white,
+                //     fontSize: 16,
+                //     fontFamily: 'OverpassRegular',
+                //     fontWeight: FontWeight.w300)
+                    )
           ],
         ),
       ),

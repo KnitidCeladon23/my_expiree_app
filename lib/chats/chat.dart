@@ -4,6 +4,8 @@ import 'package:expiree_app/database.dart';
 import 'package:expiree_app/chats/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:expiree_app/states/currentUser.dart';
+import 'package:provider/provider.dart';
 
 class Chat extends StatefulWidget {
   final String chatRoomId;
@@ -19,6 +21,7 @@ class _ChatState extends State<Chat> {
   TextEditingController messageEditingController = new TextEditingController();
 
   Widget chatMessages() {
+    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     return StreamBuilder(
       stream: chats,
       builder: (context, snapshot) {
@@ -28,7 +31,7 @@ class _ChatState extends State<Chat> {
                 itemBuilder: (context, index) {
                   return MessageTile(
                     message: snapshot.data.documents[index].data["message"],
-                    sendByMe: Constants.myName ==
+                    sendByMe: _currentUser.getUsername ==
                         snapshot.data.documents[index].data["sendBy"],
                   );
                 })
@@ -39,8 +42,10 @@ class _ChatState extends State<Chat> {
 
   addMessage() {
     if (messageEditingController.text.isNotEmpty) {
+      CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
+      String name = _currentUser.getUsername;
       Map<String, dynamic> chatMessageMap = {
-        "sendBy": Constants.myName,
+        "sendBy": name,
         "message": messageEditingController.text,
         'time': DateTime.now().millisecondsSinceEpoch,
       };

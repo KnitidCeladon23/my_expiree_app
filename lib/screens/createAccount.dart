@@ -260,20 +260,4 @@ class _CreateAccountState extends State<CreateAccount> {
       ),
     );
   }
-
-  /*Future<void> signUp() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-      try {
-        FirebaseUser user = (await FirebaseAuth.instance
-                .createUserWithEmailAndPassword(
-                    email: _email, password: _password))
-            .user;
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ExpireeWelcome()));
-      } catch (e) {
-        print(e.message);
-      }
-    }
-  }*/
 }

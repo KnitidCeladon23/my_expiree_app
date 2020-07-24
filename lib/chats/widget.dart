@@ -4,17 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 Widget appBarMain(BuildContext context) {
   return AppBar(
     title: Text(
-          "Find a user...",
+          "Chatting",
           style: GoogleFonts.permanentMarker(
             fontSize: 30,
           ),
         ),
-    // Image.asset(
-    //   "assets/images/logo.png",
-    //   height: 40,
-    // ),
-    elevation: 0.0,
-    centerTitle: false,
   );
 }
 

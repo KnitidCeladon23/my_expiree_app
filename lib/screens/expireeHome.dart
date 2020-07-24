@@ -42,6 +42,7 @@ class _ExpireeHomeState extends State<ExpireeHome> {
   Widget build(BuildContext context) {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String _uid = _currentUser.getUid;
+    print(_currentUser.getUsername);
     final addItemButton = FloatingActionButton(
       backgroundColor: Colors.green,
       onPressed: () {
@@ -140,40 +141,46 @@ class _ExpireeHomeState extends State<ExpireeHome> {
 
     final settingsButton = Material(
       elevation: 5.0,
-      child: RaisedButton(
-        color: Colors.red[200],
-        padding: EdgeInsets.fromLTRB(20, 20.0, 20, 20.0),
+      borderRadius: BorderRadius.circular(30.0),
+      color: Colors.green,
+      child: MaterialButton(
+        elevation: 1000,
+        minWidth: 50,
+        padding: EdgeInsets.fromLTRB(100.0, 20.0, 100.0, 20.0),
         onPressed: moveToSettings,
         child: Text("Settings",
             textAlign: TextAlign.center,
             style: GoogleFonts.kalam(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
               fontSize: 20,
-            )),
+              fontWeight: FontWeight.bold,
+              color: Colors.white),
+              ),
       ),
     );
 
     final chatRoomPageButton = Material(
       elevation: 5.0,
-      child: RaisedButton(
-        color: Colors.red[200],
-        padding: EdgeInsets.fromLTRB(20, 20.0, 20, 20.0),
+      borderRadius: BorderRadius.circular(30.0),
+      color: Colors.green,
+      child: MaterialButton(
+        elevation: 1000,
+        minWidth: 50,
+        padding: EdgeInsets.fromLTRB(100.0, 20.0, 100.0, 20.0),
         onPressed: moveToChats,
         child: Text("Chats",
             textAlign: TextAlign.center,
             style: GoogleFonts.kalam(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
               fontSize: 20,
-            )),
+              fontWeight: FontWeight.bold,
+              color: Colors.white),
+              ),
       ),
     );
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Welcome back",
+          "Welcome back ${_currentUser.getUsername}",
           style: GoogleFonts.permanentMarker(
             fontSize: 30,
           ),
@@ -189,11 +196,11 @@ class _ExpireeHomeState extends State<ExpireeHome> {
               SizedBox(
                 height: 10,
               ),
-              settingsButton,
+              chatRoomPageButton,
               SizedBox(
                 height: 10,
               ),
-              chatRoomPageButton,
+              settingsButton,
             ],
           ),
         ),
