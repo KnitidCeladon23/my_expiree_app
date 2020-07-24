@@ -152,7 +152,7 @@ class _ExpireeHomeState extends State<ExpireeHome> {
           "Settings",
           textAlign: TextAlign.center,
           style: GoogleFonts.kalam(
-              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+              fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
     );
@@ -160,7 +160,7 @@ class _ExpireeHomeState extends State<ExpireeHome> {
     final chatRoomPageButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: Colors.green,
+      color: Colors.grey[800],
       child: MaterialButton(
         elevation: 1000,
         minWidth: 50,
@@ -170,7 +170,7 @@ class _ExpireeHomeState extends State<ExpireeHome> {
           "Chats",
           textAlign: TextAlign.center,
           style: GoogleFonts.kalam(
-              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+              fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
     );

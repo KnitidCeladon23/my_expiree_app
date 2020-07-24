@@ -116,7 +116,6 @@ class _UserMessageState extends State<UserMessage> {
     }
 
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
-    String _uid = _currentUser.getUid;
 
     return Column(children: <Widget>[
       Row(
@@ -131,11 +130,12 @@ class _UserMessageState extends State<UserMessage> {
                           firestoreInstance
                               .collection("wall")
                               .add({
+                            "author" : _currentUser.getUsername,
                             "message": messageController.text,
                             "title": titleController.text,
                             "color": RandomColor()
                                 .randomColor(
-                                    colorBrightness: ColorBrightness.light)
+                                    colorBrightness: ColorBrightness.primary)
                                 .value,
                             "timestamp": FieldValue.serverTimestamp()
                           });

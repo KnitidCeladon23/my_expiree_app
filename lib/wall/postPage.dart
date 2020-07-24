@@ -2,10 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:expiree_app/wall/addPost.dart';
-import 'package:expiree_app/states/currentUser.dart';
-import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:expiree_app/helper/helperfunctions.dart';
 
 class PostPage extends StatefulWidget {
   @override
@@ -34,8 +30,6 @@ class _PostPageState extends State<PostPage> {
   }
 
   Widget _buildBody(BuildContext context) {
-    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
-    String _uid = _currentUser.getUid;
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance.collection('wall').orderBy("timestamp", descending: true).snapshots(),
       builder: (context, snapshot) {
@@ -57,8 +51,6 @@ class _PostPageState extends State<PostPage> {
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final note = Note.fromSnapshot(data);
-    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
-    String _username = _currentUser.getUsername;
     return Padding(
       key: ValueKey(note.message),
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -79,7 +71,7 @@ class _PostPageState extends State<PostPage> {
         child: ListTile(
           title: Row( 
             children: 
-            <Widget> [Text(_username, style: TextStyle(fontSize:15)),
+            <Widget> [Text(note.author, style: TextStyle(fontSize:15)),
             Text(": ", style: TextStyle(fontSize:15)),
             Text(note.title, style: TextStyle(fontSize:15))
           ]),
@@ -93,11 +85,13 @@ class _PostPageState extends State<PostPage> {
 class Note {
   final String title;
   final String message;
+  final String author;
   final DocumentReference reference;
 
   Note.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['message'] != null),
         assert(map['title'] != null),
+        author = map['author'],
         title = map['title'],
         message = map['message'];
 

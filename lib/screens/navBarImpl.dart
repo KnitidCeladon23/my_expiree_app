@@ -8,7 +8,7 @@ import 'package:expiree_app/notification/app_bloc.dart';
 import 'package:expiree_app/wall/postPage.dart';
 
 class NavBarImpl extends StatefulWidget {
-  int refPage;
+  final int refPage;
   NavBarImpl({Key key, this.refPage}) : super(key: key);
 
   @override

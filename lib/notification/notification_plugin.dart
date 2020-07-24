@@ -19,7 +19,7 @@ class NotificationPlugin {
     final initializationSettingsAndroid =
         AndroidInitializationSettings('app_icon');
     final initializationSettingsIOS =  IOSInitializationSettings(
-        onDidReceiveLocalNotification: onDidReceiveLocalNotification); //IOSInitializationSettings(); TODO: replace
+        onDidReceiveLocalNotification: onDidReceiveLocalNotification);
     final initializationSettings = InitializationSettings(
       initializationSettingsAndroid,
       initializationSettingsIOS,

@@ -10,7 +10,7 @@ class ExpireeApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<AppBloc>(
-          create: (_) => AppBloc(), //TODO: suspect this is the issue because they used builder
+          create: (_) => AppBloc(),
           dispose: (_, appBloc) => appBloc.dispose(),
         ),
         ChangeNotifierProvider(create: (context) => CurrentUser()),
