@@ -8,25 +8,27 @@ import 'package:expiree_app/notification/app_bloc.dart';
 import 'package:expiree_app/wall/postPage.dart';
 
 class NavBarImpl extends StatefulWidget {
-  NavBarImpl({Key key}) : super(key: key);
+  int refPage;
+  NavBarImpl({Key key, this.refPage}) : super(key: key);
 
   @override
   _NavBarImplState createState() => _NavBarImplState();
 }
 
 class _NavBarImplState extends State<NavBarImpl> {
+  int _selectedPage = 0;
 
   @override
   void initState() {
     super.initState();
 
     Future.delayed(Duration.zero, () async {
-      final appBloc = Provider.of<AppBloc>(context, listen: false); 
+      final appBloc = Provider.of<AppBloc>(context, listen: false);
       await appBloc.init();
     });
+    _selectedPage = widget.refPage != null ? widget.refPage : 0;
   }
 
-   int _selectedPage = 0;
   final _pageOptions = [
     ExpireeHome(),
     Calendar(),
@@ -39,9 +41,9 @@ class _NavBarImplState extends State<NavBarImpl> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-            primarySwatch: Colors.green,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-          ),
+        primarySwatch: Colors.green,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
       color: Colors.green,
       debugShowCheckedModeBanner: false,
       home: Scaffold(

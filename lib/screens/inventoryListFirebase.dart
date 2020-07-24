@@ -1,4 +1,6 @@
+import 'package:expiree_app/screens/imagePickerPage.dart';
 import 'package:expiree_app/states/currentUser.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -63,6 +65,14 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String _uid = _currentUser.getUid;
     return snapshot.data.documents.map<Widget>((document) {
+      dynamic avatar() {
+        if (document['url'] != null) {
+          return Image.network(document['url']);
+        } else {
+          return Text(document['item'][0].toUpperCase());
+        }
+      }
+
       return Card(
         color: Colors.grey[200],
         shape:
@@ -79,9 +89,18 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      CircleAvatar(
-                        child: Text(document['item'][0].toUpperCase()),
-                      ),
+                      if (avatar().runtimeType == Image)
+                        CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: avatar(),
+                          ),
+                        ),
+                      if (avatar().runtimeType == Text)
+                        CircleAvatar(
+                          child: avatar(),
+                        ),
                       Padding(padding: EdgeInsets.only(right: 10.0)),
                       Text(
                         // document['item'][0].toUpperCase() +
@@ -118,6 +137,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                         String foodDescription = document['description'];
                         DateTime originalExpiryDateTime =
                             document['expiryDateTime'].toDate();
+                        DateTime foodID = DateTime.now();
                         // try {
                         //   databaseReference
                         //       .collection('inventoryLists')
@@ -214,7 +234,8 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                                                 widget.note.id, _uid, {
                                               "item": newItem,
                                               "description": descriptionInfo,
-                                              "expiryDateTime": _expiryDateTime
+                                              "expiryDateTime": _expiryDateTime,
+                                              "id": foodID.toString(),
                                             });
                                           } else {
                                             await eventDBS.createItem(
@@ -224,11 +245,20 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                                                     description:
                                                         descriptionInfo,
                                                     expiryDateTime:
-                                                        _expiryDateTime));
+                                                        _expiryDateTime,
+                                                    id: foodID.toString()));
                                           }
                                         }
-
-                                        Navigator.of(context).pop();
+                                        print(widget.note);
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ImagePickerPage(
+                                                        pageRef: 3,
+                                                        userID: _uid,
+                                                        itemID: foodID
+                                                            .toString())));
                                       },
                                       child: Text("Confirm new item")),
                                 ],
@@ -334,7 +364,8 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
       });
   }
 
-  void addToList(String item, String expiryDateTime, String description) async {
+  void addToList(String item, String expiryDateTime, String description,
+      String foodID) async {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String _uid = _currentUser.getUid;
     await databaseReference
@@ -345,7 +376,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
       'item': item,
       'expiryDateTime': expiryDateTime,
       'description': description,
-      'id': null,
+      'id': foodID,
     });
   }
 
@@ -423,12 +454,14 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                         // }
                         // print(newItem);
                         // print(_expiryDateTime);
+                        DateTime foodID = DateTime.now();
                         if (newItem != null && _expiryDateTime != null) {
                           if (widget.note != null) {
                             await eventDBS.updateData(widget.note.id, _uid, {
                               "item": newItem,
                               "description": descriptionInfo,
-                              "expiryDateTime": _expiryDateTime
+                              "expiryDateTime": _expiryDateTime,
+                              "id": foodID.toString()
                             });
                           } else {
                             await eventDBS.createItem(
@@ -436,10 +469,17 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                                 EventModel(
                                     item: newItem,
                                     description: descriptionInfo,
-                                    expiryDateTime: _expiryDateTime));
+                                    expiryDateTime: _expiryDateTime,
+                                    id: foodID.toString()));
                           }
                         }
-                        Navigator.of(context).pop();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ImagePickerPage(
+                                    pageRef: 3,
+                                    userID: _uid,
+                                    itemID: foodID.toString())));
                       },
                       child: Text("Confirm new item")),
                 ],

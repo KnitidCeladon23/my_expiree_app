@@ -40,9 +40,31 @@ class EventDetailsPage extends StatelessWidget {
               style: Theme.of(context).textTheme.headline4,
             ),
             SizedBox(height: 20.0),
+            if (event.url == null)
+              Column(
+                children: <Widget>[
+                  Text("<no photos uploaded>"),
+                  SizedBox(height: 5.0),
+                  RaisedButton(onPressed: () {}, child: Text("Upload a photo")),
+                ],
+              ),
+            if (event.url != null)
+              Image.network(event.url),
+            // event.url == null
+            //     ? {
+            //         Text("<no photos uploaded>"),
+            //         SizedBox(height: 5.0),
+            //         RaisedButton(
+            //             onPressed: () {}, child: Text("Upload a photo")),
+            //       }
+            //     : Image.network(event.url),
+            // SizedBox(height: 20.0),
             Text(event.description == ""
                 ? "<no description>"
-                : event.description),
+                : "Description: " + event.description),
+            SizedBox(height: 10.0),
+            Text("Expires on: " +
+                event.expiryDateTime.toString().substring(0, 10)),
             SizedBox(height: 10.0),
             RaisedButton(
               color: Colors.brown[400],
