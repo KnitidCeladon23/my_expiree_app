@@ -1,9 +1,14 @@
+import 'dart:io';
+
+import 'package:expiree_app/screens/firebaseStorage.dart';
 import 'package:expiree_app/screens/imagePickerPage.dart';
 import 'package:expiree_app/states/currentUser.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:expiree_app/notification/createNotifPage.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:expiree_app/calendar/model/event.dart';
 import 'package:expiree_app/calendar/res/event_firestore_service.dart';
@@ -28,6 +33,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
   String deleteItem;
   TextEditingController _description;
   String showExpiryDateTime;
+  File _imageFile;
 
   String descriptionInfo;
   //TextEditingController _itemController = TextEditingController();
@@ -208,6 +214,34 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                                                 originalExpiryDateTime);
                                       },
                                       child: Text("Enter expiry date")),
+                                  Row(
+                                    children: <Widget>[
+                                      FlatButton(
+                                        onPressed: () {},
+                                        child: Icon(IconData(58288,
+                                            fontFamily:
+                                                'MaterialIcons')), //camera icon
+                                      ),
+                                      FlatButton(
+                                        onPressed: () {},
+                                        child: Icon(
+                                            Icons.photo_library), //gallery icon
+                                      )
+                                    ],
+                                  ),
+                                  // FlatButton(
+                                  //     onPressed: () {
+                                  //       Navigator.push(
+                                  //           context,
+                                  //           MaterialPageRoute(
+                                  //               builder: (context) =>
+                                  //                   ImagePickerPage(
+                                  //                       pageRef: 3,
+                                  //                       userID: _uid,
+                                  //                       itemID: foodID
+                                  //                           .toString())));
+                                  //     },
+                                  //     child: Text("Upload photo")),
                                   RaisedButton(
                                       onPressed: () async {
                                         // if (newItem != null && _expiryDateTime != null) {
@@ -248,16 +282,6 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                                                     id: foodID.toString()));
                                           }
                                         }
-                                        print(widget.note);
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ImagePickerPage(
-                                                        pageRef: 3,
-                                                        userID: _uid,
-                                                        itemID: foodID
-                                                            .toString())));
                                       },
                                       child: Text("Confirm new item")),
                                 ],
@@ -379,6 +403,34 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
     });
   }
 
+  Future<void> _pickImage(ImageSource source) async {
+    File selected = await ImagePicker.pickImage(source: source);
+
+    setState(() {
+      _imageFile = selected;
+    });
+  }
+
+  Future<void> _cropImage() async {
+    File cropped = await ImageCropper.cropImage(
+        sourcePath: _imageFile.path,
+        // ratioX: 1.0,
+        // ratioY: 1.0,
+        // maxWidth: 512,
+        // maxHeight: 512,
+        toolbarColor: Colors.purple,
+        toolbarWidgetColor: Colors.white,
+        toolbarTitle: 'Crop It');
+
+    setState(() {
+      _imageFile = cropped ?? _imageFile;
+    });
+  }
+
+  void _clear() {
+    setState(() => _imageFile = null);
+  }
+
   @override
   Widget build(BuildContext context) {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
@@ -389,100 +441,124 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
         newItem = null;
         descriptionInfo = null;
         _expiryDateTime = null;
+        _imageFile = null;
         showDialog(
             context: context,
             builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text("Add Item"),
-                content: SingleChildScrollView(
-                  child: ListBody(
-                    children: <Widget>[
-                      TextField(
-                        style: style,
-                        onChanged: (String input) {
-                          newItem = input;
-                        },
-                        decoration: InputDecoration(
-                            labelText: "Item Name",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                      ),
-                      // TextFormField(
-                      //   controller: _description,
-                      //   minLines: 3,
-                      //   maxLines: 5,
-                      //   validator: (value) =>
-                      //       (value.isEmpty) ? "Please enter description" : null,
-                      //   style: style,
-                      //   decoration: InputDecoration(
-                      //       labelText: "Description",
-                      //       border: OutlineInputBorder(
-                      //           borderRadius: BorderRadius.circular(10))),
-                      // ),
-                      SizedBox(height: 15),
-                      TextField(
-                        // initialValue: "",
-                        // controller: _description,
-                        minLines: 3,
-                        maxLines: 5,
-                        // validator: (value) =>
-                        //     (value.isEmpty) ? "Please enter description" : null,
-                        // style: style,
-                        onChanged: (String input) {
-                          descriptionInfo = input;
-                        },
-                        decoration: InputDecoration(
-                            labelText: "Description",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                      ),
-                    ],
+              return StatefulBuilder(builder: (context, setState) {
+                return AlertDialog(
+                  title: Text("Add Item"),
+                  content: SingleChildScrollView(
+                    child: ListBody(
+                      children: <Widget>[
+                        TextField(
+                          style: style,
+                          onChanged: (String input) {
+                            newItem = input;
+                          },
+                          decoration: InputDecoration(
+                              labelText: "Item Name",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                        ),
+                        // TextFormField(
+                        //   controller: _description,
+                        //   minLines: 3,
+                        //   maxLines: 5,
+                        //   validator: (value) =>
+                        //       (value.isEmpty) ? "Please enter description" : null,
+                        //   style: style,
+                        //   decoration: InputDecoration(
+                        //       labelText: "Description",
+                        //       border: OutlineInputBorder(
+                        //           borderRadius: BorderRadius.circular(10))),
+                        // ),
+                        SizedBox(height: 15),
+                        TextField(
+                          // initialValue: "",
+                          // controller: _description,
+                          minLines: 3,
+                          maxLines: 5,
+                          // validator: (value) =>
+                          //     (value.isEmpty) ? "Please enter description" : null,
+                          // style: style,
+                          onChanged: (String input) {
+                            descriptionInfo = input;
+                          },
+                          decoration: InputDecoration(
+                              labelText: "Description",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                actions: <Widget>[
-                  FlatButton(
+                  actions: <Widget>[
+                    FlatButton(
                       onPressed: () {
                         _selectExpiryDate(context);
                       },
-                      child: Text("Enter expiry date")),
-                  RaisedButton(
-                      onPressed: () async {
-                        // if (newItem != null && _expiryDateTime != null) {
-                        //   addToList(newItem, _expiryDateTime.toString(),
-                        //       _description.text);
-                        // }
-                        // print(newItem);
-                        // print(_expiryDateTime);
-                        DateTime foodID = DateTime.now();
-                        if (newItem != null && _expiryDateTime != null) {
-                          if (widget.note != null) {
-                            await eventDBS.updateData(widget.note.id, _uid, {
-                              "item": newItem,
-                              "description": descriptionInfo,
-                              "expiryDateTime": _expiryDateTime,
-                              "id": foodID.toString()
-                            });
-                          } else {
-                            await eventDBS.createItem(
-                                _uid,
-                                EventModel(
-                                    item: newItem,
-                                    description: descriptionInfo,
-                                    expiryDateTime: _expiryDateTime,
-                                    id: foodID.toString()));
+                      child: Text("Enter expiry date"),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        FlatButton(
+                          onPressed: () => _pickImage(ImageSource.camera),
+                          child: Icon(IconData(58288,
+                              fontFamily: 'MaterialIcons')), //camera icon
+                        ),
+                        FlatButton(
+                          onPressed: () => _pickImage(ImageSource.gallery),
+                          child: Icon(Icons.photo_library), //gallery icon
+                        )
+                      ],
+                    ),
+                    RaisedButton(
+                        onPressed: () async {
+                          // if (newItem != null && _expiryDateTime != null) {
+                          //   addToList(newItem, _expiryDateTime.toString(),
+                          //       _description.text);
+                          // }
+                          // print(newItem);
+                          // print(_expiryDateTime);
+                          DateTime foodID = DateTime.now();
+                          if (newItem != null && _expiryDateTime != null) {
+                            if (widget.note != null) {
+                              await eventDBS.updateData(widget.note.id, _uid, {
+                                "item": newItem,
+                                "description": descriptionInfo,
+                                "expiryDateTime": _expiryDateTime,
+                                "id": foodID.toString()
+                              });
+                            } else {
+                              await eventDBS.createItem(
+                                  _uid,
+                                  EventModel(
+                                      item: newItem,
+                                      description: descriptionInfo,
+                                      expiryDateTime: _expiryDateTime,
+                                      id: foodID.toString()));
+                            }
                           }
-                        }
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ImagePickerPage(
-                                    pageRef: 3,
-                                    userID: _uid,
-                                    itemID: foodID.toString())));
-                      },
-                      child: Text("Confirm new item")),
-                ],
-              );
+                          print(_imageFile != null);
+                          if (_imageFile != null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ImagePickerPage(
+                                        pageRef: 3,
+                                        userID: _uid,
+                                        itemID: foodID.toString(),
+                                        image: _imageFile)));
+                          } else {
+                            Navigator.pop(context);
+                          }
+                        },
+                        child: Text("Confirm new item")),
+                  ],
+                );
+              });
             });
       },
       child: Icon(Icons.add, color: Colors.white),
