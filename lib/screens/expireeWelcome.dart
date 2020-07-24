@@ -72,7 +72,8 @@ class _ExpireeWelcomeState extends State<ExpireeWelcome> {
     final expireeLogo = SizedBox(
       height: 200.0,
       child: Image.asset(
-        "assets/images/expireeLogo.jpeg",
+        //"assets/images/expireeLogo.jpeg",
+        "assets/images/expireelogo.png",
         fit: BoxFit.contain,
       ),
     );

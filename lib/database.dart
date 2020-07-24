@@ -64,13 +64,24 @@ class DatabaseMethods {
         .snapshots();
   }
 
-  Future<void> addMessage(String chatRoomId, chatMessageData) async {
+  Future<void> addMessage(String chatRoomId, chatMessageData, String otherUser) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
     FirebaseUser _firebaseUser = await _auth.currentUser();
     String username = _firebaseUser.displayName;
     Firestore.instance
         .collection("chatRoom")
         .document(username)
+        .collection("chatName")
+        .document(chatRoomId)
+        .collection("chats")
+        .add(chatMessageData)
+        .catchError((e) {
+      print(e.toString());
+    });
+
+    Firestore.instance
+        .collection("chatRoom")
+        .document(otherUser)
         .collection("chatName")
         .document(chatRoomId)
         .collection("chats")

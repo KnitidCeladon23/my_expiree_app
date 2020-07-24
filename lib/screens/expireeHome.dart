@@ -148,13 +148,12 @@ class _ExpireeHomeState extends State<ExpireeHome> {
         minWidth: 50,
         padding: EdgeInsets.fromLTRB(100.0, 20.0, 100.0, 20.0),
         onPressed: moveToSettings,
-        child: Text("Settings",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.kalam(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white),
-              ),
+        child: Text(
+          "Settings",
+          textAlign: TextAlign.center,
+          style: GoogleFonts.kalam(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
       ),
     );
 
@@ -167,13 +166,21 @@ class _ExpireeHomeState extends State<ExpireeHome> {
         minWidth: 50,
         padding: EdgeInsets.fromLTRB(100.0, 20.0, 100.0, 20.0),
         onPressed: moveToChats,
-        child: Text("Chats",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.kalam(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white),
-              ),
+        child: Text(
+          "Chats",
+          textAlign: TextAlign.center,
+          style: GoogleFonts.kalam(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+      ),
+    );
+
+    final expireeLogo = SizedBox(
+      height: 230.0,
+      child: Image.asset(
+        //"assets/images/expireeLogo.jpeg",
+        "assets/images/expireelogo.png",
+        fit: BoxFit.contain,
       ),
     );
 
@@ -191,10 +198,14 @@ class _ExpireeHomeState extends State<ExpireeHome> {
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               SizedBox(
-                height: 10,
+                height: 60,
+              ),
+              expireeLogo,
+              SizedBox(
+                height: 90,
               ),
               chatRoomPageButton,
               SizedBox(

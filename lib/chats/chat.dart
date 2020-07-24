@@ -9,8 +9,9 @@ import 'package:provider/provider.dart';
 
 class Chat extends StatefulWidget {
   final String chatRoomId;
+  final String otherUser;
 
-  Chat({this.chatRoomId});
+  Chat({this.chatRoomId, this.otherUser});
 
   @override
   _ChatState createState() => _ChatState();
@@ -42,7 +43,8 @@ class _ChatState extends State<Chat> {
 
   addMessage() {
     if (messageEditingController.text.isNotEmpty) {
-      CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
+      CurrentUser _currentUser =
+          Provider.of<CurrentUser>(context, listen: false);
       String name = _currentUser.getUsername;
       Map<String, dynamic> chatMessageMap = {
         "sendBy": name,
@@ -50,7 +52,8 @@ class _ChatState extends State<Chat> {
         'time': DateTime.now().millisecondsSinceEpoch,
       };
 
-      DatabaseMethods().addMessage(widget.chatRoomId, chatMessageMap);
+      DatabaseMethods()
+          .addMessage(widget.chatRoomId, chatMessageMap, widget.otherUser);
 
       setState(() {
         messageEditingController.text = "";
@@ -116,7 +119,7 @@ class _ChatState extends State<Chat> {
                                   end: FractionalOffset.bottomRight),
                               borderRadius: BorderRadius.circular(40)),
                           padding: EdgeInsets.all(12),
-                          child:Image.asset(
+                          child: Image.asset(
                             "assets/images/send.png",
                             height: 25,
                             width: 25,

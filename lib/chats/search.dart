@@ -67,6 +67,7 @@ class _SearchState extends State<Search> {
 
     Navigator.push(context, MaterialPageRoute(
       builder: (context) => Chat(
+        otherUser: userName,
         chatRoomId: chatRoomId,
       )
     ));
@@ -187,7 +188,7 @@ class _SearchState extends State<Search> {
                         //padding: EdgeInsets.all(12),
                         child: 
                         // Text("put search button photo"),
-                        Image.asset("assets/images/search_white.png",
+                        Image.asset("assets/images/search_brown.png",
                           height: 25, width: 25,)
                         ),
                   )

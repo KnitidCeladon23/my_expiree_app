@@ -108,6 +108,7 @@ class ChatRoomsTile extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => Chat(
+                      otherUser: userName,
                       chatRoomId: chatRoomId,
                     )));
       },
