@@ -142,7 +142,11 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                         String foodDescription = document['description'];
                         DateTime originalExpiryDateTime =
                             document['expiryDateTime'].toDate();
-                        DateTime foodID = DateTime.now();
+                        String foodID = document['id'];
+                        print(foodItem);
+                        print(foodDescription);
+                        print(originalExpiryDateTime);
+                        print(foodID);
                         // try {
                         //   databaseReference
                         //       .collection('inventoryLists')
@@ -215,15 +219,18 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                                       },
                                       child: Text("Enter expiry date")),
                                   Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
                                       FlatButton(
-                                        onPressed: () {},
+                                        onPressed: () =>
+                                            _pickImage(ImageSource.camera),
                                         child: Icon(IconData(58288,
                                             fontFamily:
                                                 'MaterialIcons')), //camera icon
                                       ),
                                       FlatButton(
-                                        onPressed: () {},
+                                        onPressed: () =>
+                                            _pickImage(ImageSource.gallery),
                                         child: Icon(
                                             Icons.photo_library), //gallery icon
                                       )
@@ -250,37 +257,58 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                                         // }
                                         // print(newItem);
                                         // print(_expiryDateTime);
-                                        try {
-                                          databaseReference
-                                              .collection('inventoryLists')
-                                              .document(_uid)
-                                              .collection("indivInventory")
-                                              .document(document.documentID)
-                                              .delete();
-                                        } catch (e) {
-                                          print(e.toString());
-                                        }
+                                        // try {
+                                        //   databaseReference
+                                        //       .collection('inventoryLists')
+                                        //       .document(_uid)
+                                        //       .collection("indivInventory")
+                                        //       .document(document.documentID)
+                                        //       .delete();
+                                        // } catch (e) {
+                                        //   print(e.toString());
+                                        // }
+                                        print(newItem != null);
+                                        print(_expiryDateTime != null);
+                                        print(widget.note != null);
+                                        print(originalExpiryDateTime != null);
                                         if (newItem != null &&
-                                            _expiryDateTime != null) {
-                                          if (widget.note != null) {
-                                            await eventDBS.updateData(
-                                                widget.note.id, _uid, {
-                                              "item": newItem,
-                                              "description": descriptionInfo,
-                                              "expiryDateTime": _expiryDateTime,
-                                              "id": foodID.toString(),
-                                            });
-                                          } else {
-                                            await eventDBS.createItem(
-                                                _uid,
-                                                EventModel(
-                                                    item: newItem,
-                                                    description:
-                                                        descriptionInfo,
-                                                    expiryDateTime:
-                                                        _expiryDateTime,
-                                                    id: foodID.toString()));
+                                            (_expiryDateTime != null ||
+                                                originalExpiryDateTime !=
+                                                    null)) {
+                                          try {
+                                            databaseReference
+                                                .collection('inventoryLists')
+                                                .document(_uid)
+                                                .collection("indivInventory")
+                                                .document(document.documentID)
+                                                .delete();
+                                          } catch (e) {
+                                            print(e.toString());
                                           }
+                                          await eventDBS.createItem(
+                                              _uid,
+                                              EventModel(
+                                                  item: newItem,
+                                                  description: foodDescription,
+                                                  expiryDateTime:
+                                                      _expiryDateTime == null
+                                                          ? originalExpiryDateTime
+                                                          : _expiryDateTime,
+                                                  id: foodID));
+                                        }
+                                        if (_imageFile != null) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ImagePickerPage(
+                                                          pageRef: 3,
+                                                          userID: _uid,
+                                                          itemID:
+                                                              foodID.toString(),
+                                                          image: _imageFile)));
+                                        } else {
+                                          Navigator.pop(context);
                                         }
                                       },
                                       child: Text("Confirm new item")),
