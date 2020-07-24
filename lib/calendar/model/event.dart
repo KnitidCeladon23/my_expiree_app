@@ -5,15 +5,19 @@ class EventModel extends DatabaseItem {
   final String item;
   final String description;
   final DateTime expiryDateTime;
+  final String url;
 
-  EventModel({this.id, this.item, this.description, this.expiryDateTime})
+  EventModel(
+      {this.id, this.item, this.description, this.expiryDateTime, this.url})
       : super(id);
 
   factory EventModel.fromMap(Map data) {
     return EventModel(
+      id: data['id'],
       item: data['item'],
       description: data['description'],
       expiryDateTime: data['expiryDateTime'],
+      url: data['url'],
     );
   }
 
@@ -23,6 +27,7 @@ class EventModel extends DatabaseItem {
       item: data['item'],
       description: data['description'],
       expiryDateTime: data['expiryDateTime'].toDate(),
+      url: data['url'],
     );
   }
 
@@ -32,6 +37,7 @@ class EventModel extends DatabaseItem {
       "description": description,
       "expiryDateTime": expiryDateTime,
       "id": id,
+      "url": url,
     };
   }
 }

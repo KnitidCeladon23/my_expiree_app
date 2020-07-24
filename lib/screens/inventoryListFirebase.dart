@@ -1,5 +1,6 @@
 import 'package:expiree_app/screens/imagePickerPage.dart';
 import 'package:expiree_app/states/currentUser.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -65,6 +66,14 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     String _uid = _currentUser.getUid;
     return snapshot.data.documents.map<Widget>((document) {
+      dynamic avatar() {
+        if (document['url'] != null) {
+          return Image.network(document['url']);
+        } else {
+          return Text(document['item'][0].toUpperCase());
+        }
+      }
+
       return Card(
         color: Colors.grey[200],
         shape:
@@ -81,9 +90,18 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      CircleAvatar(
-                        child: Text(document['item'][0].toUpperCase()),
-                      ),
+                      if (avatar().runtimeType == Image)
+                        CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: avatar(),
+                          ),
+                        ),
+                      if (avatar().runtimeType == Text)
+                        CircleAvatar(
+                          child: avatar(),
+                        ),
                       Padding(padding: EdgeInsets.only(right: 10.0)),
                       Text(
                         // document['item'][0].toUpperCase() +
@@ -232,6 +250,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                                                     id: foodID.toString()));
                                           }
                                         }
+                                        print(widget.note);
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(

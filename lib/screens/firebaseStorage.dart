@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expiree_app/screens/navBarImpl.dart';
 import 'package:expiree_app/screens/rootPage.dart';
 import 'package:flutter/material.dart';
@@ -24,15 +25,38 @@ class _FirebaseStoragePageState extends State<FirebaseStoragePage> {
       FirebaseStorage(storageBucket: 'gs://expiree-login-51433.appspot.com/');
 
   StorageUploadTask _uploadTask;
+  Firestore databaseReference = Firestore.instance;
 
   /// Starts an upload task
-  void _startUpload() {
+  void _startUpload() async {
     /// Unique file name for the file
     String filePath = 'images/${widget.userID}/${widget.itemID}.png';
 
     setState(() {
       _uploadTask = _storage.ref().child(filePath).putFile(widget.file);
     });
+
+    StorageTaskSnapshot snapshot = await _uploadTask.onComplete;
+    if (snapshot.error == null) {
+      final String downloadUrl = await snapshot.ref.getDownloadURL();
+      var itemReference = databaseReference
+          .collection('inventoryLists')
+          .document(widget.userID)
+          .collection("indivInventory")
+          .where("id", isEqualTo: widget.itemID)
+          .getDocuments()
+          .then((value) {
+        value.documents.forEach((result) {
+          result.reference.setData({"url": downloadUrl}, merge: true);
+        });
+      });
+      // await Firestore.instance
+      //     .collection('inventoryLists')
+      //     .document(widget.userID)
+      //     .collection("indivInventory")
+      //     .document(widget.itemID)
+      //     .setData({"url": downloadUrl}, merge: true);
+    }
   }
 
   @override

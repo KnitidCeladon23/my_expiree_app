@@ -58,14 +58,22 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
       bottomNavigationBar: BottomAppBar(
         child: Row(
           children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.photo_camera),
+            // IconButton(
+            //   icon: Icon(Icons.photo_camera),
+            //   onPressed: () => _pickImage(ImageSource.camera),
+            // ),
+            RaisedButton(
               onPressed: () => _pickImage(ImageSource.camera),
+              child: Text("Take a Photo"),
             ),
             IconButton(
               icon: Icon(Icons.photo_library),
               onPressed: () => _pickImage(ImageSource.gallery),
             ),
+            RaisedButton(
+              onPressed: () => _pickImage(ImageSource.gallery),
+              child: Text("Upload from Gallery"),
+            )
           ],
         ),
       ),
