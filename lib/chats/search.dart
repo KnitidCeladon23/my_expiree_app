@@ -1,10 +1,10 @@
 import 'package:expiree_app/helper/constants.dart';
-//import 'package:chatapp/models/user.dart';
 import 'package:expiree_app/database.dart';
 import 'package:expiree_app/chats/chat.dart';
 import 'package:expiree_app/chats/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -50,10 +50,13 @@ class _SearchState extends State<Search> {
   }
 
   /// 1.create a chatroom, send user to the chatroom, other userdetails
-  sendMessage(String userName){
-    List<String> users = [Constants.myName,userName];
+  sendMessage(String userName) async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    FirebaseUser _firebaseUser = await _auth.currentUser();
+    String username = _firebaseUser.displayName;
+    List<String> users = [username, userName];
 
-    String chatRoomId = getChatRoomId(Constants.myName,userName);
+    String chatRoomId = getChatRoomId(username,userName);
 
     Map<String, dynamic> chatRoom = {
       "username": users,
