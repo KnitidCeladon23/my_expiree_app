@@ -58,7 +58,7 @@ class EventDetailsPage extends StatelessWidget {
             //             onPressed: () {}, child: Text("Upload a photo")),
             //       }
             //     : Image.network(event.url),
-            // SizedBox(height: 20.0),
+            SizedBox(height: 10.0),
             Text(event.description == ""
                 ? "<no description>"
                 : "Description: " + event.description),
