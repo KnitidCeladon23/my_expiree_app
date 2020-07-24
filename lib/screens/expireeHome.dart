@@ -178,7 +178,6 @@ class _ExpireeHomeState extends State<ExpireeHome> {
     final expireeLogo = SizedBox(
       height: 230.0,
       child: Image.asset(
-        //"assets/images/expireeLogo.jpeg",
         "assets/images/expireelogo.png",
         fit: BoxFit.contain,
       ),

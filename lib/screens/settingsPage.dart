@@ -1,10 +1,9 @@
 import 'package:expiree_app/screens/rootPage.dart';
+import 'package:expiree_app/userProfile/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import "package:expiree_app/states/currentUser.dart";
 import 'package:provider/provider.dart';
-// import 'package:expiree_app/screens/inventoryListFirebase.dart';
-// import 'package:expiree_app/screens/reminderPage.dart';
 import 'package:expiree_app/notification/app_bloc.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -55,7 +54,10 @@ class _SettingsPageState extends State<SettingsPage> {
               "Change Password",
             ),
             trailing: Icon(Icons.update),
-            onTap: () {}),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ProfileView()));
+            }),
         ListTile(
             leading: Icon(Icons.language),
             title: Text("Languages"),
