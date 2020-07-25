@@ -98,7 +98,7 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                         CircleAvatar(
                           backgroundColor: Colors.transparent,
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
+                            borderRadius: BorderRadius.circular(60),
                             child: avatar(),
                           ),
                         ),

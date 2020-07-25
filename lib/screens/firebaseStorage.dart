@@ -47,6 +47,12 @@ class _FirebaseStoragePageState extends State<FirebaseStoragePage> {
           result.reference.setData({"url": downloadUrl}, merge: true);
         });
       });
+
+      Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    NavBarImpl(refPage: widget.pageRef)));
       // await Firestore.instance
       //     .collection('inventoryLists')
       //     .document(widget.userID)
@@ -71,16 +77,16 @@ class _FirebaseStoragePageState extends State<FirebaseStoragePage> {
 
             return Column(
               children: [
-                if (_uploadTask.isComplete)
-                  RaisedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    NavBarImpl(refPage: widget.pageRef)));
-                      },
-                      child: Text("Return")),
+                // if (_uploadTask.isComplete)
+                //   RaisedButton(
+                //       onPressed: () {
+                //         Navigator.push(
+                //             context,
+                //             MaterialPageRoute(
+                //                 builder: (context) =>
+                //                     NavBarImpl(refPage: widget.pageRef)));
+                //       },
+                //       child: Text("Return")),
 
                 if (_uploadTask.isPaused)
                   FlatButton(
@@ -103,7 +109,7 @@ class _FirebaseStoragePageState extends State<FirebaseStoragePage> {
     } else {
       // Allows user to decide when to start the upload
       return FlatButton.icon(
-        label: Text('Upload to Firebase'),
+        label: Text('Use this image'),
         icon: Icon(Icons.cloud_upload),
         onPressed: _startUpload,
       );
