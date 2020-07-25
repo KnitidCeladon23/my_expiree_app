@@ -35,7 +35,6 @@ class _ChatRoomState extends State<ChatRoom> {
                         .toString()
                         .replaceAll("_", "")
                         .replaceAll(_currentUser.getUsername, ""),
-                        //.replaceAll(Constants.myName, ""),
                     chatRoomId:
                         snapshot.data.documents[index].data["chatRoomId"],
                   );
@@ -49,10 +48,6 @@ class _ChatRoomState extends State<ChatRoom> {
   void initState() {
     getUserInfogetChats();
     super.initState();
-    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
-    print("current username is: ${_currentUser.getUsername}");
-    print("Constants.myName is: ${Constants.myName}");
-    print("hello");
   }
 
   getUserInfogetChats() async {

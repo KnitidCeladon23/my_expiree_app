@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-//import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:expiree_app/notification/notification_data.dart';
 import 'package:expiree_app/notification/app_bloc.dart';
 import 'package:expiree_app/notification/notification_bloc.dart';
-//import 'package:water_reminder_app/src/widgets/buttons/custom_wide_flat_button.dart';
 import 'package:expiree_app/notification/custom_input_field.dart';
 
 class CreateNotificationPage extends StatefulWidget {
+  final String itemName;
+  final String itemDescription;
+
+  CreateNotificationPage([this.itemName, this.itemDescription]);
+
   @override
   _CreateNotificationPageState createState() => _CreateNotificationPageState();
 }
 
 class _CreateNotificationPageState extends State<CreateNotificationPage> {
   DateTime _reminderDate;
-  final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
+  // final _titleController = TextEditingController();
+  // final _descriptionController = TextEditingController();
   bool dateSelected = false;
 
   final _formKey = GlobalKey<FormState>();
@@ -55,7 +58,7 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
     );
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.green,
         elevation: 0,
         title: Text(
           'Create Reminder',
@@ -72,35 +75,56 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-                    CustomInputField(
-                      controller: _titleController,
-                      hintText: 'Title',
-                      inputType: TextInputType.text,
-                      autoFocus: true,
+                    // CustomInputField(
+                    //   controller: _titleController,
+                    //   hintText: 'Title',
+                    //   inputType: TextInputType.text,
+                    //   autoFocus: true,
+                    // ),
+                    // SizedBox(height: 12),
+                    // CustomInputField(
+                    //   controller: _descriptionController,
+                    //   hintText: 'Description',
+                    //   inputType: TextInputType.text,
+                    //   autoFocus: true,
+                    // ),
+                    SizedBox(height: 90),
+                    SizedBox(
+                      height: 210.0,
+                      child: Image.asset(
+                        "assets/images/alarmclock.png",
+                        fit: BoxFit.contain,
+                      ),
                     ),
-                    SizedBox(height: 12),
-                    CustomInputField(
-                      controller: _descriptionController,
-                      hintText: 'Description',
-                      inputType: TextInputType.text,
-                      autoFocus: true,
-                    ),
-                    SizedBox(height: 12),
-                    OutlineButton(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 12),
-                      onPressed: () {
-                        selectDate(context);
-                      },
-                      child: Text('Select Date'),
+                    //SizedBox(height: 12),
+                    Material(
+                      elevation: 5.0,
+                      borderRadius: BorderRadius.circular(30.0),
+                      color: Colors.grey[800],
+                      child: MaterialButton(
+                        elevation: 1000,
+                        minWidth: 50,
+                        padding: EdgeInsets.fromLTRB(100.0, 20.0, 100.0, 20.0),
+                        onPressed: () {
+                          selectDate(context);
+                        },
+                        child: Text(
+                          "Select Date",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.kalam(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ),
                     ),
                     SizedBox(height: 30),
                     Text(
-                        '(If no date is selected, you will be reminded 3 days later!)',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.roboto(
-                            fontSize: 20, color: Colors.brown),
-                      ),
+                      '(If no date and time is selected, you will be reminded 3 days later!)',
+                      textAlign: TextAlign.center,
+                      style:
+                          GoogleFonts.roboto(fontSize: 20, color: Colors.brown),
+                    ),
                   ],
                 ),
               ),
@@ -149,8 +173,8 @@ class _CreateNotificationPageState extends State<CreateNotificationPage> {
 
   void createNotification(NotificationBloc notificationBloc) {
     if (_formKey.currentState.validate()) {
-      final title = _titleController.text;
-      final description = _descriptionController.text;
+      final title = widget.itemName;
+      final description = widget.itemDescription;
       String _reminderString = _reminderDate.toString();
       print(_reminderString);
       final notificationData =

@@ -102,10 +102,6 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                         ),
                       Padding(padding: EdgeInsets.only(right: 10.0)),
                       Text(
-                        // document['item'][0].toUpperCase() +
-                        //     (document['item'] + ':').substring(
-                        //       1,
-                        //     ),
                         document['item']
                             .split(' ')
                             .map((word) =>
@@ -113,15 +109,9 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                             .join(' '),
                         style: GoogleFonts.anton(fontSize: 23),
                       ),
-                      // Padding(padding: EdgeInsets.only(right: 10.0)),
-                      // Text(
-                      //   document['description'],
-                      //   style: GoogleFonts.roboto(fontSize: 20),
-                      // ),
                     ],
                   ),
                 ),
-                // findRecipeButton(document['item']),
                 SizedBox(width: 5),
                 ButtonTheme(
                     buttonColor: Colors.grey[300],
@@ -137,16 +127,6 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                         DateTime originalExpiryDateTime =
                             document['expiryDateTime'].toDate();
                         DateTime foodID = DateTime.now();
-                        // try {
-                        //   databaseReference
-                        //       .collection('inventoryLists')
-                        //       .document(_uid)
-                        //       .collection("indivInventory")
-                        //       .document(document.documentID)
-                        //       .delete();
-                        // } catch (e) {
-                        //   print(e.toString());
-                        // }
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -320,7 +300,9 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                     RaisedButton(
                       color: Colors.grey[700],
                       padding: EdgeInsets.all(8.0),
-                      onPressed: navigateToNotificationCreation,
+                      onPressed: () => navigateToNotificationCreation(
+                        document['item'].toString(), document['description'].toString()
+                      ),
                       child: Text(
                         'Remind me!',
                         style: TextStyle(
@@ -341,10 +323,10 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
     }).toList();
   }
 
-  Future<void> navigateToNotificationCreation() async {
+  Future<void> navigateToNotificationCreation(String itemName, String itemDescription) async {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => CreateNotificationPage(),
+        builder: (context) => CreateNotificationPage(itemName, itemDescription),
       ),
     );
   }
