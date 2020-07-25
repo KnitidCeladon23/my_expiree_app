@@ -58,12 +58,12 @@ class _SettingsPageState extends State<SettingsPage> {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => ProfileView()));
             }),
-        ListTile(
-            leading: Icon(Icons.language),
-            title: Text("Languages"),
-            subtitle: Text("Choose which language to use"),
-            trailing: Icon(Icons.update),
-            onTap: () {}),
+        // ListTile(
+        //     leading: Icon(Icons.language),
+        //     title: Text("Languages"),
+        //     subtitle: Text("Choose which language to use"),
+        //     trailing: Icon(Icons.update),
+        //     onTap: () {}),
       ],
     );
 
