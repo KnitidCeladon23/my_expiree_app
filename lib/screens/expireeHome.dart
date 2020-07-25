@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:expiree_app/chats/chatrooms.dart';
+import 'package:expiree_app/screens/imagePickerPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:expiree_app/screens/settingsPage.dart';
@@ -6,6 +9,7 @@ import 'package:expiree_app/screens/settingsPage.dart';
 import 'package:expiree_app/calendar/model/event.dart';
 import 'package:expiree_app/calendar/res/event_firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:expiree_app/states/currentUser.dart';
 
@@ -28,6 +32,7 @@ class _ExpireeHomeState extends State<ExpireeHome> {
   String deleteExpiryDateTime;
   String deleteItem;
   TextEditingController _description;
+  File _imageFile;
 
   String descriptionInfo;
 
@@ -36,6 +41,14 @@ class _ExpireeHomeState extends State<ExpireeHome> {
     super.initState();
     _description = TextEditingController(
         text: widget.note != null ? widget.note.description : "");
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    File selected = await ImagePicker.pickImage(source: source);
+
+    setState(() {
+      _imageFile = selected;
+    });
   }
 
   @override
@@ -49,91 +62,124 @@ class _ExpireeHomeState extends State<ExpireeHome> {
         newItem = null;
         descriptionInfo = null;
         _expiryDateTime = null;
+        _imageFile = null;
         showDialog(
             context: context,
             builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text("Add Item"),
-                content: SingleChildScrollView(
-                  child: ListBody(
-                    children: <Widget>[
-                      TextField(
-                        style: style,
-                        onChanged: (String input) {
-                          newItem = input;
-                        },
-                        decoration: InputDecoration(
-                            labelText: "Item Name",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                      ),
-                      // TextFormField(
-                      //   controller: _description,
-                      //   minLines: 3,
-                      //   maxLines: 5,
-                      //   validator: (value) =>
-                      //       (value.isEmpty) ? "Please enter description" : null,
-                      //   style: style,
-                      //   decoration: InputDecoration(
-                      //       labelText: "Description",
-                      //       border: OutlineInputBorder(
-                      //           borderRadius: BorderRadius.circular(10))),
-                      // ),
-                      SizedBox(height: 15),
-                      TextField(
-                        // initialValue: "",
-                        // controller: _description,
-                        minLines: 3,
-                        maxLines: 5,
-                        // validator: (value) =>
-                        //     (value.isEmpty) ? "Please enter description" : null,
-                        // style: style,
-                        onChanged: (String input) {
-                          descriptionInfo = input;
-                        },
-                        decoration: InputDecoration(
-                            labelText: "Description",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                      ),
-                    ],
+              return StatefulBuilder(builder: (context, setState) {
+                return AlertDialog(
+                  title: Text("Add Item"),
+                  content: SingleChildScrollView(
+                    child: ListBody(
+                      children: <Widget>[
+                        TextField(
+                          style: style,
+                          onChanged: (String input) {
+                            newItem = input;
+                          },
+                          decoration: InputDecoration(
+                              labelText: "Item Name",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                        ),
+                        // TextFormField(
+                        //   controller: _description,
+                        //   minLines: 3,
+                        //   maxLines: 5,
+                        //   validator: (value) =>
+                        //       (value.isEmpty) ? "Please enter description" : null,
+                        //   style: style,
+                        //   decoration: InputDecoration(
+                        //       labelText: "Description",
+                        //       border: OutlineInputBorder(
+                        //           borderRadius: BorderRadius.circular(10))),
+                        // ),
+                        SizedBox(height: 15),
+                        TextField(
+                          // initialValue: "",
+                          // controller: _description,
+                          minLines: 3,
+                          maxLines: 5,
+                          // validator: (value) =>
+                          //     (value.isEmpty) ? "Please enter description" : null,
+                          // style: style,
+                          onChanged: (String input) {
+                            descriptionInfo = input;
+                          },
+                          decoration: InputDecoration(
+                              labelText: "Description",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                actions: <Widget>[
-                  FlatButton(
+                  actions: <Widget>[
+                    FlatButton(
                       onPressed: () {
                         _selectExpiryDate(context);
                       },
-                      child: Text("Enter expiry date")),
-                  RaisedButton(
-                      onPressed: () async {
-                        // if (newItem != null && _expiryDateTime != null) {
-                        //   addToList(newItem, _expiryDateTime.toString(),
-                        //       _description.text);
-                        // }
-                        // print(newItem);
-                        // print(_expiryDateTime);
-                        if (newItem != null && _expiryDateTime != null) {
-                          if (widget.note != null) {
-                            await eventDBS.updateData(widget.note.id, _uid, {
-                              "item": newItem,
-                              "description": _description.text,
-                              "expiryDateTime": _expiryDateTime
-                            });
-                          } else {
-                            await eventDBS.createItem(
-                                _uid,
-                                EventModel(
-                                    item: newItem,
-                                    description: _description.text,
-                                    expiryDateTime: _expiryDateTime));
+                      child: Text("Enter expiry date"),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        FlatButton(
+                          onPressed: () => _pickImage(ImageSource.camera),
+                          child: Icon(IconData(58288,
+                              fontFamily: 'MaterialIcons')), //camera icon
+                        ),
+                        FlatButton(
+                          onPressed: () => _pickImage(ImageSource.gallery),
+                          child: Icon(Icons.photo_library), //gallery icon
+                        )
+                      ],
+                    ),
+                    RaisedButton(
+                        onPressed: () async {
+                          // if (newItem != null && _expiryDateTime != null) {
+                          //   addToList(newItem, _expiryDateTime.toString(),
+                          //       _description.text);
+                          // }
+                          // print(newItem);
+                          // print(_expiryDateTime);
+                          DateTime foodID = DateTime.now();
+                          if (newItem != null && _expiryDateTime != null) {
+                            if (widget.note != null) {
+                              await eventDBS.updateData(widget.note.id, _uid, {
+                                "item": newItem,
+                                "description": descriptionInfo,
+                                "expiryDateTime": _expiryDateTime,
+                                "id": foodID.toString()
+                              });
+                            } else {
+                              await eventDBS.createItem(
+                                  _uid,
+                                  EventModel(
+                                      item: newItem,
+                                      description: descriptionInfo,
+                                      expiryDateTime: _expiryDateTime,
+                                      id: foodID.toString()));
+                            }
                           }
-                        }
-                        Navigator.of(context).pop();
-                      },
-                      child: Text("Confirm new item")),
-                ],
-              );
+                          print(_imageFile != null);
+                          if (_imageFile != null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ImagePickerPage(
+                                        pageRef: 0,
+                                        userID: _uid,
+                                        itemID: foodID.toString(),
+                                        image: _imageFile)));
+                          } else {
+                            Navigator.pop(context);
+                          }
+                        },
+                        child: Text("Confirm new item")),
+                  ],
+                );
+              });
             });
       },
       child: Icon(Icons.add, color: Colors.white),

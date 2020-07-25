@@ -32,7 +32,6 @@ class _FirebaseStoragePageState extends State<FirebaseStoragePage> {
     setState(() {
       _uploadTask = _storage.ref().child(filePath).putFile(widget.file);
     });
-
     StorageTaskSnapshot snapshot = await _uploadTask.onComplete;
     if (snapshot.error == null) {
       final String downloadUrl = await snapshot.ref.getDownloadURL();
@@ -47,12 +46,11 @@ class _FirebaseStoragePageState extends State<FirebaseStoragePage> {
           result.reference.setData({"url": downloadUrl}, merge: true);
         });
       });
-      // await Firestore.instance
-      //     .collection('inventoryLists')
-      //     .document(widget.userID)
-      //     .collection("indivInventory")
-      //     .document(widget.itemID)
-      //     .setData({"url": downloadUrl}, merge: true);
+      Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    NavBarImpl(refPage: widget.pageRef)));
     }
   }
 
@@ -71,17 +69,6 @@ class _FirebaseStoragePageState extends State<FirebaseStoragePage> {
 
             return Column(
               children: [
-                if (_uploadTask.isComplete)
-                  RaisedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    NavBarImpl(refPage: widget.pageRef)));
-                      },
-                      child: Text("Return")),
-
                 if (_uploadTask.isPaused)
                   FlatButton(
                     child: Icon(Icons.play_arrow),
@@ -103,7 +90,7 @@ class _FirebaseStoragePageState extends State<FirebaseStoragePage> {
     } else {
       // Allows user to decide when to start the upload
       return FlatButton.icon(
-        label: Text('Upload to Firebase'),
+        label: Text('Use this image'),
         icon: Icon(Icons.cloud_upload),
         onPressed: _startUpload,
       );

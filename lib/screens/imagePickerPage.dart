@@ -9,7 +9,8 @@ class ImagePickerPage extends StatefulWidget {
   final int pageRef;
   final String userID;
   final String itemID;
-  ImagePickerPage({Key key, this.userID, this.itemID, this.pageRef})
+  final File image;
+  ImagePickerPage({Key key, this.userID, this.itemID, this.pageRef, this.image})
       : super(key: key);
   @override
   _ImagePickerPageState createState() => _ImagePickerPageState();
@@ -18,6 +19,12 @@ class ImagePickerPage extends StatefulWidget {
 class _ImagePickerPageState extends State<ImagePickerPage> {
   /// Active image file
   File _imageFile;
+
+  @override
+  void initState() {
+    super.initState();
+    _imageFile = widget.image;
+  }
 
   /// Cropper plugin
   Future<void> _cropImage() async {
@@ -54,8 +61,13 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       // Select an image from the camera or gallery
+
+      appBar: AppBar(
+        title: Text('Preview Image'),
+      ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             // IconButton(
             //   icon: Icon(Icons.photo_camera),
@@ -63,15 +75,12 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
             // ),
             RaisedButton(
               onPressed: () => _pickImage(ImageSource.camera),
-              child: Text("Take a Photo"),
+              child: Text("Retake Photo"),
             ),
-            IconButton(
-              icon: Icon(Icons.photo_library),
-              onPressed: () => _pickImage(ImageSource.gallery),
-            ),
+            Padding(padding: EdgeInsets.only(right: 10.0)),
             RaisedButton(
               onPressed: () => _pickImage(ImageSource.gallery),
-              child: Text("Upload from Gallery"),
+              child: Text("Repick from Gallery"),
             )
           ],
         ),
