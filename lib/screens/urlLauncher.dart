@@ -43,64 +43,6 @@ class _URLLauncherState extends State<URLLauncher> {
     }
   }
 
-  // Future<void> _launchInWebViewWithJavaScript(String url) async {
-  //   if (await canLaunch(url)) {
-  //     await launch(
-  //       url,
-  //       forceSafariVC: true,
-  //       forceWebView: true,
-  //       enableJavaScript: true,
-  //     );
-  //   } else {
-  //     throw 'Could not launch $url';
-  //   }
-  // }
-
-  // Future<void> _launchInWebViewWithDomStorage(String url) async {
-  //   if (await canLaunch(url)) {
-  //     await launch(
-  //       url,
-  //       forceSafariVC: true,
-  //       forceWebView: true,
-  //       enableDomStorage: true,
-  //     );
-  //   } else {
-  //     throw 'Could not launch $url';
-  //   }
-  // }
-
-  // Future<void> _launchUniversalLinkIos(String url) async {
-  //   if (await canLaunch(url)) {
-  //     final bool nativeAppLaunchSucceeded = await launch(
-  //       url,
-  //       forceSafariVC: false,
-  //       universalLinksOnly: true,
-  //     );
-  //     if (!nativeAppLaunchSucceeded) {
-  //       await launch(
-  //         url,
-  //         forceSafariVC: true,
-  //       );
-  //     }
-  //   }
-  // }
-
-  // Widget _launchStatus(BuildContext context, AsyncSnapshot<void> snapshot) {
-  //   if (snapshot.hasError) {
-  //     return Text('Error: ${snapshot.error}');
-  //   } else {
-  //     return const Text('');
-  //   }
-  // }
-
-  // Future<void> _makePhoneCall(String url) async {
-  //   if (await canLaunch(url)) {
-  //     await launch(url);
-  //   } else {
-  //     throw 'Could not launch $url';
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     String foodItem = widget.foodItem;
@@ -121,28 +63,19 @@ class _URLLauncherState extends State<URLLauncher> {
         decoration: BoxDecoration(color: Colors.brown),
         child: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              // const Padding(padding: EdgeInsets.all(16.0)),
-              // Material(
-              //   elevation: 5.0,
-              //   child: RaisedButton(
-              //     color: Colors.red[200],
-              //     padding: EdgeInsets.fromLTRB(20, 20.0, 20, 20.0),
-              //     onPressed: () => setState(() {
-              //       _launched = _launchInBrowser(toLaunch);
-              //     }),
-              //     child: Text("Launch in Browser",
-              //         textAlign: TextAlign.center,
-              //         style: GoogleFonts.kalam(
-              //           color: Colors.black,
-              //           fontWeight: FontWeight.bold,
-              //           fontSize: 20,
-              //         )),
-              //   ),
-              // ),
               const Padding(padding: EdgeInsets.all(16.0)),
+              SizedBox(height: 90),
+              SizedBox(
+                height: 210.0,
+                child: Image.asset(
+                  "assets/images/recipes.png",
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(height: 30),
               Material(
                 elevation: 5.0,
                 child: RaisedButton(

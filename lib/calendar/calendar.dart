@@ -161,7 +161,8 @@ class _CalendarState extends State<Calendar> {
                     ),
                   ),
                   actions: <Widget>[
-                    FlatButton(
+                    RaisedButton(
+                      color: Colors.grey[100],
                       onPressed: () {
                         _selectExpiryDate(context);
                       },

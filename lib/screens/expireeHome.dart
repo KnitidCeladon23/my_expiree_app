@@ -115,7 +115,8 @@ class _ExpireeHomeState extends State<ExpireeHome> {
                     ),
                   ),
                   actions: <Widget>[
-                    FlatButton(
+                    RaisedButton(
+                      color: Colors.grey[100],
                       onPressed: () {
                         _selectExpiryDate(context);
                       },
@@ -250,7 +251,7 @@ class _ExpireeHomeState extends State<ExpireeHome> {
               ),
               expireeLogo,
               SizedBox(
-                height: 90,
+                height: 60,
               ),
               chatRoomPageButton,
               SizedBox(

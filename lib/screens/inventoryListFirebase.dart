@@ -183,7 +183,8 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                                   ),
                                 ),
                                 actions: <Widget>[
-                                  FlatButton(
+                                  RaisedButton(
+                                    color: Colors.grey[100],
                                       onPressed: () {
                                         _selectExpiryDate(context,
                                             initialDate:
@@ -474,7 +475,8 @@ class _InventoryListFirebaseState extends State<InventoryListFirebase> {
                     ),
                   ),
                   actions: <Widget>[
-                    FlatButton(
+                    RaisedButton(
+                      color: Colors.grey[100],
                       onPressed: () {
                         _selectExpiryDate(context);
                       },
